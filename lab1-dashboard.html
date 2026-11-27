@@ -69,8 +69,10 @@ body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 "IBM Plex Sans
 .chip.ghost[aria-pressed=true]{background:rgba(229,9,20,.18);border-color:rgba(229,9,20,.55);box-shadow:none}
 .chip:active{transform:scale(.94)}
 .dates{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-right:6px}
-.dates input{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:#fff;border-radius:10px;padding:5px 8px;font:500 13px "IBM Plex Sans Thai"}
-.dates input:focus{outline:2px solid var(--red);outline-offset:1px}
+.dates select{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:#fff;border-radius:10px;padding:5px 8px;font:500 13px "IBM Plex Sans Thai";cursor:pointer}
+.dates select option{background:#15151b;color:#fff}
+.dates select:focus{outline:2px solid var(--red);outline-offset:1px}
+.mchip{min-width:52px;text-align:center}
 .dates em{font-style:normal;color:var(--dim);font-size:12px}
 .sep{width:1px;height:22px;background:var(--edge);margin:0 4px}
 details.prov summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
@@ -197,9 +199,11 @@ html.static .spark path.ln{stroke-dashoffset:0}html.static .spark path.ar{opacit
   <section class="fp" aria-label="ตัวกรอง">
     <div class="fr"><span>ช่วงวันที่</span>
       <div class="opts">
-        <div class="dates"><input type="date" id="d0" aria-label="ตั้งแต่"><em>ถึง</em><input type="date" id="d1" aria-label="ถึง"></div>
-        <span class="sep"></span><span class="opts" id="presets"></span>
+        <div class="dates"><em>ตั้งแต่</em><select id="s0d" aria-label="วันเริ่ม"></select><select id="s0m" aria-label="เดือนเริ่ม"></select><select id="s0y" aria-label="ปีเริ่ม"></select>
+          <em>ถึง</em><select id="s1d" aria-label="วันสิ้นสุด"></select><select id="s1m" aria-label="เดือนสิ้นสุด"></select><select id="s1y" aria-label="ปีสิ้นสุด"></select></div>
       </div></div>
+    <div class="fr"><span>เดือน</span><div class="opts" id="fmon"></div></div>
+    <div class="fr"><span>ช่วงลัด</span><div class="opts" id="presets"></div></div>
     <div class="fr"><span>ช่องทาง</span><div class="opts" id="fch"></div></div>
     <div class="fr"><span>สินค้า</span><div class="opts" id="fpr"></div></div>
     <div class="fr"><span>อายุลูกค้า</span><div class="opts" id="fage"></div></div>
@@ -268,10 +272,21 @@ const PRESETS = [
 ];
 
 /* ---------- filter UI ---------- */
-$('d0').min=$('d1').min=isoOf(1); $('d0').max=$('d1').max=isoOf(NDAYS);
 function setRange(a,b){ if(a>b)[a,b]=[b,a]; F.d0=Math.max(1,a); F.d1=Math.min(NDAYS,b); render(); }
-$('d0').onchange=e=>e.target.value&&setRange(doyOf(e.target.value),F.d1);
-$('d1').onchange=e=>e.target.value&&setRange(F.d0,doyOf(e.target.value));
+/* เลือก วัน / เดือน / ปี (พ.ศ.) */
+const dim=(y,m)=>new Date(y,m+1,0).getDate();
+const YEARS=[Y];   // ข้อมูลมีปีเดียว ถ้ามีหลายปีให้เพิ่มที่ build_dashboard.py
+function fillSel(el,items){el.innerHTML=items.map(([v,t])=>`<option value="${v}">${t}</option>`).join('')}
+['s0','s1'].forEach(p=>{fillSel($(p+'d'),[...Array(31)].map((_,i)=>[i+1,i+1]));fillSel($(p+'m'),MTH.map((t,i)=>[i,t]));fillSel($(p+'y'),YEARS.map(y=>[y,y+543]))});
+function selDoy(p){const y=+$(p+'y').value,m=+$(p+'m').value,d=Math.min(+$(p+'d').value,dim(y,m));return Math.round((new Date(y,m,d)-jan1)/864e5)+1}
+['d','m','y'].forEach(k=>{$('s0'+k).onchange=()=>setRange(selDoy('s0'),F.d1);$('s1'+k).onchange=()=>setRange(F.d0,selDoy('s1'))});
+function putSel(p,doy){const d=new Date(Y,0,doy);$(p+'y').value=d.getFullYear();$(p+'m').value=d.getMonth();$(p+'d').value=d.getDate();
+  [...$(p+'d').options].forEach(o=>o.disabled=+o.value>dim(d.getFullYear(),d.getMonth()))}
+/* ปุ่มเดือน: คลิก = เดือนนั้น · Shift+คลิก = ขยายเป็นช่วงหลายเดือน */
+const mStart=m=>Math.round((new Date(Y,m,1)-jan1)/864e5)+1, mEnd=m=>Math.round((new Date(Y,m+1,0)-jan1)/864e5)+1;
+MTH.forEach((t,m)=>{const b=document.createElement('button');b.className='chip mchip';b.textContent=t;b.dataset.m=m;b.title='Shift+คลิก เพื่อเลือกหลายเดือนต่อกัน';
+  b.onclick=e=>{ if(e.shiftKey) setRange(Math.min(F.d0,mStart(m)),Math.max(F.d1,mEnd(m))); else setRange(mStart(m),mEnd(m)); };
+  $('fmon').appendChild(b)});
 PRESETS.forEach(([t,a,b])=>{const x=document.createElement('button');x.className='chip ghost';x.textContent=t;x.dataset.a=a;x.dataset.b=b;
   x.onclick=()=>setRange(a,b);$('presets').appendChild(x)});
 function chips(el,labels,set,cls=''){
@@ -288,17 +303,20 @@ chips($('fch'),CH,F.ch); chips($('fpr'),pname,F.pr); chips($('fage'),AG,F.age); 
   c.onclick=()=>{F.prov.clear();F.prov.add(PV.indexOf('กรุงเทพมหานคร'));render()};b.after(c)})();
 $('reset').onclick=()=>{F.d0=1;F.d1=NDAYS;[['ch',CH],['pr',SKUS],['age',AG],['prov',PV]].forEach(([k,a])=>a.forEach((_,i)=>F[k].add(i)));render()};
 function syncUI(){
-  $('d0').value=isoOf(F.d0); $('d1').value=isoOf(F.d1);
+  putSel('s0',F.d0); putSel('s1',F.d1);
+  const full=F.d0===1&&F.d1===NDAYS;
+  $('fmon').querySelectorAll('.chip').forEach(b=>{const m=+b.dataset.m;b.setAttribute('aria-pressed',!full&&mStart(m)>=F.d0&&mEnd(m)<=F.d1)});
   $('presets').querySelectorAll('.chip').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.a===F.d0&&+b.dataset.b===F.d1));
   [['fch','ch'],['fpr','pr'],['fage','age'],['fprov','prov']].forEach(([el,k])=>$(el).querySelectorAll('.chip[data-i]').forEach(b=>b.setAttribute('aria-pressed',F[k].has(+b.dataset.i))));
   $('provSum').textContent = F.prov.size===PV.length?'ทุกจังหวัด':F.prov.size===1?PV[[...F.prov][0]]:`${F.prov.size} จังหวัด`;
   $('provSum').setAttribute('aria-pressed',F.prov.size!==PV.length);
-  const parts=[]; const full=(k,n)=>F[k].size===n;
-  parts.push(F.d0===1&&F.d1===NDAYS?'ทั้งปี':`${thDate(F.d0)} – ${thDate(F.d1)} (${F.d1-F.d0+1} วัน)`);
-  if(!full('ch',CH.length)) parts.push([...F.ch].map(i=>CH[i]).join(', '));
-  if(!full('pr',SKUS.length)) parts.push([...F.pr].map(i=>pname[i]).join(', '));
-  if(!full('age',AG.length)) parts.push('อายุ '+[...F.age].map(i=>AG[i]).join(', '));
-  if(!full('prov',PV.length)) parts.push($('provSum').textContent);
+  const parts=[]; const fullSet=(k,n)=>F[k].size===n;
+  const be=n=>`${thDate(n)} ${new Date(Y,0,n).getFullYear()+543}`;
+  parts.push(F.d0===1&&F.d1===NDAYS?`ทั้งปี ${Y+543}`:F.d0===F.d1?be(F.d0):`${be(F.d0)} – ${be(F.d1)} (${F.d1-F.d0+1} วัน)`);
+  if(!fullSet('ch',CH.length)) parts.push([...F.ch].map(i=>CH[i]).join(', '));
+  if(!fullSet('pr',SKUS.length)) parts.push([...F.pr].map(i=>pname[i]).join(', '));
+  if(!fullSet('age',AG.length)) parts.push('อายุ '+[...F.age].map(i=>AG[i]).join(', '));
+  if(!fullSet('prov',PV.length)) parts.push($('provSum').textContent);
   $('fsum').innerHTML='กำลังดู: <b>'+parts.join('</b> · <b>')+'</b>';
   $('rangeTxt').textContent=parts[0];
 }
