@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LAB FARM Content Pillars</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f8f4; --card:#ffffff; --ink:#18231b; --mut:#5d6b60; --line:#dfe6dc;
+  --g:#2f7d4f; --g2:#e6f2ea; --red:#b3261e; --red2:#fdecea; --amb:#8a5a00; --amb2:#fff4dc;
+  --p1:#2f7d4f; --p2:#2b6cb0; --p3:#8a5a00; --p4:#7b4ea8; --p5:#a5413a;
+  --r:16px; color-scheme:light;
+}
+:root[data-theme="dark"]{
+  --bg:#101512; --card:#18201b; --ink:#e8efe9; --mut:#9fb0a4; --line:#2a352d;
+  --g:#5cc08a; --g2:#1d3326; --red:#ff8a80; --red2:#3a1d1b; --amb:#f0c060; --amb2:#352a12;
+  --p1:#5cc08a; --p2:#6fa8e8; --p3:#e0b050; --p4:#b48ce0; --p5:#e8857c; color-scheme:dark;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#101512; --card:#18201b; --ink:#e8efe9; --mut:#9fb0a4; --line:#2a352d;
+    --g:#5cc08a; --g2:#1d3326; --red:#ff8a80; --red2:#3a1d1b; --amb:#f0c060; --amb2:#352a12;
+    --p1:#5cc08a; --p2:#6fa8e8; --p3:#e0b050; --p4:#b48ce0; --p5:#e8857c; color-scheme:dark;
+  }
+}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.7 "IBM Plex Sans Thai",sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px 80px}
+header.top{padding:40px 0 18px;border-bottom:1px solid var(--line);margin-bottom:28px}
+.eyebrow{font-size:14px;color:var(--g);font-weight:600;letter-spacing:.04em}
+h1{font-size:clamp(28px,4.4vw,42px);line-height:1.25;margin:6px 0 10px}
+h2{font-size:clamp(22px,3vw,28px);margin:48px 0 6px;line-height:1.3}
+h3{margin:0;font-size:19px}
+.lead{color:var(--mut);max-width:780px;margin:0}
+.sub{color:var(--mut);margin:0 0 18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px}
+.grid{display:grid;gap:16px}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:860px){.g3{grid-template-columns:minmax(0,1fr)}}
+.alert{border-left:4px solid var(--red);background:var(--red2);border-radius:12px;padding:16px 18px}
+.alert b{color:var(--red)}
+.k{font-size:13px;color:var(--mut)}
+.big{font-size:30px;font-weight:700;line-height:1.2}
+/* mix bar */
+.mix{display:flex;height:46px;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+.mix button{border:0;color:#fff;font:600 14px "IBM Plex Sans Thai";cursor:pointer;padding:0 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mix button:hover,.mix button[aria-pressed=true]{filter:brightness(1.12);box-shadow:inset 0 -4px 0 rgba(0,0,0,.25)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:10px;font-size:14px;color:var(--mut)}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+/* pillar cards */
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.tab{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 14px;font:500 15px "IBM Plex Sans Thai";cursor:pointer}
+.tab[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.pillar{border-top:6px solid var(--c);display:grid;gap:14px}
+.pillar .hd{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline}
+.pillar .no{font-weight:700;color:var(--c)}
+.pillar .pct{font-size:28px;font-weight:700;color:var(--c)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:13px;border-radius:999px;padding:3px 10px;background:var(--g2);color:var(--ink)}
+.chip.need{background:var(--amb2);color:var(--amb)}
+.chip.free{background:var(--g2);color:var(--g)}
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media (max-width:760px){.cols{grid-template-columns:minmax(0,1fr)}}
+.lbl{font-size:13px;font-weight:600;color:var(--mut);margin-bottom:4px}
+ul{margin:0;padding-left:20px}
+li{margin:3px 0}
+.sample{background:var(--bg);border:1px dashed var(--line);border-radius:12px;padding:14px 16px;white-space:pre-line}
+.sample .warn{display:block;margin-top:10px;font-size:13px;color:var(--mut)}
+.ok li::marker{content:"✓  ";color:var(--g)}
+.no li::marker{content:"✕  ";color:var(--red)}
+.copy{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:9px;padding:4px 10px;font:500 13px "IBM Plex Sans Thai";cursor:pointer;float:right}
+.copy:hover{border-color:var(--g)}
+/* table */
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{border-bottom:1px solid var(--line);padding:10px;text-align:left;vertical-align:top}
+th{font-size:13px;color:var(--mut);font-weight:600}
+td.old{color:var(--red)}td.new{color:var(--g)}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px}
+/* checker */
+textarea{width:100%;min-height:150px;border:1px solid var(--line);border-radius:12px;padding:12px;font:16px/1.6 "IBM Plex Sans Thai";background:var(--card);color:var(--ink);resize:vertical}
+textarea:focus{outline:2px solid var(--g);outline-offset:1px}
+.out{margin-top:12px;padding:14px;border-radius:12px;background:var(--bg);border:1px solid var(--line);white-space:pre-wrap;min-height:52px}
+mark.r{background:var(--red2);color:var(--red);border-bottom:2px solid var(--red);padding:0 2px;border-radius:3px}
+mark.a{background:var(--amb2);color:var(--amb);border-bottom:2px solid var(--amb);padding:0 2px;border-radius:3px}
+.status{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.pill{font-size:14px;border-radius:999px;padding:4px 12px;border:1px solid var(--line)}
+.pill.bad{background:var(--red2);color:var(--red);border-color:transparent}
+.pill.mid{background:var(--amb2);color:var(--amb);border-color:transparent}
+.pill.good{background:var(--g2);color:var(--g);border-color:transparent}
+.hits{margin-top:10px;font-size:14px}
+.hits div{padding:6px 0;border-bottom:1px dashed var(--line)}
+.btn{border:0;background:var(--g);color:#fff;border-radius:10px;padding:8px 16px;font:600 15px "IBM Plex Sans Thai";cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+/* calendar */
+.cal{display:grid;grid-template-columns:90px repeat(7,minmax(0,1fr));gap:6px;font-size:13px}
+.cal .h{font-weight:600;color:var(--mut);text-align:center}
+.cal .w{font-weight:600;color:var(--mut);align-self:center}
+.cal .d{min-height:62px;border-radius:10px;background:var(--card);border:1px solid var(--line);padding:6px;line-height:1.35}
+.cal .d b{display:block;font-size:12px;color:var(--c)}
+.cal .d.has{border-left:4px solid var(--c)}
+@media (max-width:760px){.calwrap{overflow-x:auto}.cal{min-width:720px}}
+/* nav */
+.nav{display:flex;flex-wrap:wrap;gap:6px;margin:18px 0 0}
+.nav a{font-size:14px;color:var(--ink);text-decoration:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:5px 12px}
+.nav a:hover{border-color:var(--g);color:var(--g)}
+/* formulas */
+.fx{display:grid;gap:14px}
+.fx .eq{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-weight:600}
+.fx .eq span{background:var(--g2);border-radius:10px;padding:4px 10px}
+.fx .eq i{font-style:normal;color:var(--mut)}
+.ex{background:var(--bg);border-left:3px solid var(--g);border-radius:0 10px 10px 0;padding:10px 14px;font-size:15.5px}
+.ex b{color:var(--g)}
+/* generator */
+.gen{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:18px}
+@media (max-width:860px){.gen{grid-template-columns:minmax(0,1fr)}}
+.gen label{display:block;font-size:13px;font-weight:600;color:var(--mut);margin:10px 0 4px}
+.gen select{width:100%;padding:9px 10px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:16px "IBM Plex Sans Thai"}
+.gen select:focus{outline:2px solid var(--g);outline-offset:1px}
+.idea h3{font-size:21px;margin:4px 0 10px}
+.idea .row{margin:10px 0}
+.idea .prod{font-size:15px;color:var(--mut)}
+.idea .prod li{margin:2px 0}
+/* competitor */
+.cmp td a{color:var(--g)}
+.tag{display:inline-block;font-size:12px;border-radius:6px;padding:1px 7px;margin:1px 2px 1px 0;background:var(--red2);color:var(--red)}
+.tag.ok{background:var(--g2);color:var(--g)}
+.tag.mid{background:var(--amb2);color:var(--amb)}
+.foot{margin-top:48px;font-size:14px;color:var(--mut);border-top:1px solid var(--line);padding-top:16px}
+.theme{position:fixed;top:12px;right:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 12px;font:500 13px "IBM Plex Sans Thai";cursor:pointer;z-index:5}
+</style>
+</head>
+<body>
+<button class="theme" id="theme" aria-label="สลับโหมดสี">โหมดสี</button>
+<div class="wrap">
+
+<header class="top">
+  <div class="eyebrow">LAB FARM แล็บฟาร์ม · แผนคอนเทนต์ตามเกณฑ์ อย. พ.ศ. 2569</div>
+  <h1>5 Content Pillar ที่ยังขายได้ หลัง อย. ห้ามพูดว่า "เสริมภูมิคุ้มกัน"</h1>
+  <p class="lead">ย้ายเรื่องเล่าจาก "สินค้าทำอะไรกับร่างกาย" ไปเป็น "ใครเลือก เลือกเพราะอะไร และซื้ออย่างไร" ทุก Pillar มีบอกว่าลงได้ทันที หรือต้องยื่น ฆอ. ก่อน และท้ายหน้ามีตัวตรวจคำต้องห้ามให้วางแคปชั่นตรวจก่อนโพสต์</p>
+  <nav class="nav" aria-label="ไปยังส่วนต่างๆ">
+    <a href="#s-pillar">Pillar</a><a href="#s-formula">สูตรคิดคอนเทนต์</a><a href="#s-gen">เครื่องสุ่มไอเดีย</a>
+    <a href="#s-ads">โฆษณาในตลาด</a><a href="#s-rewrite">ข้อความเดิม → ใหม่</a><a href="#s-cal">ปฏิทิน</a><a href="#s-check">ตัวตรวจคำ</a>
+  </nav>
+</header>
+
+<div class="alert">
+  <b>อ่านก่อนเริ่ม:</b> ประกาศสำนักงานคณะกรรมการอาหารและยา เรื่อง หลักเกณฑ์การโฆษณาอาหาร พ.ศ. 2569 (ใช้บังคับ 28 ก.ค. 2569) ใส่คำว่า "เสริมสร้างหรือกระตุ้นระบบภูมิคุ้มกันร่างกาย เพิ่มภูมิคุ้มกัน" ไว้ในบัญชีคำต้องห้าม (บัญชี 1 ข้อ 2.2) และห้ามแพทย์หรือเภสัชกรแนะนำสินค้า (ข้อ 4(6)) คอนเทนต์เดิมที่ใช้คำว่า ภูมิคุ้มกัน มะเร็ง คีโม ผู้ป่วย ฟื้นฟู หรืออ้างงานวิจัย ต้องหยุดใช้ทั้งหมด
+</div>
+
+<h2>สัดส่วนโพสต์ต่อเดือน</h2>
+<p class="sub">คลิกแถบสีเพื่อดู Pillar นั้น · คิดจากเดือนละ 20 โพสต์</p>
+<div class="mix" id="mix"></div>
+<div class="legend" id="legend"></div>
+
+<div class="grid g3" style="margin-top:20px">
+  <div class="card"><div class="k">ลงได้ทันที ไม่ต้องยื่น ฆอ.</div><div class="big" id="freeN"></div><div class="k">Pillar 4 แบบภาพลักษณ์องค์กร และ Pillar 5 แบบราคา/โปร (ข้อ 6, บัญชี 2)</div></div>
+  <div class="card"><div class="k">ต้องยื่น ฆอ. ก่อนลง</div><div class="big" id="needN"></div><div class="k">ยื่นครั้งเดียวเป็นชุด แล้วใช้ได้ไม่เกิน 5 ปี (ข้อ 8(3)(ง))</div></div>
+  <div class="card"><div class="k">คำเตือนบังคับ</div><div class="big">ทุกโพสต์</div><div class="k">3 บรรทัด ตัวอักษรสูง ≥ 1/25 ของภาพ · วิดีโอขึ้นจอ ≥ 5 วินาที</div></div>
+</div>
+
+<h2 id="s-pillar">การ์ด Content Pillar</h2>
+<div class="tabs" id="tabs"></div>
+<div class="grid" id="pillars"></div>
+
+<h2 id="s-formula">สูตรคิดคอนเทนต์ พร้อมตัวอย่าง</h2>
+<p class="sub">4 สูตรนี้ใช้ต่อกันได้: สูตร 1 หาไอเดีย · สูตร 2 เปิดเรื่อง · สูตร 3 เขียนแคปชั่น · สูตร 4 ใช้เมื่อลูกค้าถามเรื่องสรรพคุณ</p>
+<div class="grid fx">
+  <div class="card">
+    <h3>สูตร 1 · คูณไอเดีย</h3>
+    <div class="eq" style="margin:10px 0"><span>Pillar</span><i>×</i><span>ใคร</span><i>×</i><span>โอกาส</span><i>×</i><span>รูปแบบ</span><i>=</i><span>1 ไอเดีย</span></div>
+    <p style="margin:0 0 8px">5 Pillar × 5 กลุ่มคน × 9 โอกาส × 5 รูปแบบ ได้ 1,125 แบบ ไม่ต้องคิดจากศูนย์ทุกสัปดาห์ เครื่องสุ่มด้านล่างใช้สูตรนี้</p>
+    <div class="ex"><b>ตัวอย่าง</b> P1 ส่งความห่วงใย × หลานที่เพิ่งได้เงินเดือนแรก × ปีใหม่ × คลิปสั้น<br>→ "ของขวัญชิ้นแรกจากเงินเดือนแรก ส่งถึงยายก่อนปีใหม่" ถ่ายตั้งแต่กดสั่ง เขียนการ์ด จนยายเปิดกล่อง</div>
+    <div class="ex" style="margin-top:8px"><b>ตัวอย่าง</b> P5 ข้อเสนอ × ลูกชายอยู่ต่างประเทศ × วันเกิดพ่อแม่ × ข้อความ LINE OA<br>→ "สั่งจากที่ไหนก็ส่งถึงบ้านพ่อแม่ได้ · 4 กล่อง 2,490 บาท ส่งฟรี · ระบุวันส่งให้ตรงวันเกิดได้"</div>
+  </div>
+  <div class="card">
+    <h3>สูตร 2 · เปิดเรื่อง 3 วินาทีแรก (ไม่ต้องใช้สรรพคุณ)</h3>
+    <div class="tbl" style="margin-top:8px"><table>
+      <thead><tr><th>แบบ</th><th>โครง</th><th>ตัวอย่าง</th></tr></thead>
+      <tbody>
+        <tr><td>คำถามที่ตอบได้ในใจ</td><td>ถ้า [สถานการณ์] คุณจะ…?</td><td>"ถ้าปีใหม่นี้กลับบ้านไม่ทัน จะบอกรักแม่ยังไง?"</td></tr>
+        <tr><td>ตัวเลขข้อเท็จจริง</td><td>[ตัวเลขจริง] + [สิ่งที่ได้]</td><td>"เฉลี่ยกล่องละ 574 บาท เมื่อสั่ง 8 กล่อง"</td></tr>
+        <tr><td>เปิดเผยเบื้องหลัง</td><td>ไม่เคยมีใครเห็น…</td><td>"กว่ากล่องจะถึงบ้านคุณ ผ่านมือทีมเรา 4 คน"</td></tr>
+        <tr><td>ฉากชีวิตจริง</td><td>วันที่ [เหตุการณ์เล็กๆ]</td><td>"วันที่แม่โทรมาบอกว่า ได้ของแล้วนะลูก"</td></tr>
+        <tr><td>ช่วยตัดสินใจ</td><td>[A] หรือ [B] ดี?</td><td>"4 กล่อง หรือ 8 กล่อง ซื้อแบบไหนคุ้มกว่า?"</td></tr>
+      </tbody></table></div>
+  </div>
+  <div class="card">
+    <h3>สูตร 3 · โครงแคปชั่น H-S-O-C-W</h3>
+    <div class="eq" style="margin:10px 0"><span>H เปิดเรื่อง</span><i>→</i><span>S เรื่องเล่า/ข้อเท็จจริง</span><i>→</i><span>O ข้อเสนอ</span><i>→</i><span>C ชวนทำ</span><i>→</i><span>W คำเตือน</span></div>
+    <div class="ex">
+      <b>H</b> ปีนี้กลับบ้านไม่ทัน แต่ความห่วงใยส่งถึงได้ 💚<br>
+      <b>S</b> ลูกค้าหลายคนเลือกส่งแล็บฟาร์มพร้อมการ์ดเขียนเอง ให้คุณแม่ได้เปิดกล่องที่บ้าน<br>
+      <b>O</b> 4 กล่อง 2,490 บาท ส่งฟรีทั่วประเทศ<br>
+      <b>C</b> ทักแชทเลือกวันส่ง สั่งภายใน 27 ธ.ค. ถึงก่อนปีใหม่<br>
+      <b>W</b> เด็กและสตรีมีครรภ์ไม่ควรรับประทาน · ไม่มีผลในการป้องกันหรือรักษาโรค · อ่านคำเตือนในฉลากก่อนบริโภค
+    </div>
+  </div>
+  <div class="card">
+    <h3>สูตร 4 · แปลงคำถามเรื่องสรรพคุณ เป็นคอนเทนต์ที่ทำได้</h3>
+    <div class="eq" style="margin:10px 0"><span>คำถามลูกค้า</span><i>→</i><span>เรื่องที่เขากังวลจริงๆ</span><i>→</i><span>คอนเทนต์ข้อเท็จจริง</span><i>+</i><span>ส่งต่อเภสัชกรเป็นการส่วนตัว</span></div>
+    <div class="tbl"><table>
+      <thead><tr><th>ลูกค้าถาม</th><th>เขากังวลเรื่อง</th><th>ทำคอนเทนต์ว่า</th></tr></thead>
+      <tbody>
+        <tr><td>"กินแล้วภูมิดีขึ้นไหม"</td><td>คุ้มเงินไหม</td><td>"ในแคปซูลมีอะไร · ราคาต่อกล่องของแต่ละแพ็ก" (P2, P5)</td></tr>
+        <tr><td>"ทานคู่กับยาที่หมอให้ได้ไหม"</td><td>ปลอดภัยไหม</td><td>"อ่านฉลากใน 1 นาที: วิธีทาน และใครไม่ควรทาน" + "ทานยาประจำอยู่ ทักแชทให้เภสัชกรติดต่อกลับ" (P2)</td></tr>
+        <tr><td>"ซื้อให้แม่อายุ 72 ได้ไหม"</td><td>เหมาะกับผู้ใหญ่ไหม</td><td>"เลือกของขวัญให้ผู้ใหญ่ เช็กอะไรบ้าง" (P1) · คำถามรายบุคคลส่งเภสัชกร</td></tr>
+        <tr><td>"ของแท้ไหม"</td><td>กลัวของปลอม</td><td>"วิธีตรวจเลขสารบบอาหารด้วยตัวเอง · ซื้อจากช่องทางไหน" (P2, P4)</td></tr>
+      </tbody></table></div>
+  </div>
+</div>
+
+<h2 id="s-gen">เครื่องสุ่มไอเดีย</h2>
+<p class="sub">เลือกเองหรือกดสุ่ม ระบบจะประกอบหัวข้อ แคปชั่นร่าง และวิธีถ่ายทำ แล้วตรวจคำต้องห้ามให้ทันที · ร่างที่ได้ยังต้องให้ทีมเกลาภาษาและตรวจซ้ำก่อนโพสต์</p>
+<div class="card gen">
+  <div>
+    <label for="gP">Pillar</label><select id="gP"></select>
+    <label for="gW">ใคร</label><select id="gW"></select>
+    <label for="gO">โอกาส</label><select id="gO"></select>
+    <label for="gF">รูปแบบ</label><select id="gF"></select>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+      <button class="btn" id="gRand">สุ่มทั้งหมด</button>
+      <button class="btn ghost" id="gAgain">ขอแคปชั่นอีกแบบ</button>
+    </div>
+  </div>
+  <div class="idea" id="idea" aria-live="polite"></div>
+</div>
+
+<h2 id="s-ads">โฆษณาในตลาดตอนนี้ (Meta Ad Library)</h2>
+<p class="sub">ค้นเมื่อ 27 พ.ย. 2569 ประเทศไทย ด้วยคำว่า "เบต้ากลูแคน" (ประมาณ 1,025 โฆษณา), "beta glucan" (ประมาณ 904) และ "แล็บฟาร์ม" (ประมาณ 2,700 รวมที่หยุดแล้ว) · Ad Library ให้ข้อมูลแค่ชื่อเพจและหัวข้อลิงก์ ไม่ได้ให้ข้อความหรือภาพในโฆษณา ต้องกดลิงก์ไปดูเอง</p>
+<div id="adsBody"></div>
+
+<h2 id="s-rewrite">ข้อความเดิม → ข้อความใหม่</h2>
+<p class="sub">ตัวอย่างจากหน้าร้านจริง (ดึงข้อมูล 27 พ.ย. 2569) · รายละเอียดเต็มอยู่ที่ labfarm-fda-audit.md</p>
+<div class="card tbl"><table>
+  <thead><tr><th>ข้อความเดิม</th><th>ผิดข้อ</th><th>เขียนใหม่เป็น</th><th>Pillar</th></tr></thead>
+  <tbody id="rewrites"></tbody>
+</table></div>
+
+<h2 id="s-cal">ตัวอย่างปฏิทิน 4 สัปดาห์</h2>
+<p class="sub">5 โพสต์/สัปดาห์ · วันอังคาร–พฤหัสฯ ให้เนื้อหาเชิงความรู้ · ศุกร์–เสาร์ ให้ข้อเสนอ · อาทิตย์ให้เรื่องเล่าครอบครัว</p>
+<div class="calwrap"><div class="cal" id="cal"></div></div>
+
+<h2 id="s-check">ตัวตรวจคำต้องห้ามก่อนโพสต์</h2>
+<p class="sub">วางแคปชั่นหรือสคริปต์ไลฟ์ แล้วกดตรวจ · <span style="color:var(--red)">แดง = ห้ามใช้</span> · <span style="color:var(--amb)">เหลือง = ใช้ได้ถ้ามีหลักฐานและยื่น ฆอ.</span> · ตัวตรวจนี้ช่วยกรองรอบแรก แต่ไม่แทนการพิจารณาของ อย.</p>
+<div class="card">
+  <textarea id="txt" aria-label="ข้อความที่ต้องการตรวจ">แล็บฟาร์ม อาหารเสริมทางการแพทย์ ช่วยเสริมภูมิคุ้มกัน เหมาะกับผู้ป่วยคีโม มีงานวิจัยเพิ่ม NK Cell 30% เภสัชกรแนะนำ ไม่มีผลข้างเคียง</textarea>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+    <button class="btn" id="check">ตรวจข้อความ</button>
+    <button class="btn ghost" id="addWarn">เติมคำเตือน 3 บรรทัด</button>
+    <button class="btn ghost" id="clear">ล้าง</button>
+  </div>
+  <div class="status" id="status"></div>
+  <div class="out" id="out" aria-live="polite"></div>
+  <div class="hits" id="hits"></div>
+</div>
+
+<div class="foot">
+  ที่มา: ประกาศสำนักงานคณะกรรมการอาหารและยา เรื่อง หลักเกณฑ์การโฆษณาอาหาร พ.ศ. 2569 (ราชกิจจานุเบกษา เล่ม 143 ตอนพิเศษ 182 ง หน้า 60, 27 ก.ค. 2569) ·
+  ข้อมูลสินค้าจากหน้าร้าน hopefulwellness.co.th, betahopeful.com และ regenmiracle.com (27 พ.ย. 2569) ·
+  สัดส่วนโพสต์เป็นข้อเสนอเริ่มต้น ปรับตามผลจริงหลังเดือนแรก · ก่อนยื่น ฆอ. ให้ฝ่ายทะเบียน/กฎหมายตรวจซ้ำ
+</div>
+</div>
+
+<script>
+const WARN = "เด็กและสตรีมีครรภ์ไม่ควรรับประทาน · ไม่มีผลในการป้องกันหรือรักษาโรค · อ่านคำเตือนในฉลากก่อนบริโภค";
+
+const P = [
+ {id:1,c:"--p1",name:"ส่งความห่วงใยถึงคนที่รัก",pct:30,free:false,
+  goal:"สร้างความผูกพันกับลูกหลานที่ซื้อให้พ่อแม่ และคนที่ดูแลครอบครัว",
+  who:"ลูกหลานวัยทำงานที่ซื้อให้ผู้ใหญ่ · คนที่ดูแลคนในบ้าน",
+  funnel:"See / Think",
+  formats:["เรื่องเล่าครอบครัวแบบภาพชุด","คลิปสั้น 15–30 วินาที มุมลูกเตรียมของขวัญ","การ์ดคำอวยพรวันพ่อ วันแม่ ปีใหม่"],
+  topics:["ของขวัญปีใหม่ให้คนที่เราห่วง เลือกอย่างไรให้ถูกใจผู้ใหญ่","5 วิธีบอกรักพ่อแม่ที่ไม่ต้องพูด","เช็กลิสต์ก่อนกลับบ้านต่างจังหวัด","เรื่องเล่าจากลูกค้า: ทำไมเลือกส่งของให้แม่ทุกเดือน (เล่าเหตุผลการซื้อ ไม่เล่าผลต่อร่างกาย)","ห่อของขวัญให้ดูตั้งใจ ใน 3 ขั้นตอน"],
+  sample:"ปีนี้กลับบ้านไม่ทัน\nแต่ความห่วงใยส่งถึงได้ทุกวัน 💚\nเลือกแล็บฟาร์มเป็นของขวัญให้คนที่รัก พร้อมการ์ดเขียนเองได้\nสั่งก่อน 27 ธ.ค. ส่งถึงก่อนปีใหม่",
+  ok:["ห่วงใย ใส่ใจ ของขวัญ ส่งความรัก","เหตุผลที่ลูกค้าเลือกซื้อ (ราคา ความสะดวก ความไว้ใจแบรนด์)","ภาพครอบครัวผู้ใหญ่ ผู้แสดงแบบอายุ 15 ปีขึ้นไป ไม่ใช่สตรีมีครรภ์"],
+  no:["ป่วย ผู้ป่วย พักฟื้น ชื่อโรค","\"กินแล้วแม่แข็งแรงขึ้น\" หรือคำบอกผลลัพธ์ใดๆ","ภาพโรงพยาบาล สายน้ำเกลือ ชุดคนไข้"],
+  law:"บัญชี 3 ลำดับ 5 (ใส่ใจตัวเอง ห่วงใย) ต้องไม่สื่อว่ากินอย่างเดียวพอ · ข้อ 10(9) ผู้แสดงแบบ"},
+ {id:2,c:"--p2",name:"รู้จักสิ่งที่อยู่ในแคปซูล",pct:20,free:false,
+  goal:"สร้างความเชื่อใจด้วยข้อเท็จจริงที่ตรวจสอบได้ ไม่ใช่สรรพคุณ",
+  who:"คนที่อ่านฉลากก่อนซื้อ เปรียบเทียบก่อนตัดสินใจ",
+  funnel:"Think",
+  formats:["อินโฟกราฟิกส่วนประกอบ","คลิปเปิดกล่องดูแคปซูล","วิธีตรวจเลขสารบบอาหารด้วยตัวเอง"],
+  topics:["M-Gard คืออะไร: เบต้ากลูแคนที่ได้จากยีสต์ (เล่าที่มา ไม่เล่าผลต่อร่างกาย)","ซีบัคธอร์น ผลไม้สีส้มลูกเล็กมาจากไหน","1 กล่องมีกี่แคปซูล ทานอย่างไรตามฉลาก","วิธีเช็กเลข อย. 73-1-02663-5-0191 ด้วยตัวเอง","อ่านฉลากอาหารเสริมให้เป็น ใน 4 จุด"],
+  sample:"ในแคปซูลสีขาวของแล็บฟาร์ม มีอะไรบ้าง?\n• เบต้ากลูแคนจากยีสต์ (M-Gard)\n• ซีบัคธอร์น ผลไม้ลูกเล็กสีส้ม\n1 กล่อง 10 แคปซูล · เลขสารบบอาหาร 73-1-02663-5-0191\nตรวจเลขได้เองที่เว็บไซต์ อย.",
+  ok:["ชื่อส่วนประกอบและแหล่งที่มา ตรงกับสูตรที่ได้รับอนุญาต","ขนาดบรรจุ วิธีรับประทานตามฉลาก","เลขสารบบอาหารและวิธีตรวจ"],
+  no:["ภูมิคุ้มกัน NK cell Macrophage","ต้านอนุมูลอิสระ/ลดการอักเสบ ถ้าไม่มีบนฉลากที่อนุมัติ","งานวิจัย % ผลทดลองในสัตว์หรือในเซลล์","\"อย. รับรอง ปลอดภัย\""],
+  law:"ข้อ 7(1) สรรพคุณต้องตรงกับฉลากที่อนุมัติ · ข้อ 5(8) ห้ามอ้างงานวิจัยที่ อย. ยังไม่ประเมิน · บัญชี 1 ข้อ 1"},
+ {id:3,c:"--p3",name:"ใช้ชีวิตแบบใส่ใจตัวเอง",pct:20,free:false,
+  goal:"ให้คนกลับมาที่เพจทุกสัปดาห์ด้วยเรื่องที่ใช้ได้จริงในชีวิตประจำวัน",
+  who:"วัย 40+ ที่อยากดูแลตัวเอง",
+  funnel:"See / Care",
+  formats:["เมนูอาหารครบ 5 หมู่ใน 1 จาน","ท่ายืดเหยียด 5 นาที","ทริกจัดตารางนอน"],
+  topics:["จานอาหารครบ 5 หมู่ หน้าตาเป็นอย่างไร","เดินวันละกี่ก้าวถึงจะพอดีกับวัยเรา (อ้างคำแนะนำของหน่วยงานรัฐ พร้อมลิงก์)","จัดห้องนอนให้นอนสบายขึ้น","ดื่มน้ำให้พอแบบไม่ต้องจำ","ชวนพ่อแม่ไปตรวจสุขภาพประจำปี"],
+  sample:"ดูแลตัวเองเริ่มได้จากจานข้าว 🍚🥦🐟\nกินอาหารให้หลากหลายครบ 5 หมู่ พักผ่อนให้พอ ขยับร่างกายทุกวัน\nแล้วค่อยเลือกสิ่งดีๆ เพิ่มให้ตัวเอง",
+  ok:["ครบ 5 หมู่ พักผ่อน ออกกำลังกาย ใส่ใจตัวเอง","ข้อมูลที่มีแหล่งอ้างอิงจากหน่วยงานรัฐ บอกทั้งข้อดีและข้อควรระวัง","ถ้าโพสต์ความรู้ล้วน ไม่ใส่สินค้า เข้าข่ายข้อ 6(1)"],
+  no:["\"กินแล็บฟาร์มแทนผักผลไม้ได้\"","ป้องกันโรค ลดความเสี่ยงโรค","ปรับสมดุล ฟื้นฟูร่างกาย ดีท็อกซ์"],
+  law:"ข้อ 6(1) ความรู้ทั่วไปไม่ต้องขออนุญาตถ้าไม่โยงกับสินค้า · ถ้าใส่สินค้าในโพสต์ ต้องยื่น ฆอ. ตามบัญชี 3 ลำดับ 5"},
+ {id:4,c:"--p4",name:"เบื้องหลังแบรนด์",pct:15,free:true,
+  goal:"ทำให้แบรนด์มีตัวตน น่าเชื่อถือ โดยไม่พูดถึงสรรพคุณ",
+  who:"ลูกค้าใหม่ที่ยังไม่รู้จัก · ตัวแทนขาย",
+  funnel:"See / Think",
+  formats:["พาชมทีมงานและกระบวนการแพ็กสินค้า","โพสต์รางวัลพร้อมระบุชื่อรางวัลและปี","เรื่องเล่าผู้ก่อตั้ง: ทำไมเริ่มทำแบรนด์นี้"],
+  topics:["วันหนึ่งของทีมแพ็กสินค้า กว่าจะถึงมือคุณ","รางวัลจาก EUROINVENT พ.ศ. 2567 (ระบุชื่อรางวัลแต่ละรายการ)","รู้จักทีม Hopeful Wellness","ขอบคุณตัวแทนจำหน่ายทั่วประเทศ","คำถามที่ลูกค้าถามบ่อยเรื่องการสั่งซื้อและจัดส่ง"],
+  sample:"ทุกกล่องของแล็บฟาร์ม ผ่านมือทีมงานเราก่อนส่งถึงคุณ 📦\nวันนี้พามาดูหลังบ้าน ตั้งแต่รับออเดอร์ ห่อกล่อง จนถึงส่งของทุกวัน\nขอบคุณที่ไว้ใจกันนะคะ",
+  ok:["ภาพลักษณ์องค์กร ทีมงาน กระบวนการทำงาน","รางวัลที่มีหนังสือรับรอง ระบุชื่อรางวัลและปี พ.ศ.","ข้อมูลการสั่งซื้อ จัดส่ง บริการหลังการขาย"],
+  no:["\"คิดค้นโดยเภสัชกร/แพทย์\" หรือให้บุคลากรสาธารณสุขพูดถึงสินค้า","\"รางวัลการันตีว่าได้ผล\"","\"อันดับ 1\" \"ดีที่สุด\" ถ้าไม่มีหลักฐาน"],
+  law:"ข้อ 6(2) Corporate Image ไม่ต้องขออนุญาต · บัญชี 2 ลำดับ 6 รางวัล · ข้อ 4(6) ห้ามบุคลากรสาธารณสุขแนะนำ"},
+ {id:5,c:"--p5",name:"ข้อเสนอและวิธีสั่งซื้อ",pct:15,free:true,
+  goal:"ปิดการขาย และดันลูกค้าไปแพ็กที่คุ้มกว่า",
+  who:"คนที่พร้อมซื้อ · ลูกค้าเก่าที่ถึงรอบซื้อซ้ำ",
+  funnel:"Do",
+  formats:["การ์ดราคาเทียบแพ็ก","คูปอง LINE OA","ไลฟ์ขายโดยทีมแบรนด์ (พูดเฉพาะราคาและโปร)"],
+  topics:["เทียบราคาต่อกล่อง: 1 / 4 / 8 / 15 / 25 กล่อง","โปร 12.12 และส่งท้ายปี","ส่งฟรี เก็บเงินปลายทาง ผ่อน 0%","สั่งได้ช่องทางไหนบ้าง","รอบตัดส่งก่อนปีใหม่"],
+  sample:"แล็บฟาร์ม ราคาพิเศษ\n1 กล่อง 890.- (ปกติ 990.-)\n4 กล่อง 2,490.- · 8 กล่อง 4,590.-\nส่งฟรีทั่วประเทศ เก็บเงินปลายทางได้\nสั่งผ่าน LINE OA / Shopee / Lazada / TikTok Shop",
+  ok:["ราคา ส่วนลด ของแถม จำนวนกล่อง","ส่งฟรี ช่องทางสั่งซื้อ ระยะเวลาโปร","ความคุ้มค่า ต้องมีเอกสารยืนยันราคาเดิม (บัญชี 2 ลำดับ 3)"],
+  no:["ใส่คำสรรพคุณแม้แต่คำเดียว (ทั้งโพสต์จะต้องยื่น ฆอ.)","เทียบราคากับยี่ห้ออื่น","\"ป่วยแล้วเงินเท่าไหร่ก็ซื้อไม่ได้\""],
+  law:"บัญชี 2 ลำดับ 1–4 ไม่ต้องขออนุญาต · ข้อ 6 วรรคท้าย ถ้ามีสรรพคุณปนต้องยื่นทั้งชิ้น · ข้อ 4(7) ห้ามเทียบคู่แข่ง"},
+];
+const PT = Object.fromEntries(P.map(p=>[p.id,p]));
+
+const REWRITE = [
+ ["ช่วยเสริมสร้างภูมิคุ้มกัน","บัญชี 1 ข้อ 2.2","มีเบต้ากลูแคนจากยีสต์ (M-Gard) และซีบัคธอร์นในแคปซูล",2],
+ ["ตัวช่วยผู้ป่วยโดยเฉพาะ","ข้อ 5(2)","ของขวัญสำหรับคนที่คุณห่วงใย",1],
+ ["A1 : Anticancer – ลดการอยู่รอดของเซลล์มะเร็งตับ","ข้อ 5(2), 5(8)","(ตัดออก ไม่มีข้อความทดแทน)",2],
+ ["อาหารเสริมทางการแพทย์","ข้อ 5(1), 10(6)","ผลิตภัณฑ์เสริมอาหาร แล็บฟาร์ม",2],
+ ["คิดค้นโดยนักวิจัยและเภสัชกรไทย","ข้อ 4(6)","พัฒนาโดยทีม Hopeful (ระบุเป็นบริษัท ไม่ระบุวิชาชีพ)",4],
+ ["ฟื้นฟูร่างกาย ช่วยให้ร่างกายสมดุล","บัญชี 1 ข้อ 2.2","กินอาหารให้หลากหลายครบ 5 หมู่ พักผ่อนให้พอ แล้วเลือกสิ่งดีๆ ให้ตัวเอง",3],
+ ["ป่วยแล้วเงินเท่าไหร่ก็ซื้อไม่ได้","ข้อ 5(2)","ความห่วงใยส่งถึงได้ทุกวัน",1],
+ ["ผู้ใช้หลายคนยืนยันว่าร่างกายสดชื่นขึ้น","ข้อ 5(1), บัญชี 3 ลำดับ 6","ลูกค้าเลือกซื้อซ้ำเพราะส่งไว สั่งง่าย (เล่าเหตุผลการซื้อ)",1],
+ ["ได้รับรางวัลการันตีคุณภาพจากนานาชาติ","บัญชี 3 ลำดับ 31","ได้รับรางวัล [ชื่อรางวัล] จาก EUROINVENT พ.ศ. 2567",4],
+];
+
+// [คำ, ระดับ r/a, เหตุผล]
+const TERMS = [
+ ["เสริมสร้างภูมิคุ้มกัน","r","บัญชี 1 ข้อ 2.2"],["เสริมภูมิคุ้มกัน","r","บัญชี 1 ข้อ 2.2"],["เพิ่มภูมิคุ้มกัน","r","บัญชี 1 ข้อ 2.2"],["กระตุ้นภูมิคุ้มกัน","r","บัญชี 1 ข้อ 2.2"],
+ ["ภูมิคุ้มกัน","r","บัญชี 1 ข้อ 2.2"],["ภูมิต้านทาน","r","บัญชี 1 ข้อ 2.2"],["เสริมภูมิ","r","บัญชี 1 ข้อ 2.2"],["Immune Booster","r","บัญชี 1 ข้อ 2.2"],
+ ["NK Cell","r","ข้อ 5(3) สื่อว่าเปลี่ยนการทำงานของร่างกาย"],["Macrophage","r","ข้อ 5(3)"],["เม็ดเลือดขาว","r","ข้อ 5(3)"],
+ ["มะเร็ง","r","ข้อ 5(2) ชื่อโรค"],["Anticancer","r","ข้อ 5(2)"],["คีโม","r","ข้อ 5(2)"],["เคมีบำบัด","r","ข้อ 5(2)"],["เนื้องอก","r","ข้อ 5(2)"],
+ ["ผู้ป่วย","r","ข้อ 5(2) ผูกกับความเจ็บป่วย"],["คนป่วย","r","ข้อ 5(2)"],["พักฟื้น","r","ข้อ 5(2)"],["ป่วย","r","ข้อ 5(2)"],
+ ["สะเก็ดเงิน","r","บัญชี 1 ข้อ 2.1"],["เบาหวาน","r","บัญชี 1 ข้อ 2.1"],["ความดัน","r","บัญชี 1 ข้อ 2.1"],["ไขมันในเส้นเลือด","r","บัญชี 1 ข้อ 2.1"],["คอเลสเตอรอล","r","บัญชี 1 ข้อ 2.1"],
+ ["ภูมิแพ้","r","บัญชี 1 ข้อ 2.1"],["ไวรัส","r","บัญชี 1 ข้อ 2.1"],["ติดเชื้อ","r","บัญชี 1 ข้อ 2.1"],["หัวใจ","r","บัญชี 1 ข้อ 2.1"],["ข้อเข่า","r","บัญชี 1 ข้อ 2.1"],["นอนไม่หลับ","r","บัญชี 1 ข้อ 2.1"],
+ ["รักษา","r","ข้อ 5(2)"],["บำบัด","r","ข้อ 5(2)"],["บรรเทา","r","ข้อ 5(2)"],["ป้องกัน","r","ข้อ 5(2)"],["หายขาด","r","บัญชี 1 ข้อ 1"],["หายห่วง","r","บัญชี 1 ข้อ 1"],["หมดกังวล","r","บัญชี 1 ข้อ 1"],
+ ["อักเสบ","r","ข้อ 5(2)"],["Anti-Inflam","r","ข้อ 5(2)"],["ฟื้นฟู","r","บัญชี 1 ข้อ 2.2"],["ฟื้นตัว","r","บัญชี 1 ข้อ 2.2"],["ปรับสมดุล","r","บัญชี 1 ข้อ 2.2"],["สมดุล","r","บัญชี 1 ข้อ 2.2"],
+ ["บำรุงตับ","r","บัญชี 1 ข้อ 2.2"],["บำรุงไต","r","บัญชี 1 ข้อ 2.2"],["บำรุงสมอง","r","บัญชี 1 ข้อ 2.2"],["บำรุงประสาท","r","บัญชี 1 ข้อ 2.2"],["บำรุงสายตา","r","บัญชี 1 ข้อ 2.2"],
+ ["ดีท็อกซ์","r","บัญชี 1 ข้อ 2.2"],["Detox","r","บัญชี 1 ข้อ 2.2"],["ล้างสารพิษ","r","บัญชี 1 ข้อ 2.2"],
+ ["ทางการแพทย์","r","ข้อ 5(1) ทำให้เข้าใจว่าเป็นอาหารทางการแพทย์"],["เภสัชกรแนะนำ","r","ข้อ 4(6)"],["แพทย์แนะนำ","r","ข้อ 4(6)"],["หมอแนะนำ","r","ข้อ 4(6)"],["เภสัชกร","r","ข้อ 4(6) ระวังการใช้บุคลากรสาธารณสุข"],["แพทย์","r","ข้อ 4(6)"],
+ ["ไม่มีผลข้างเคียง","r","บัญชี 1 ข้อ 1"],["ไร้ผลข้างเคียง","r","บัญชี 1 ข้อ 1"],["อย. รับรอง","r","บัญชี 1 ข้อ 1"],["อย.รับรอง","r","บัญชี 1 ข้อ 1"],["ปลอดภัย 100%","r","บัญชี 1 ข้อ 1"],
+ ["เห็นผลเร็ว","r","บัญชี 1 ข้อ 2.1"],["เห็นผลทันที","r","บัญชี 1 ข้อ 2.1"],["มหัศจรรย์","r","บัญชี 1 ข้อ 1"],["ปาฏิหาริย์","r","บัญชี 1 ข้อ 1"],["ศักดิ์สิทธิ์","r","บัญชี 1 ข้อ 1"],
+ ["งานวิจัย","r","ข้อ 5(8) ต้องผ่านการประเมินของ อย."],["วิจัย","r","ข้อ 5(8)"],["ผลการทดลอง","r","ข้อ 5(8)"],["สัตว์ทดลอง","r","ข้อ 5(8)"],
+ ["อันดับ 1","r","ข้อ 4(7) / บัญชี 3 ลำดับ 29"],["ดีที่สุด","a","บัญชี 3 ลำดับ 20 ต้องมีหลักฐาน"],
+ ["ต้านอนุมูลอิสระ","a","ต้องเป็นข้อความบนฉลากที่อนุมัติ + ยื่น ฆอ. (ข้อ 7)"],["อ่อนเพลีย","a","ต้องเป็นข้อความบนฉลากที่อนุมัติ + ยื่น ฆอ. (ข้อ 7)"],
+ ["พรีเมียม","a","บัญชี 3 ลำดับ 20"],["Premium","a","บัญชี 3 ลำดับ 20"],["นวัตกรรม","a","บัญชี 3 ลำดับ 21"],["พลัส","a","บัญชี 3 ลำดับ 25"],["Plus","a","บัญชี 3 ลำดับ 25"],
+ ["รางวัล","a","บัญชี 2 ลำดับ 6 / บัญชี 3 ลำดับ 31 ระบุชื่อรางวัลและปี"],["ธรรมชาติ","a","บัญชี 3 ต้องมีหลักฐานสูตร"],["สดชื่น","a","บัญชี 3 ลำดับ 6 ใช้ได้เฉพาะเครื่องดื่ม/ของเย็น"],
+ ["มหาวิทยาลัย","a","บัญชี 3 ลำดับ 23 ต้องมีหนังสือยินยอม"],["ดูแลสุขภาพ","a","ยื่น ฆอ. · ต้องไม่สื่อว่ากินอย่างเดียวพอ"],["%","a","ตัวเลขสถิติ ข้อ 5(8)"],
+].sort((a,b)=>b[0].length-a[0].length);
+
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const col=p=>`var(${p.c})`;
+
+/* mix bar + stats */
+$('mix').innerHTML=P.map(p=>`<button style="flex:${p.pct};background:${col(p)}" data-p="${p.id}" aria-pressed="false" title="${esc(p.name)}">${p.pct}%</button>`).join('');
+$('legend').innerHTML=P.map(p=>`<span><i style="background:${col(p)}"></i>P${p.id} ${esc(p.name)} · ${p.pct*20/100} โพสต์</span>`).join('');
+const free=P.filter(p=>p.free).reduce((s,p)=>s+p.pct,0);
+$('freeN').textContent=`${free}% ของโพสต์`;$('needN').textContent=`${100-free}% ของโพสต์`;
+
+/* pillar cards */
+$('tabs').innerHTML=`<button class="tab" data-p="0" aria-pressed="true">ทั้งหมด</button>`+P.map(p=>`<button class="tab" data-p="${p.id}" aria-pressed="false">P${p.id} ${esc(p.name)}</button>`).join('');
+$('pillars').innerHTML=P.map(p=>`
+<article class="card pillar" id="p${p.id}" style="--c:${col(p)}">
+  <div class="hd"><div><div class="no">PILLAR ${p.id} · ${esc(p.funnel)}</div><h3>${esc(p.name)}</h3></div><div class="pct">${p.pct}%</div></div>
+  <div class="chips"><span class="chip ${p.free?'free':'need'}">${p.free?'ลงได้ทันที ไม่ต้องยื่น ฆอ.':'ต้องยื่น ฆอ. ก่อนลง'}</span>${p.formats.map(f=>`<span class="chip">${esc(f)}</span>`).join('')}</div>
+  <div class="cols">
+    <div><div class="lbl">เป้าหมาย</div>${esc(p.goal)}<div class="lbl" style="margin-top:10px">พูดกับใคร</div>${esc(p.who)}</div>
+    <div><div class="lbl">ตัวอย่างหัวข้อ</div><ul>${p.topics.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></div>
+  </div>
+  <div><div class="lbl">ตัวอย่างแคปชั่น <button class="copy" data-copy="${p.id}">คัดลอก</button></div>
+    <div class="sample">${esc(p.sample)}<span class="warn">${esc(WARN)}</span></div></div>
+  <div class="cols">
+    <div><div class="lbl">ใช้ได้</div><ul class="ok">${p.ok.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></div>
+    <div><div class="lbl">ห้ามใช้</div><ul class="no">${p.no.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></div>
+  </div>
+  <div class="k">อ้างอิง: ${esc(p.law)}</div>
+</article>`).join('');
+function show(id){
+  document.querySelectorAll('.tab').forEach(t=>t.setAttribute('aria-pressed',+t.dataset.p===id));
+  document.querySelectorAll('#mix button').forEach(t=>t.setAttribute('aria-pressed',+t.dataset.p===id));
+  P.forEach(p=>$('p'+p.id).style.display=(!id||p.id===id)?'':'none');
+}
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>show(+t.dataset.p));
+document.querySelectorAll('#mix button').forEach(t=>t.onclick=()=>{show(+t.dataset.p);$('tabs').scrollIntoView({behavior:'smooth',block:'start'})});
+document.querySelectorAll('.copy').forEach(b=>b.onclick=async()=>{
+  const p=PT[b.dataset.copy];try{await navigator.clipboard.writeText(p.sample+"\n\n"+WARN);b.textContent='คัดลอกแล้ว'}catch(e){b.textContent='คัดลอกไม่ได้'}
+  setTimeout(()=>b.textContent='คัดลอก',1600)});
+
+/* rewrites */
+$('rewrites').innerHTML=REWRITE.map(([o,l,n,p])=>`<tr><td class="old">${esc(o)}</td><td>${esc(l)}</td><td class="new">${esc(n)}</td><td><span class="dot" style="background:${col(PT[p])}"></span>P${p}</td></tr>`).join('');
+
+/* calendar: 4 weeks × 7 days, 5 posts/week = 20 posts (P1 6, P2 4, P3 4, P4 3, P5 3) */
+const DAYS=['จ.','อ.','พ.','พฤ.','ศ.','ส.','อา.'];
+const WEEKS=[
+ [null,[2,'ในแคปซูลมีอะไร'],[3,'จานครบ 5 หมู่'],null,[5,'เทียบราคาแพ็ก'],[4,'หลังบ้านแพ็กของ'],[1,'ของขวัญปีใหม่']],
+ [null,[3,'ท่ายืด 5 นาที'],[2,'เช็กเลข อย. เอง'],[1,'บอกรักพ่อแม่'],null,[5,'โปร 12.12'],[1,'เรื่องเล่าลูกค้า']],
+ [null,[2,'ซีบัคธอร์นมาจากไหน'],[3,'จัดห้องนอน'],null,[4,'รางวัล EUROINVENT'],[5,'ส่งฟรี/ผ่อน 0%'],[1,'ห่อของขวัญ']],
+ [null,[3,'ชวนพ่อแม่ตรวจสุขภาพ'],[2,'อ่านฉลากเป็น'],[1,'เช็กลิสต์กลับบ้าน'],[4,'ขอบคุณตัวแทน'],null,[1,'การ์ดปีใหม่']],
+];
+let cal='<div></div>'+DAYS.map(d=>`<div class="h">${d}</div>`).join('');
+WEEKS.forEach((w,i)=>{cal+=`<div class="w">สัปดาห์ ${i+1}</div>`+w.map(x=>x?`<div class="d has" style="--c:${col(PT[x[0]])}"><b>P${x[0]}</b>${esc(x[1])}</div>`:`<div class="d"></div>`).join('')});
+$('cal').innerHTML=cal;
+
+/* checker */
+const WARN_PARTS=["เด็กและสตรีมีครรภ์ไม่ควรรับประทาน","ไม่มีผลในการป้องกันหรือรักษาโรค","อ่านคำเตือนในฉลากก่อนบริโภค"];
+function scan(raw){
+  // ไม่นับคำในประโยคคำเตือนบังคับ
+  const masks=[];WARN_PARTS.forEach(w=>{let i=raw.indexOf(w);while(i>=0){masks.push([i,i+w.length]);i=raw.indexOf(w,i+1)}});
+  const inMask=i=>masks.some(([a,b])=>i>=a&&i<b);
+  const taken=new Array(raw.length).fill(false), found=[];
+  const low=raw.toLowerCase();
+  TERMS.forEach(([t,lv,why])=>{const tl=t.toLowerCase();let i=low.indexOf(tl);
+    while(i>=0){const e=i+tl.length;
+      if(!inMask(i)&&!taken.slice(i,e).some(Boolean)){for(let k=i;k<e;k++)taken[k]=true;found.push({i,e,t,lv,why})}
+      i=low.indexOf(tl,i+1)}});
+  found.sort((a,b)=>a.i-b.i);
+  return {found,hasW:WARN_PARTS.every(w=>raw.includes(w))};
+}
+function check(){
+  const raw=$('txt').value;
+  const {found}=scan(raw);
+  let html='',pos=0;found.forEach(f=>{html+=esc(raw.slice(pos,f.i))+`<mark class="${f.lv}" title="${esc(f.why)}">${esc(raw.slice(f.i,f.e))}</mark>`;pos=f.e});
+  html+=esc(raw.slice(pos));$('out').innerHTML=html||'<span class="k">ยังไม่มีข้อความ</span>';
+  const r=found.filter(f=>f.lv==='r'),a=found.filter(f=>f.lv==='a');
+  const hasW=WARN_PARTS.every(w=>raw.includes(w));
+  $('status').innerHTML=
+    (r.length?`<span class="pill bad">ห้ามใช้ ${r.length} จุด</span>`:`<span class="pill good">ไม่พบคำต้องห้าม</span>`)+
+    (a.length?`<span class="pill mid">ต้องมีหลักฐาน/ฆอ. ${a.length} จุด</span>`:'')+
+    (hasW?`<span class="pill good">มีคำเตือนครบ 3 บรรทัด</span>`:`<span class="pill bad">ยังไม่มีคำเตือนครบ 3 บรรทัด</span>`);
+  const uniq=[...new Map(found.map(f=>[f.t,f])).values()];
+  $('hits').innerHTML=uniq.map(f=>`<div><mark class="${f.lv}">${esc(f.t)}</mark> · ${esc(f.why)}</div>`).join('');
+}
+$('check').onclick=check;
+$('addWarn').onclick=()=>{const v=$('txt').value.trim();if(!WARN_PARTS.every(w=>v.includes(w)))$('txt').value=v+"\n\n"+WARN;check()};
+$('clear').onclick=()=>{$('txt').value='';check();$('txt').focus()};
+check();
+
+/* ---------- idea generator ---------- */
+const WHO=[
+ {label:'ลูกสาวที่ทำงานไกลบ้าน',giver:'ลูกสาวที่ทำงานไกลบ้าน',to:'แม่'},
+ {label:'ลูกที่อยู่ต่างประเทศ',giver:'ลูกที่อยู่ไกลถึงต่างประเทศ',to:'พ่อแม่'},
+ {label:'หลานที่เพิ่งได้เงินเดือนแรก',giver:'หลานที่เพิ่งได้เงินเดือนแรก',to:'ยาย'},
+ {label:'คู่ชีวิตวัย 50+',giver:'คนที่อยู่ข้างกันมานาน',to:'คู่ชีวิต'},
+ {label:'ตัวเราเองวัย 40+',giver:'คุณ',to:'ตัวเอง',self:true},
+];
+const OCC=[
+ {label:'ปีใหม่',occ:'ปีใหม่',now:'ปีใหม่นี้',cut:'สั่งภายใน 27 ธ.ค. ส่งถึงก่อนปีใหม่'},
+ {label:'วันพ่อ (5 ธ.ค.)',occ:'วันพ่อ',now:'วันพ่อนี้',cut:'สั่งภายใน 3 ธ.ค. ส่งทันวันพ่อ'},
+ {label:'วันแม่ (12 ส.ค.)',occ:'วันแม่',now:'วันแม่นี้',cut:'สั่งภายใน 10 ส.ค. ส่งทันวันแม่'},
+ {label:'ตรุษจีน',occ:'ตรุษจีน',now:'ตรุษจีนนี้',cut:'สั่งล่วงหน้าอย่างน้อย 3 วันก่อนวันไหว้'},
+ {label:'สงกรานต์',occ:'สงกรานต์',now:'สงกรานต์นี้',cut:'สั่งก่อนหยุดยาว ส่งถึงก่อนวันกลับบ้าน'},
+ {label:'วันเกิด',occ:'วันเกิด',now:'วันเกิดปีนี้',cut:'ทักแชทระบุวันส่งให้ตรงวันเกิดได้'},
+ {label:'เงินเดือนออก',occ:'เงินเดือนออก',now:'เงินเดือนออกรอบนี้',cut:'ราคานี้ถึงสิ้นเดือนนี้'},
+ {label:'กลับบ้านไม่ทัน',occ:'ช่วงที่กลับบ้านไม่ทัน',now:'ปีนี้ที่กลับบ้านไม่ทัน',cut:'ส่งตรงถึงบ้านทั่วประเทศ'},
+ {label:'วันธรรมดา',occ:'วันธรรมดา',now:'วันธรรมดาแบบนี้',cut:'สั่งวันนี้ ส่งทุกวัน'},
+];
+const FMT=[
+ {label:'คลิปสั้น 15–30 วินาที',prod:h=>[`0–3 วินาที: ขึ้นข้อความ "${h}" ตัวใหญ่บนจอ`,'4–20 วินาที: ภาพเหตุการณ์จริงตามเรื่องเล่า ไม่ใช้ภาพโรงพยาบาลหรือชุดคนไข้','ช็อตท้าย: ราคา/วิธีสั่ง และคำเตือน 3 บรรทัดค้างบนจอ ≥ 5 วินาที','ผู้แสดงแบบอายุ 15 ปีขึ้นไป และไม่ใช่สตรีมีครรภ์ (ข้อ 10(9))']},
+ {label:'ภาพชุด (carousel)',prod:h=>[`ภาพ 1: "${h}" ตัวใหญ่`,'ภาพ 2–4: เรื่องเล่าหรือข้อเท็จจริง ภาพละ 1 ประเด็น','ภาพสุดท้าย: ข้อเสนอ + คำเตือน 3 บรรทัด สูง ≥ 1/25 ของภาพ']},
+ {label:'ภาพเดี่ยว + แคปชั่น',prod:h=>['ภาพ: กล่องสินค้าในฉากที่ตรงกับโอกาส ไม่มีข้อความสรรพคุณบนภาพ',`ข้อความบนภาพ: "${h}"`,'คำเตือน 3 บรรทัดบนภาพ สูง ≥ 1/25 ของภาพ']},
+ {label:'ไลฟ์ขาย',prod:h=>[`เปิดไลฟ์ด้วย: "${h}"`,'ผู้ไลฟ์เป็นทีมแบรนด์ ไม่เชิญหรือแสดงตนเป็นบุคลากรสาธารณสุข (ข้อ 4(6))','พูดเรื่องราคา แพ็ก วิธีสั่ง และเรื่องเล่าการซื้อเป็นของขวัญเท่านั้น','คำถามเรื่องโรคหรือการทานคู่ยา: รับเรื่องแล้วให้ทีมติดต่อกลับหลังไลฟ์','ขึ้นแถบคำเตือน 3 บรรทัดตลอดไลฟ์']},
+ {label:'ข้อความ LINE OA',prod:h=>['ส่งเฉพาะกลุ่มที่ตรงกับ "ใคร" ไม่ส่งถึงเพื่อนทั้งหมด','รูปแบบคูปองหรือการ์ด 1 ภาพ + ข้อความสั้น',`บรรทัดแรก: "${h}"`,'คำเตือน 3 บรรทัดท้ายข้อความหรือบนภาพ']},
+];
+// {giver} {to} {you} {occ} {now} · {you} = "คุณ" เมื่อเลือก "ตัวเราเอง"
+const TPL={
+ 1:{t:['{now} {giver}ส่งความห่วงใยถึง{to}','ของขวัญ{occ}ที่{to}จะได้เปิดเองที่บ้าน'],
+    ts:['{now} ส่งความห่วงใยถึงตัวเองบ้าง','ของขวัญ{occ}ที่ตั้งใจให้ตัวเอง'],
+    h:['ถ้า{now}ไปหา{to}ไม่ได้ จะส่งความห่วงใยยังไงดี?','วันที่{to}โทรมาบอกว่า "ได้ของแล้วนะ"'],
+    hs:['ดูแลคนอื่นมาทั้งปี {now}ถึงคิวดูแลตัวเองหรือยัง?','ครั้งสุดท้ายที่ซื้อของขวัญให้ตัวเองคือเมื่อไหร่?'],
+    b:['{giver}หลายคนเลือกส่งแล็บฟาร์มพร้อมการ์ดที่เขียนเอง ให้{to}รู้ว่าเราคิดถึงอยู่เสมอ','ไม่ต้องรอโอกาสพิเศษ แค่กล่องเล็กๆ กับการ์ดหนึ่งใบ ก็บอก{to}ได้ว่าเราห่วง'],
+    bs:['กินให้ครบ 5 หมู่ พักผ่อนให้พอ แล้วเลือกสิ่งดีๆ ให้ตัวเองบ้าง เพราะคนที่ดูแลทุกคนก็ควรได้รับการใส่ใจเหมือนกัน','ของขวัญชิ้นเล็กๆ ที่ตั้งใจเลือกเอง คือวิธีบอกตัวเองว่า ปีนี้เราทำดีมากแล้ว'],
+    o:['4 กล่อง 2,490 บาท ส่งฟรีทั่วประเทศ','1 กล่อง 890 บาท (ปกติ 990 บาท) พร้อมการ์ดเขียนเองได้'],
+    c:['ทักแชทเลือกวันส่ง · {cut}']},
+ 2:{t:['{to}ถามว่าในแคปซูลมีอะไร? นี่คือคำตอบ','รู้จักแล็บฟาร์มก่อนเลือกให้{to}'],
+    ts:['ในแคปซูลแล็บฟาร์มมีอะไร? นี่คือคำตอบ','อ่านฉลากแล็บฟาร์มใน 1 นาที'],
+    h:['ก่อนซื้ออะไรให้{to} เราอ่านฉลากกันหรือยัง?','3 อย่างที่ควรเช็กก่อนเลือกของขวัญให้{to}'],
+    hs:['ก่อนซื้ออาหารเสริมให้ตัวเอง คุณอ่านฉลากหรือยัง?','3 อย่างที่ควรเช็กก่อนสั่งอาหารเสริม'],
+    b:['ในแคปซูลสีขาวมีเบต้ากลูแคนจากยีสต์ (M-Gard) และซีบัคธอร์น ผลไม้ลูกเล็กสีส้ม · 1 กล่อง 10 แคปซูล · เลขสารบบอาหาร 73-1-02663-5-0191 ตรวจได้เองที่เว็บไซต์ อย.','เช็ก 3 อย่าง: เลขสารบบอาหาร · วิธีรับประทานบนฉลาก · คำเตือนว่าใครไม่ควรทาน ถ้าทานยาประจำอยู่ ทักแชทให้ทีมติดต่อกลับก่อนสั่ง'],
+    o:['1 กล่อง 890 บาท (ปกติ 990 บาท)','4 กล่อง 2,490 บาท ส่งฟรี'],
+    c:['ดูภาพฉลากเต็มและสั่งซื้อได้ทาง LINE OA','ทักแชทขอดูฉลากก่อนสั่งได้ · {cut}']},
+ 3:{t:['{now} ชวน{to}เริ่มใส่ใจตัวเองจากจานข้าว','เช็กลิสต์ใส่ใจตัวเอง 4 ข้อ สำหรับ{to}'],
+    ts:['{now} เริ่มใส่ใจตัวเองจากจานข้าว','เช็กลิสต์ใส่ใจตัวเอง 4 ข้อ ทำได้ทุกวัน'],
+    h:['จานข้าวของ{to}วันนี้ ครบ 5 หมู่หรือยัง?','นอนพอ กินครบ ขยับทุกวัน {to}ทำได้กี่ข้อ?'],
+    hs:['จานข้าวของคุณวันนี้ ครบ 5 หมู่หรือยัง?','นอนพอ กินครบ ขยับทุกวัน คุณทำได้กี่ข้อ?'],
+    b:['กินอาหารให้หลากหลายครบ 5 หมู่ พักผ่อนให้พอ ขยับร่างกายทุกวัน แล้วค่อยเลือกสิ่งดีๆ เพิ่มให้{you}','เริ่มง่ายๆ จากผักหนึ่งจานต่อมื้อ เดินหลังอาหารเย็น และเข้านอนให้ตรงเวลา แล็บฟาร์มเป็นอีกหนึ่งตัวเลือกเสริม ไม่ได้แทนอาหารหลัก'],
+    o:['แล็บฟาร์ม 1 กล่อง 890 บาท'],
+    c:['บันทึกโพสต์นี้ไว้เช็กทุกสัปดาห์','แชร์ให้คนที่อยากชวนเริ่มไปด้วยกัน']},
+ 4:{t:['เบื้องหลังกล่องของขวัญ{occ} กว่าจะถึงมือ{you}','ทีมแล็บฟาร์มเตรียมอะไรบ้างช่วง{occ}'],
+    h:['กว่ากล่องหนึ่งใบจะถึงมือ{you} ผ่านอะไรมาบ้าง?','{now} ทีมเราแพ็กของกันถึงดึก ให้ถึงมือ{you}ทันเวลา'],
+    b:['รับออเดอร์ ตรวจของ ห่อกล่อง เขียนการ์ดตามที่สั่ง แล้วส่งออกทุกวัน ทุกกล่องผ่านมือทีม Hopeful ก่อนถึงคุณ','เราเช็กวันหมดอายุและสภาพกล่องทุกใบก่อนส่ง และแนบช่องทางติดต่อทีมไว้ในกล่อง เผื่อมีคำถามเรื่องการสั่งซื้อ'],
+    o:['ส่งฟรีทั่วประเทศ เก็บเงินปลายทางได้'],
+    c:['ขอบคุณที่ไว้ใจกัน · ทักแชทถามเรื่องการจัดส่งได้ทุกวัน','{cut}']},
+ 5:{t:['โปร{occ}: เลือกแพ็กไหนดีสำหรับ{you}','{now} สั่งแล็บฟาร์มแบบไหนคุ้มกว่าสำหรับ{you}'],
+    h:['4 กล่อง หรือ 8 กล่อง แบบไหนคุ้มกว่า?','ราคาต่อกล่องถูกลงเท่าไหร่ ถ้าสั่งหลายกล่อง?'],
+    b:['1 กล่อง 890 บาท · 4 กล่อง 2,490 บาท (เฉลี่ยกล่องละ 623 บาท) · 8 กล่อง 4,590 บาท (เฉลี่ยกล่องละ 574 บาท)','สั่งได้ทาง LINE OA, Shopee, Lazada และ TikTok Shop · ส่งฟรีทั่วประเทศ เก็บเงินปลายทางได้'],
+    o:['ส่งฟรีทั่วประเทศ','ราคาพิเศษเฉพาะช่วง{occ}'],
+    c:['ทักแชทให้ทีมช่วยเลือกแพ็ก · {cut}']},
+};
+const G={p:1,w:0,o:0,f:0,v:0};
+const pickV=(arr,v)=>arr[v%arr.length];
+function fill(s,w,o){return s.replaceAll('{giver}',w.giver).replaceAll('{to}',w.to).replaceAll('{you}',w.self?'คุณ':w.to)
+  .replaceAll('{occ}',o.occ).replaceAll('{now}',o.now).replaceAll('{cut}',o.cut)}
+function compose(p,wi,oi,fi,v){
+  const T=TPL[p],w=WHO[wi],o=OCC[oi],f=FMT[fi],self=!!w.self;
+  const t=fill(pickV(self&&T.ts?T.ts:T.t,v),w,o), h=fill(pickV(self&&T.hs?T.hs:T.h,v),w,o);
+  const b=fill(pickV(self&&T.bs?T.bs:T.b,v>>1),w,o), off=fill(pickV(T.o,v),w,o), cta=fill(pickV(T.c,v>>1),w,o);
+  const cap=[h,'',b,'',off,cta,'',WARN].join('\n');
+  return {t,h,cap,prod:f.prod(h)};
+}
+['gP','gW','gO','gF'].forEach((id,i)=>{
+  const src=[P.map(p=>`P${p.id} ${p.name}`),WHO.map(x=>x.label),OCC.map(x=>x.label),FMT.map(x=>x.label)][i];
+  $(id).innerHTML=src.map((s,k)=>`<option value="${i===0?k+1:k}">${esc(s)}</option>`).join('');
+  $(id).onchange=()=>{G[['p','w','o','f'][i]]=+$(id).value;G.v=0;renderIdea()};
+});
+function renderIdea(){
+  $('gP').value=G.p;$('gW').value=G.w;$('gO').value=G.o;$('gF').value=G.f;
+  const I=compose(G.p,G.w,G.o,G.f,G.v), pl=PT[G.p], sc=scan(I.cap);
+  const r=sc.found.filter(x=>x.lv==='r'),a=sc.found.filter(x=>x.lv==='a');
+  const needFor = !pl.free || a.length>0;
+  $('idea').innerHTML=`
+    <div class="no" style="color:${col(pl)};font-weight:700">P${pl.id} ${esc(pl.name)} · ${esc(WHO[G.w].label)} · ${esc(OCC[G.o].label)} · ${esc(FMT[G.f].label)}</div>
+    <h3>${esc(I.t)}</h3>
+    <div class="status">
+      ${r.length?`<span class="pill bad">พบคำต้องห้าม ${r.length} จุด</span>`:`<span class="pill good">ผ่านตัวตรวจคำ ไม่มีคำต้องห้าม</span>`}
+      ${a.length?`<span class="pill mid">ต้องมีหลักฐาน ${a.length} จุด</span>`:''}
+      <span class="pill ${sc.hasW?'good':'bad'}">${sc.hasW?'มีคำเตือนครบ 3 บรรทัด':'ขาดคำเตือน'}</span>
+      <span class="pill ${needFor?'mid':'good'}">${needFor?'ต้องยื่น ฆอ. ก่อนลง':'ลงได้ทันที ไม่ต้องยื่น ฆอ.'}</span>
+    </div>
+    <div class="row"><div class="lbl">แคปชั่นร่าง <button class="copy" id="gCopy">คัดลอก</button></div><div class="sample">${esc(I.cap)}</div></div>
+    <div class="row"><div class="lbl">วิธีทำ (${esc(FMT[G.f].label)})</div><ul class="prod">${I.prod.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+    <div class="k">วันตัดรอบส่งในร่างเป็นค่าตัวอย่าง แก้ให้ตรงรอบขนส่งจริงก่อนโพสต์ · ราคาเทียบต่อกล่องต้องมีเอกสารยืนยันราคา (บัญชี 2 ลำดับ 3)</div>`;
+  $('gCopy').onclick=async()=>{try{await navigator.clipboard.writeText(I.t+'\n\n'+I.cap);$('gCopy').textContent='คัดลอกแล้ว'}catch(e){$('gCopy').textContent='คัดลอกไม่ได้'}
+    setTimeout(()=>{const b=$('gCopy');if(b)b.textContent='คัดลอก'},1600)};
+}
+const rnd=n=>Math.floor(Math.random()*n);
+$('gRand').onclick=()=>{G.p=1+rnd(P.length);G.w=rnd(WHO.length);G.o=rnd(OCC.length);G.f=rnd(FMT.length);G.v=rnd(4);renderIdea()};
+$('gAgain').onclick=()=>{G.v=(G.v+1)%4;renderIdea()};
+renderIdea();
+
+/* ---------- Meta Ad Library ---------- */
+const LIB='https://www.facebook.com/ads/library/?id=';
+const RESELL=[
+ ['ตัวแทนกลุ่ม A · เพจ 1 (ชื่อเพจมี "ภูมิคุ้มกัน" และ "อดีตพยาบาล")','"พิเศษให้ Lab Farm ดูแลคนที่รัก ปรึกษาฟรี" · "ด่วน!! โปรสิ้นมีจำกัด"',[['r','"ภูมิคุ้มกัน" ในชื่อเพจ'],['r','แสดงตนว่าเคยเป็นพยาบาล ข้อ 4(6)']],''],
+ ['ตัวแทนกลุ่ม A · เพจ 2 (ชื่อเพจมี "เสริมภูมิคุ้มกัน")','(ไม่มีหัวข้อลิงก์)',[['r','"เสริมภูมิคุ้มกัน" ในชื่อเพจ']],''],
+ ['ตัวแทนกลุ่ม A · เพจ 3','(ไม่มีหัวข้อลิงก์) · เริ่มยิง 12 โฆษณาในวันเดียว',[['ok','ชื่อเพจไม่มีคำต้องห้าม']],''],
+ ['ตัวแทนกลุ่ม A · เพจ 4','(ไม่มีหัวข้อลิงก์)',[['ok','ชื่อเพจไม่มีคำต้องห้าม']],''],
+ ['ตัวแทนกลุ่ม B · เพจ 1 (ชื่อเพจมี "งานวิจัย" และ "กระตุ้นภูมิ")','ปุ่มโทรหาตัวแทน',[['r','"งานวิจัย" ข้อ 5(8)'],['r','"กระตุ้นภูมิ" บัญชี 1']],''],
+ ['ตัวแทนกลุ่ม B · เพจ 2 (ชื่อเพจมี "ภูมิคุ้มกัน")','ปุ่มโทรหาตัวแทน',[['r','"ภูมิคุ้มกัน" ในชื่อเพจ']],''],
+ ['ตัวแทนกลุ่ม B · เพจ 3','ปุ่มโทรหาตัวแทน · 8 โฆษณา',[['mid','ใช้คนเป็นจุดขาย ต้องไม่สื่อว่าเป็นบุคลากรสาธารณสุข']],''],
+ ['ตัวแทนกลุ่ม C · เพจ 1','"ปรึกษา[ชื่อตัวแทน]และทีม" + เบอร์โทร',[['mid','ใช้คนเป็นจุดขาย'],['ok','ชื่อเพจไม่มีคำต้องห้าม']],''],
+];
+const COMP=[
+ ['BETA CARE แก้ไขปัญหาสะเก็ดเงิน ผิวลอกเป็นขุย','เบต้ากลูแคน',[['r','ชื่อโรคในชื่อเพจ']],'1465798674974455'],
+ ['กาแฟเบต้า กลูแคน แก้น้ำเหลืองเสีย กลากเกลื้อน','กาแฟผสมเบต้ากลูแคน · 7 โฆษณาเปิดพร้อมกัน',[['r','อ้างแก้โรคผิวหนัง']],'4661729660639248'],
+ ['WeProteinth โปรตีนเสริมผู้สูงอายุและผู้ป่วยมะเร็ง','"ผู้ป่วยมะเร็งดื่มวันละ 1 ซอง" · "โปรตีนที่แนะนำบอกต่อ"',[['r','ผูกกับผู้ป่วยมะเร็ง'],['ok','ใช้การบอกต่อเป็นจุดขาย']],'1174486238869418'],
+ ['Royim โปรตีน Premium Care','"สั่งแล้ว 12,688 ชิ้น"',[['ok','ใช้ยอดสั่งซื้อจริงเป็นหลักฐาน'],['mid','"Premium" ต้องมีหลักฐาน']],'1631488998026940'],
+ ['Jelly CARE เจลลี่วิตามิน สูตรคุณหมอ ที่พ่อแม่เลือก','(ไม่มีหัวข้อลิงก์)',[['r','"สูตรคุณหมอ" ข้อ 4(6)'],['ok','มุม "พ่อแม่เลือก"']],'1146643084428750'],
+ ['รูมาตอยด์ รู้ทัน ดูแลเป็นกับพี่เบญ','(ไม่มีหัวข้อลิงก์)',[['r','ชื่อโรคในชื่อเพจ']],'1624641988904104'],
+ ['พลูคาวพลัส พ่อทองชิต ดูแลผิวหนัง','ปุ่มแชทใน Messenger · 8 โฆษณา',[['mid','"พลัส" ต้องมีหลักฐานสูตร'],['ok','ปิดการขายผ่านแชท']],'2941168106239509'],
+];
+const tags=t=>t.map(([k,s])=>`<span class="tag ${k==='r'?'':k}">${esc(s)}</span>`).join('');
+const adTable=(rows,h2)=>`<div class="card tbl cmp" style="margin-top:14px"><h3 style="margin-bottom:6px">${h2}</h3><table>
+  <thead><tr><th>เพจ</th><th>หัวข้อลิงก์ / ปุ่ม</th><th>ข้อสังเกต</th><th>ดูโฆษณา</th></tr></thead>
+  <tbody>${rows.map(([n,t,g,id])=>`<tr><td>${esc(n)}</td><td>${esc(t)}</td><td>${tags(g)}</td><td>${id?`<a href="${LIB+id}" target="_blank" rel="noopener">เปิด</a>`:'—'}</td></tr>`).join('')}</tbody></table></div>`;
+$('adsBody').innerHTML=`
+<div class="grid g3">
+  <div class="card"><div class="k">เพจที่ขาย LAB FARM ที่เจอ</div><div class="big">8 เพจ</div><div class="k">เกือบทั้งหมดเป็นเพจตัวแทน ใช้ชื่อเล่นของตัวแทน + ปรึกษาฟรี + โทร/แชท</div></div>
+  <div class="card"><div class="k">ชื่อเพจตัวแทนที่มีคำต้องห้ามตามเกณฑ์ 2569</div><div class="big">4 จาก 8</div><div class="k">"ภูมิคุ้มกัน" "กระตุ้นภูมิ" "งานวิจัย" "อดีตพยาบาล" ความเสี่ยงตกถึงแบรนด์</div></div>
+  <div class="card"><div class="k">คู่แข่งที่ขายด้วยชื่อโรค</div><div class="big">5 จาก 7</div><div class="k">สะเก็ดเงิน มะเร็ง รูมาตอยด์ โรคผิวหนัง · ตลาดแน่นและเสี่ยง</div></div>
+</div>
+<div class="grid" style="grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:16px" id="adsInsight">
+  <div class="card"><h3>สิ่งที่เห็นในตลาด</h3><ul style="margin-top:8px">
+    <li><b>ขายผ่านคน ไม่ใช่ผ่านแบรนด์:</b> ตัวแทนแต่ละเครือเปิดหลายเพจ ใช้ชื่อเล่นและ "ปรึกษาฟรี" ปิดการขายทางโทรศัพท์หรือแชท</li>
+    <li><b>ยิงทีละหลายชิ้นในวันเดียว:</b> บางเพจเริ่ม 7–12 โฆษณาในวันเดียว (26–27 พ.ย.) เพื่อทดสอบหาตัวที่ได้ผล</li>
+    <li><b>จุดขายซ้ำกันหมด:</b> ชื่อโรคหรือคำว่าภูมิคุ้มกัน ซึ่งตอนนี้ผิดเกณฑ์ อย. 2569</li>
+    <li><b>มุมครอบครัวยังว่าง:</b> มีแค่ "ดูแลคนที่รัก" "ที่พ่อแม่เลือก" "เหมือนคนในครอบครัว" ยังไม่มีใครทำเรื่องของขวัญจริงจัง</li>
+    <li><b>กลไกที่ใช้ได้:</b> ยอดสั่งซื้อจริง ("สั่งแล้ว 12,688 ชิ้น"), ความเร่งด่วนจากโปรที่มีวันหมดเขต, ปุ่มแชท</li>
+  </ul></div>
+  <div class="card"><h3>สิ่งที่ LAB FARM ควรทำ</h3><ul style="margin-top:8px">
+    <li><b>ออกกติกาตัวแทนทันที:</b> ชื่อเพจห้ามมี ภูมิคุ้มกัน/งานวิจัย/อาชีพสาธารณสุข ใช้คำห้ามชุดเดียวกับตัวตรวจคำในหน้านี้</li>
+    <li><b>ส่งชุดคอนเทนต์กลางให้ตัวแทน:</b> ใช้ P1 และ P5 จากเครื่องสุ่มไอเดีย ยื่น ฆอ. ครั้งเดียวในนามแบรนด์ ตัวแทนใช้ร่วมกัน</li>
+    <li><b>ยึดมุมของขวัญครอบครัว (P1):</b> คู่แข่งยังไม่ทำ และไม่ต้องพูดสรรพคุณ</li>
+    <li><b>ใช้กลไกที่ได้ผลแบบถูกเกณฑ์:</b> ปุ่มแชท "ให้ทีมช่วยเลือกแพ็ก", โปรที่มีวันหมดเขตจริง, ยอดสั่งซื้อจริงพร้อมหลักฐาน</li>
+    <li><b>ทดสอบหลายชิ้นเหมือนตลาด:</b> ยิง 5–8 ชิ้นต่อชุด แล้วเก็บตัวที่ได้ผล เครื่องสุ่มไอเดียช่วยผลิตตัวเลือกได้เร็ว</li>
+  </ul></div>
+</div>
+${adTable(RESELL,'เพจที่ขาย LAB FARM (ส่วนใหญ่เป็นตัวแทน)')}
+${adTable(COMP,'คู่แข่งกลุ่มเบต้ากลูแคน / อาหารเสริมผู้ใหญ่')}
+<p class="k" style="margin-top:8px">ไม่แสดงชื่อ ลิงก์ และเบอร์โทรของเพจตัวแทน · ชื่อเพจและหัวข้อลิงก์มาจาก Ad Library ตามที่เจ้าของเพจตั้งไว้ · การระบุว่าเพจไหนเป็นตัวแทน LAB FARM ดูจากชื่อเพจและคำค้น ยังไม่ได้ยืนยันกับบริษัท</p>`;
+if(matchMedia('(max-width:760px)').matches)$('adsInsight').style.gridTemplateColumns='minmax(0,1fr)';
+
+/* self-test: เปิดด้วย #selftest เพื่อตรวจว่าทุกชุดค่าผสมไม่มีคำต้องห้าม */
+if(location.hash==='#selftest'){
+  let n=0,bad=[];
+  for(let p=1;p<=5;p++)for(let w=0;w<WHO.length;w++)for(let o=0;o<OCC.length;o++)for(let f=0;f<FMT.length;f++)for(let v=0;v<4;v++){
+    const I=compose(p,w,o,f,v);n++;const s=scan(I.t+'\n'+I.cap);const r=s.found.filter(x=>x.lv==='r');
+    if(r.length||!s.hasW)bad.push(`P${p}w${w}o${o}v${v}:`+r.map(x=>x.t).join(','));}
+  document.title='SELFTEST '+n+' bad='+bad.length+' '+[...new Set(bad)].slice(0,8).join(' | ');
+}
+
+/* theme toggle */
+(()=>{const root=document.documentElement;let saved=null;try{saved=localStorage.getItem('lf-theme')}catch(e){}
+  if(saved)root.dataset.theme=saved;
+  $('theme').onclick=()=>{const dark=root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
+    root.dataset.theme=dark?'light':'dark';try{localStorage.setItem('lf-theme',root.dataset.theme)}catch(e){}}})();
+</script>
+</body>
+</html>
