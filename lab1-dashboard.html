@@ -72,6 +72,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 "IBM Plex Sans
   opacity:0;transform:translateY(-10px) scale(.98);transform-origin:top right;pointer-events:none;visibility:hidden;
   transition:opacity .25s,transform .35s cubic-bezier(.16,1,.3,1),visibility 0s .35s}
 .fp.open{opacity:1;transform:none;pointer-events:auto;visibility:visible;transition:opacity .25s,transform .35s cubic-bezier(.16,1,.3,1)}
+.fp2{border-radius:var(--r);background:var(--glass);border:1px solid var(--edge);padding:14px 16px;margin:4px 0 22px;display:grid;gap:10px;backdrop-filter:blur(14px)}
 .fp .fhd{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px}
 .fp .fhd b{font-size:15px}
 .fp .x{border:0;background:rgba(255,255,255,.06);color:#ddd;width:30px;height:30px;border-radius:9px;cursor:pointer;font-size:16px}
@@ -204,8 +205,8 @@ html.static .spark path.ln{stroke-dashoffset:0}html.static .spark path.ar{opacit
 
 <header class="top">
   <div class="brand"><b>V</b>VitaDemo Insights</div>
-  <button class="live" id="live" aria-expanded="false" aria-controls="fp" title="ตัวกรอง">
-    <span id="liveTxt"></span><span class="cnt" id="fcnt"></span><span class="fic">⚙</span><span class="car">▼</span>
+  <button class="live" id="live" aria-expanded="false" aria-controls="fp" title="เลือกช่วงวันที่">
+    <span id="liveTxt"></span><span class="cnt" id="fcnt"></span><span class="fic">📅</span><span class="car">▼</span>
   </button>
 </header>
 
@@ -218,8 +219,9 @@ html.static .spark path.ln{stroke-dashoffset:0}html.static .spark path.ar{opacit
   </section>
 
   <!-- ---------- ตัวกรอง ---------- -->
-  <section class="fp" id="fp" role="dialog" aria-label="ตัวกรอง">
-    <div class="fhd"><b>ตัวกรอง</b><button class="x" id="fpClose" aria-label="ปิด">✕</button></div>
+  <!-- แผงเลือกวันที่: เปิดจากปุ่มมุมขวาบน -->
+  <section class="fp" id="fp" role="dialog" aria-label="เลือกช่วงวันที่">
+    <div class="fhd"><b>เลือกช่วงวันที่</b><button class="x" id="fpClose" aria-label="ปิด">✕</button></div>
     <div class="fr"><span>ช่วงวันที่</span>
       <div class="opts">
         <div class="dates"><em>ตั้งแต่</em><select id="s0d" aria-label="วันเริ่ม"></select><select id="s0m" aria-label="เดือนเริ่ม"></select><select id="s0y" aria-label="ปีเริ่ม"></select>
@@ -227,12 +229,17 @@ html.static .spark path.ln{stroke-dashoffset:0}html.static .spark path.ar{opacit
       </div></div>
     <div class="fr"><span>เดือน</span><div class="opts" id="fmon"></div></div>
     <div class="fr"><span>ช่วงลัด</span><div class="opts" id="presets"></div></div>
+    <div class="fbar"><div id="dsum"></div><div style="display:flex;gap:8px"><button class="reset" id="dreset">ดูทั้งปี</button><button class="done" id="fpDone">ดูผล</button></div></div>
+  </section>
+
+  <!-- ตัวกรองอื่น: อยู่ในหน้าเหมือนเดิม -->
+  <section class="fp2" aria-label="ตัวกรอง">
     <div class="fr"><span>ช่องทาง</span><div class="opts" id="fch"></div></div>
     <div class="fr"><span>สินค้า</span><div class="opts" id="fpr"></div></div>
     <div class="fr"><span>อายุลูกค้า</span><div class="opts" id="fage"></div></div>
     <div class="fr"><span>จังหวัดที่ส่ง</span>
       <details class="prov"><summary class="chip" id="provSum">ทุกจังหวัด</summary><div class="opts" id="fprov"></div></details></div>
-    <div class="fbar"><div id="fsum"></div><div style="display:flex;gap:8px"><button class="reset" id="reset">ล้างตัวกรองทั้งหมด</button><button class="done" id="fpDone">ดูผล</button></div></div>
+    <div class="fbar"><div id="fsum"></div><button class="reset" id="reset">ล้างตัวกรองทั้งหมด</button></div>
   </section>
 
   <section class="bento">
@@ -342,7 +349,8 @@ function syncUI(){
   if(!fullSet('prov',PV.length)) parts.push($('provSum').textContent);
   $('fsum').innerHTML='กำลังดู: <b>'+parts.join('</b> · <b>')+'</b>';
   const short=F.d0===1&&F.d1===NDAYS?`ข้อมูล ม.ค.–ธ.ค. ${Y+543}`:F.d0===F.d1?be(F.d0):`${thDate(F.d0)} – ${be(F.d1)}`;
-  $('liveTxt').textContent=short; $('fcnt').textContent=parts.length>1?'+'+(parts.length-1):'';
+  $('liveTxt').textContent=short; $('fcnt').textContent='';
+  $('dsum').innerHTML='ช่วงที่เลือก: <b>'+parts[0]+'</b>';
   $('rangeTxt').textContent=parts[0];
 }
 
@@ -353,6 +361,7 @@ const fp=$('fp'), live=$('live');
 function openFP(on){fp.classList.toggle('open',on);live.setAttribute('aria-expanded',on)}
 live.onclick=e=>{e.stopPropagation();openFP(!fp.classList.contains('open'))};
 $('fpClose').onclick=$('fpDone').onclick=()=>openFP(false);
+$('dreset').onclick=()=>setRange(1,NDAYS);
 fp.addEventListener('click',e=>e.stopPropagation());
 document.addEventListener('click',()=>openFP(false));
 document.addEventListener('keydown',e=>{if(e.key==='Escape')openFP(false)});
