@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>แนะนำตัว · ทีมการตลาดโฮปฟูล</title>
+<style>
+  :root { --navy:#0B234A; --orange:#F86607; --bg:#f4f6fa; --ink:#1b2438; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink);
+         font:18px/1.7 "Sarabun","Noto Sans Thai","Leelawadee UI",sans-serif; }
+  .card { max-width:640px; margin:48px auto; background:#fff; border-radius:16px;
+          box-shadow:0 6px 24px rgba(11,35,74,.10); overflow:hidden; }
+  header { background:var(--navy); color:#fff; padding:32px 28px; }
+  header small { color:#ffb07a; }
+  h1 { margin:6px 0 4px; font-size:32px; }
+  .role { color:#cdd6e8; margin:0; }
+  main { padding:24px 28px 32px; }
+  h2 { font-size:20px; margin:0 0 12px; color:var(--navy); }
+  ol { margin:0; padding-left:0; list-style:none; counter-reset:n; }
+  li { counter-increment:n; padding:12px 0 12px 48px; position:relative; border-top:1px solid #e3e8f0; }
+  li::before { content:counter(n); position:absolute; left:0; top:12px; width:32px; height:32px;
+               border-radius:50%; background:var(--orange); color:#fff; text-align:center; line-height:32px; font-weight:700; }
+  footer { font-size:14px; color:#6b7690; padding:0 28px 24px; }
+  @media (max-width:680px){ .card{ margin:16px; } }
+</style>
+</head>
+<body>
+  <div class="card">
+    <header>
+      <small>ทีมการตลาด · บริษัท โฮปฟูล จำกัด</small>
+      <h1>สวัสดีครับ ผม "ปุ้ย"</h1>
+      <p class="role">ตำแหน่ง: Digital Marketing Executive</p>
+    </header>
+    <main>
+      <h2>งาน 3 อย่างที่อยากให้ AI ช่วย</h2>
+      <ol>
+        <li><strong>สรุปยอดขายและผลโฆษณา</strong><br>ทำ dashboard รายเดือนให้ทีมดูได้ในหน้าเดียว</li>
+        <li><strong>ร่างโพสต์และข้อความ LINE OA</strong><br>ได้ร่างแรกเร็วขึ้น แล้วค่อยเกลาให้เป็นเสียงแบรนด์</li>
+        <li><strong>จัดการรายชื่อลูกค้า</strong><br>คัดรายชื่อซ้ำ จัดกลุ่ม และเตรียมข้อความติดต่อ</li>
+      </ol>
+    </main>
+    <footer>* ข้อความตัวอย่าง แก้ชื่อเล่น ตำแหน่ง และงานได้ตามจริง</footer>
+  </div>
+<!--hub-resize--><script>(function(){if(window.parent===window)return;
+document.documentElement.style.overflow='hidden';var last=0;
+function send(){var b=document.body,cs=getComputedStyle(b);
+var h=Math.ceil(b.offsetHeight+parseFloat(cs.marginTop)+parseFloat(cs.marginBottom));
+if(Math.abs(h-last)>2){last=h;window.parent.postMessage({hubH:h},'*');}}
+if(window.ResizeObserver)new ResizeObserver(send).observe(document.body);
+addEventListener('load',send);setInterval(send,800);send();})();</script>
+</body>
+</html>

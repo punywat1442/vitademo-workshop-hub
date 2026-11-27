@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calcium Content Pillars</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07070a; --ink:#f4f4f6; --mut:#9a9aa5; --dim:#62626c;
+  --glass:rgba(255,255,255,.035); --edge:rgba(255,255,255,.08);
+  --red:#e50914; --red-2:#ff3b45; --red-glow:rgba(229,9,20,.30);
+  --r:20px;
+}
+*{box-sizing:border-box}
+html,body{max-width:100%;overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.7 "IBM Plex Sans Thai",sans-serif;-webkit-font-smoothing:antialiased}
+body:before{content:"";position:fixed;inset:0;z-index:-1;background:
+  radial-gradient(40vw 40vw at 0% 0%,rgba(138,7,16,.35),transparent 70%),
+  radial-gradient(35vw 35vw at 100% 30%,rgba(229,9,20,.12),transparent 70%)}
+.wrap{max-width:1240px;margin:0 auto;padding:40px 16px 60px}
+a{color:var(--red-2);text-decoration:none;word-break:break-word}
+a:hover{text-decoration:underline}
+header .eyebrow{color:var(--red-2);font-weight:600;letter-spacing:.08em;font-size:13px;text-transform:uppercase}
+h1{font-size:clamp(26px,4vw,38px);line-height:1.25;margin:6px 0 10px;font-weight:700}
+h2{font-size:22px;margin:44px 0 14px;font-weight:600}
+h2 small{display:block;font-size:14px;color:var(--mut);font-weight:400;margin-top:2px}
+.meta{color:var(--mut);font-size:14px}
+.card{background:var(--glass);border:1px solid var(--edge);border-radius:var(--r);padding:22px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);min-width:0}
+.tag{display:inline-block;font-size:12px;font-weight:600;padding:1px 9px;border-radius:999px;line-height:1.7;white-space:nowrap}
+.t-fact{background:rgba(255,255,255,.14);color:#e6e6ea}
+.t-ours{border:1px solid rgba(255,255,255,.45);color:#f0f0f3}
+.t-rx{background:var(--red);color:#fff;box-shadow:0 0 12px var(--red-glow)}
+.s{font-size:12px;color:var(--mut);white-space:nowrap}
+.s a{color:var(--mut);border-bottom:1px dotted var(--dim)}
+
+/* questions */
+.qgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:14px}
+.q .n{font-size:13px;font-weight:700;color:var(--red-2);letter-spacing:.06em}
+.q h3{margin:4px 0 6px;font-size:16.5px;line-height:1.45}
+.q p{margin:0;color:#d2d2d8;font-size:14px}
+.q .cnt{margin-top:8px;font-size:12.5px;color:var(--mut)}
+.note{margin-top:14px;font-size:13.5px;color:var(--mut)}
+.note b{color:#d2d2d8;font-weight:600}
+
+/* split bar */
+.split{display:flex;height:46px;border-radius:14px;overflow:hidden;border:1px solid var(--edge);margin:6px 0 4px}
+.split div{display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px;color:#fff;white-space:nowrap;overflow:hidden;padding:0 8px}
+.sp1{background:var(--red)} .sp2{background:#8a0710} .sp3{background:rgba(255,255,255,.14)}
+
+/* pillars */
+.pgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:start}
+@media (max-width:980px){.pgrid{grid-template-columns:1fr}}
+.pillar{padding:0;overflow:hidden}
+.ph{padding:22px 22px 16px;border-bottom:1px solid var(--edge);position:relative}
+.ph .no{font-size:13px;font-weight:700;color:var(--red-2);letter-spacing:.06em}
+.ph h3{margin:4px 0 4px;font-size:20px;line-height:1.4;padding-right:86px}
+.ph .sub{color:var(--mut);font-size:14px}
+.pct{position:absolute;top:20px;right:20px;font-size:30px;font-weight:700;line-height:1;color:#fff}
+.pct small{display:block;font-size:11.5px;font-weight:500;color:var(--mut);text-align:right;margin-top:4px}
+.sec{padding:16px 22px;border-bottom:1px solid var(--edge)}
+.sec:last-child{border-bottom:0}
+.sec h4{margin:0 0 8px;font-size:13px;font-weight:600;color:var(--mut);letter-spacing:.04em}
+.sec p{margin:0 0 8px;font-size:14.5px;color:#dcdce2}
+.sec p:last-child{margin-bottom:0}
+.lab2{border-left:3px solid var(--red);padding:8px 12px;background:rgba(229,9,20,.07);border-radius:0 10px 10px 0;font-size:14px;margin-bottom:10px}
+ul.ev{list-style:none;padding:0;margin:0}
+ul.ev li{font-size:14px;color:#dcdce2;padding:5px 0;border-top:1px dashed rgba(255,255,255,.07)}
+ul.ev li:first-child{border-top:0}
+.funnel{display:grid;gap:8px}
+.st{display:grid;grid-template-columns:58px minmax(0,1fr);gap:10px;align-items:start;background:rgba(255,255,255,.025);border:1px solid var(--edge);border-radius:12px;padding:10px 12px}
+.st .lb{font-weight:700;font-size:14px;color:var(--red-2)}
+.st .lb small{display:block;font-weight:400;font-size:11px;color:var(--mut)}
+.st .tx{font-size:14px;color:#ececf0}
+.st .tx em{display:block;font-style:normal;font-size:12.5px;color:var(--mut);margin-top:3px}
+.risk{font-size:13.5px;color:#d2d2d8}
+.risk b{color:var(--red-2)}
+
+/* sources */
+ol.src{margin:0;padding-left:22px;columns:2;column-gap:32px;font-size:13.5px;color:#cfcfd6}
+ol.src li{break-inside:avoid;margin-bottom:10px}
+ol.src .d{color:var(--mut);font-size:12.5px}
+@media (max-width:760px){ol.src{columns:1}}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;color:var(--mut);font-size:13px;margin:0 0 14px}
+footer{margin-top:40px;color:var(--dim);font-size:12.5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Lab 3 · Content Pillars</div>
+  <h1>3 Content Pillar สำหรับเปิดตัวแคลเซียมสูตรใหม่ของ VitaDemo</h1>
+  <div class="meta">ค้นข้อมูลวันที่ 27 พ.ย. 2569 (2026-11-27) · ใช้หลักฐาน 3 ส่วน: <code>output/lab2-comparison.html</code> · <code>data/reviews_2025.csv</code> (380 รีวิว ข้อมูลจำลอง) · การค้นเว็บ (S1–S13) · VitaDemo เป็นแบรนด์สมมุติ</div>
+</header>
+
+<div class="legend" style="margin-top:18px">
+  <span><span class="tag t-fact">ข้อมูล</span> มาจากแหล่งที่มีลิงก์หรือไฟล์ใน data/</span>
+  <span><span class="tag t-ours">ข้อสรุปของเรา</span> การตีความของทีมวิจัย</span>
+  <span><span class="tag t-rx">ส่งต่อเภสัชกร</span> แอดมินไม่ตอบเอง</span>
+</div>
+
+<h2>คนวัย 40+ ถามเรื่องกระดูกและแคลเซียมเรื่องอะไรบ่อย
+  <small><span class="tag t-fact">ข้อมูล</span> รวมจากกระทู้ Pantip คลังคำถามยา คณะเภสัชศาสตร์ ม.มหิดล และบทความสุขภาพไทย · ตัวเลขในวงเล็บคือจำนวนแหล่งที่พบคำถามนี้ ไม่ใช่ปริมาณการค้นหา</small>
+</h2>
+<div class="qgrid">
+  <div class="card q">
+    <div class="n">01</div>
+    <h3>ทานแคลเซียมเวลาไหน ก่อนหรือหลังอาหาร แต่ละชนิดต่างกันอย่างไร</h3>
+    <p>มีคนถามว่าแคลเซียมซิเตรตควรทานก่อนอาหาร หลังอาหาร หรือก่อนนอน เภสัชกรตอบว่าซิเตรตดูดซึมได้ในหลายสภาวะ และมักแนะนำในคนอายุมากกว่า 50 ปีหรือคนที่ใช้ยาลดกรด <span class="s"><a href="#s1">S1</a></span></p>
+    <div class="cnt">พบใน 3 แหล่ง · <a href="#s1">S1</a> <a href="#s9">S9</a> <a href="#s7">S7</a></div>
+  </div>
+  <div class="card q">
+    <div class="n">02</div>
+    <h3>ทานคู่กับยาประจำตัวหรือวิตามินอื่นได้ไหม</h3>
+    <p>กระทู้ถามว่าทานแคลเซียมพร้อมวิตามินซีได้ไหม ทานยาที่หมอจ่ายพร้อมอาหารเสริมได้ไหม ส่วนแหล่งที่ค้นพบระบุว่าแคลเซียมอาจรบกวนการดูดซึมยาไทรอยด์และธาตุเหล็ก ต้องเว้นระยะ <span class="s"><a href="#s7">S7</a> <a href="#s8">S8</a> <a href="#s13">S13</a></span></p>
+    <div class="cnt">พบใน 5 แหล่ง · <a href="#s1">S1</a> <a href="#s7">S7</a> <a href="#s8">S8</a> <a href="#s9">S9</a> <a href="#s13">S13</a> · <span class="tag t-rx">ส่งต่อเภสัชกร</span></div>
+  </div>
+  <div class="card q">
+    <div class="n">03</div>
+    <h3>ทานแล้วไม่สบายท้อง หรือทานมากไปจะเป็นอะไรไหม</h3>
+    <p>ผู้ถามเล่าว่าแคลเซียมเม็ดที่ได้รับทำให้ท้องผูกจนไม่อยากทาน และอีกรายไม่ชอบแบบเม็ดเพราะเหตุผลเดียวกัน บทความของ รพ.กรุงเทพ/กรมการแพทย์ เตือนว่าไม่ควรทานเกินปริมาณที่แนะนำ <span class="s"><a href="#s6">S6</a> <a href="#s5">S5</a> <a href="#s2">S2</a></span></p>
+    <div class="cnt">พบใน 3 แหล่ง · <a href="#s2">S2</a> <a href="#s5">S5</a> <a href="#s6">S6</a></div>
+  </div>
+  <div class="card q">
+    <div class="n">04</div>
+    <h3>วันละเท่าไหร่ถึงพอ ได้จากอาหารหรือนมพอไหม</h3>
+    <p>บทความอ้างกรมอนามัยว่าอายุ 51 ปีขึ้นไปควรได้แคลเซียมราว 1,000 มก./วัน และกรมอนามัยรายงานว่าคนไทยอายุ 15 ปีขึ้นไปดื่มนมจืดได้ตามเกณฑ์เพียง 19.6% (อนามัยโพล 2569) มีกระทู้ถามหานมแคลเซียมสูงสำหรับวัย 40+ <span class="s"><a href="#s2">S2</a> <a href="#s3">S3</a> <a href="#s5">S5</a></span></p>
+    <div class="cnt">พบใน 3 แหล่ง · <a href="#s2">S2</a> <a href="#s3">S3</a> <a href="#s5">S5</a></div>
+  </div>
+  <div class="card q">
+    <div class="n">05</div>
+    <h3>เลือกยี่ห้อไหนดี ซื้อให้คุณแม่</h3>
+    <p>ลูกถามหาแคลเซียมให้คุณแม่อายุ 52 ปี และมีอีกหลายกระทู้ถามว่าควรเลือกยี่ห้อไหน คำถามลักษณะนี้มักมาพร้อมเรื่องราคาและหาซื้อง่าย <span class="s"><a href="#s4">S4</a> <a href="#s10">S10</a> <a href="#s6">S6</a></span></p>
+    <div class="cnt">พบใน 3 แหล่ง · <a href="#s4">S4</a> <a href="#s6">S6</a> <a href="#s10">S10</a></div>
+  </div>
+</div>
+<p class="note"><b>ข้อจำกัด:</b> เราเปิด Google Trends ไม่ได้ จึงไม่มีตัวเลขปริมาณการค้นหา การเรียงลำดับข้างบนจึงดูจากจำนวนแหล่งที่พบเท่านั้น · กระทู้ Pantip ไม่แสดงวันที่โพสต์ในหน้าที่เราเปิด และหลายกระทู้ไม่ระบุอายุผู้ถาม · S7–S10 และ S13 เราเห็นแค่ในผลการค้นหา ไม่ได้เปิดอ่านหน้าเต็ม (Mayo Clinic ปฏิเสธการเปิดอัตโนมัติ)</p>
+
+<h2>สัดส่วนโพสต์ของ 3 Pillar
+  <small><span class="tag t-ours">ข้อสรุปของเรา</span> รวม 100% · ให้น้ำหนักตามความแข็งของช่องที่เอาชนะได้ใน Lab 2</small>
+</h2>
+<div class="split" role="img" aria-label="สัดส่วนโพสต์ Pillar 1 45% Pillar 2 35% Pillar 3 20%">
+  <div class="sp1" style="width:45%">P1 · 45%</div>
+  <div class="sp2" style="width:35%">P2 · 35%</div>
+  <div class="sp3" style="width:20%">P3 · 20%</div>
+</div>
+
+<h2>การ์ด Content Pillar
+  <small>ทุก pillar โยงกลับไปหาช่องที่ VitaDemo เอาชนะได้จาก Lab 2 และใช้เสียงลูกค้าจากรีวิวเป็นหลักฐานเสริม</small>
+</h2>
+<div class="pgrid">
+
+  <!-- PILLAR 1 -->
+  <article class="card pillar">
+    <div class="ph">
+      <div class="no">PILLAR 01</div>
+      <h3>ถามเภสัชกร: แคลเซียมฉบับเข้าใจง่าย</h3>
+      <div class="sub">เภสัชกรของ VitaDemo ตอบคำถามที่คนวัย 40+ ถามบ่อย ผ่านไลฟ์และ LINE OA</div>
+      <div class="pct">45%<small>ของโพสต์</small></div>
+    </div>
+    <div class="sec">
+      <h4>เหตุผลที่เลือก</h4>
+      <div class="lab2"><b>โยงกับ Lab 2 ช่องที่ 1 · Content + บริการหลังการขาย</b><br>Lab 2 ไม่พบว่า Blackmores, MEGA We care หรือ VISTRA มีไลฟ์โดยเภสัชกร หรือบริการปรึกษาหลังซื้อ</div>
+      <ul class="ev">
+        <li><span class="tag t-fact">ข้อมูล</span> คำถามที่พบบ่อย 01–04 เป็นเรื่องวิธีทาน ชนิด ปริมาณ และการทานคู่กับยา ทุกเรื่องต้องการคนอธิบาย <span class="s"><a href="#s1">S1</a> <a href="#s2">S2</a> <a href="#s7">S7</a></span></li>
+        <li><span class="tag t-fact">ข้อมูล</span> รีวิว "เภสัชกรในไลฟ์อธิบายเข้าใจง่าย" 27 รายการ · "แอดมินตอบไว ให้คำแนะนำดีค่ะ" 27 รายการ <span class="s">reviews_2025.csv</span></li>
+        <li><span class="tag t-ours">ข้อสรุปของเรา</span> ช่องนี้แข็งที่สุด เพราะตรงกับคำถามจริงของลูกค้าและคู่แข่งยังไม่ทำ จึงให้สัดส่วนมากที่สุด</li>
+      </ul>
+    </div>
+    <div class="sec">
+      <h4>ตัวอย่างหัวข้อ See · Think · Do · Care</h4>
+      <div class="funnel">
+        <div class="st"><div class="lb">See<small>รู้จัก</small></div><div class="tx">คลิปสั้น "3 คำถามเรื่องแคลเซียมที่เภสัชกรได้ยินบ่อยจากคนวัย 40+"<em>ใช้คำถามจริงจากหัวข้อ 01–04 ไม่สัญญาผลลัพธ์</em></div></div>
+        <div class="st"><div class="lb">Think<small>พิจารณา</small></div><div class="tx">ไลฟ์ "ซิเตรตกับคาร์บอเนตต่างกันอย่างไร ทานตอนไหนดี"<em>อธิบายตามแหล่งอ้างอิง S1 · ชวนอ่านฉลากควบคู่</em></div></div>
+        <div class="st"><div class="lb">Do<small>ตัดสินใจ</small></div><div class="tx">"ทานยาประจำอยู่ ไม่แน่ใจว่าทานคู่ได้ไหม ทักแชทปรึกษาเภสัชกรก่อนสั่งได้เลยค่ะ"<em><span class="tag t-rx">ส่งต่อเภสัชกร</span> แอดมินไม่ตอบเรื่องยาเอง · โพสต์ขายใส่ข้อความ "ผลิตภัณฑ์เสริมอาหาร ไม่มีผลในการป้องกันหรือรักษาโรค"</em></div></div>
+        <div class="st"><div class="lb">Care<small>ดูแลหลังซื้อ</small></div><div class="tx">LINE OA ส่งข้อความหลังซื้อ 7 วัน: "ทานเป็นอย่างไรบ้างคะ ถ้ารู้สึกไม่สบายท้อง ทักเภสัชกรได้ค่ะ"<em><span class="tag t-rx">ส่งต่อเภสัชกร</span> เรื่องอาการหลังทาน ให้เภสัชกรเป็นผู้ตอบ</em></div></div>
+      </div>
+    </div>
+    <div class="sec risk"><b>ต้องปิดก่อนเปิดตัว:</b> รีวิว "แอดมินตอบช้ามาก ทักไปสองวัน" 9 รายการ ถ้าชวนทักแชทแล้วตอบช้า pillar นี้จะเสียความน่าเชื่อถือ</div>
+    <div class="sec"><h4>แหล่งอ้างอิง</h4><p class="s" style="white-space:normal"><a href="#s1">S1</a> · <a href="#s2">S2</a> · <a href="#s7">S7</a> · <a href="#s8">S8</a> · <a href="#s9">S9</a> · <a href="#s13">S13</a> · Lab 2 ช่องที่ 1 · reviews_2025.csv</p></div>
+  </article>
+
+  <!-- PILLAR 2 -->
+  <article class="card pillar">
+    <div class="ph">
+      <div class="no">PILLAR 02</div>
+      <h3>เลือกเป็น อ่านฉลากเป็น: ความมั่นใจที่ตรวจสอบได้</h3>
+      <div class="sub">พูดกับคนวัย 40+ โดยตรง สอนอ่านฉลาก เช็กเลข อย. และสังเกตคำโฆษณาเกินจริง</div>
+      <div class="pct">35%<small>ของโพสต์</small></div>
+    </div>
+    <div class="sec">
+      <h4>เหตุผลที่เลือก</h4>
+      <div class="lab2"><b>โยงกับ Lab 2 ช่องที่ 2 · ข้อความหลักของแบรนด์</b><br>Lab 2 พบว่าแคมเปญล่าสุดของคู่แข่งทั้ง 3 รายมุ่งคนรุ่นใหม่ และยังไม่พบแบรนด์ที่พูดกับคนวัย 40+ โดยตรงพร้อมความน่าเชื่อถือที่ตรวจสอบได้</div>
+      <ul class="ev">
+        <li><span class="tag t-fact">ข้อมูล</span> อย. แนะนำให้ผู้บริโภคตรวจเลข อย. เองผ่าน ORYOR Smart Application หรือ www.fda.moph.go.th และแจ้งสายด่วน 1556 ถ้าพบสิ่งผิดปกติ <span class="s"><a href="#s12">S12</a></span></li>
+        <li><span class="tag t-fact">ข้อมูล</span> อย. ประกาศ (6 มี.ค. 2569) ว่ากำลังเข้มงวดโฆษณาผลิตภัณฑ์เสริมอาหารบนโซเชียล โดยเฉพาะการอ้างรักษาโรค <span class="s"><a href="#s11">S11</a></span></li>
+        <li><span class="tag t-fact">ข้อมูล</span> รีวิว "มีเลข อย. ชัดเจน สบายใจ" 32 รายการ (มากที่สุดในคำชม) · "แคปซูลไม่ใหญ่ ผู้สูงอายุกลืนง่าย" 27 รายการ <span class="s">reviews_2025.csv</span></li>
+        <li><span class="tag t-ours">ข้อสรุปของเรา</span> คำถาม 04–05 (ปริมาณ เลือกยี่ห้อ) ตอบได้ด้วยข้อเท็จจริงบนฉลาก ไม่ต้องอ้างสรรพคุณ จึงเหมาะกับน้ำเสียงแบรนด์</li>
+      </ul>
+    </div>
+    <div class="sec">
+      <h4>ตัวอย่างหัวข้อ See · Think · Do · Care</h4>
+      <div class="funnel">
+        <div class="st"><div class="lb">See<small>รู้จัก</small></div><div class="tx">อินโฟกราฟิก "ฉลากแคลเซียมบอกอะไรเราบ้าง อ่าน 4 จุดนี้ก่อนซื้อ"<em>ชนิดแคลเซียม ปริมาณต่อเม็ด วิธีทาน เลข อย.</em></div></div>
+        <div class="st"><div class="lb">Think<small>พิจารณา</small></div><div class="tx">คลิปสาธิต "เช็กเลข อย. เองใน 1 นาที ด้วยแอป ORYOR" และ "คำโฆษณาแบบไหนควรสงสัย"<em>อ้างอิง S11 S12 · ไม่พาดพิงแบรนด์คู่แข่ง</em></div></div>
+        <div class="st"><div class="lb">Do<small>ตัดสินใจ</small></div><div class="tx">โพสต์เปิดตัว "แคลเซียมสูตรใหม่ ข้อมูลบนฉลากครบ มีเลข อย. ตรวจสอบได้ค่ะ"<em>ใส่ข้อความ "ผลิตภัณฑ์เสริมอาหาร ไม่มีผลในการป้องกันหรือรักษาโรค" · ส่วนประกอบและราคารอข้อมูลใน products.csv</em></div></div>
+        <div class="st"><div class="lb">Care<small>ดูแลหลังซื้อ</small></div><div class="tx">LINE OA ส่งการ์ด "ทานอย่างไรให้ต่อเนื่อง" พร้อมเลข อย. ของสินค้าที่ซื้อ<em>ลูกค้าเก็บไว้ตรวจซ้ำได้</em></div></div>
+      </div>
+    </div>
+    <div class="sec risk"><b>ต้องปิดก่อนเปิดตัว:</b> รีวิว "คนขายบอกว่ารักษาเบาหวานได้ จริงไหม" 9 รายการ ต้องอบรมตัวแทนและห้ามใช้คำนี้ ไม่อย่างนั้น pillar ที่ขายความน่าเชื่อถือจะขัดกับคำพูดของคนขายเอง</div>
+    <div class="sec"><h4>แหล่งอ้างอิง</h4><p class="s" style="white-space:normal"><a href="#s2">S2</a> · <a href="#s3">S3</a> · <a href="#s11">S11</a> · <a href="#s12">S12</a> · Lab 2 ช่องที่ 2 · reviews_2025.csv</p></div>
+  </article>
+
+  <!-- PILLAR 3 -->
+  <article class="card pillar">
+    <div class="ph">
+      <div class="no">PILLAR 03</div>
+      <h3>ส่งความใส่ใจถึงคุณพ่อคุณแม่</h3>
+      <div class="sub">ชุดของขวัญและเรื่องเล่าของลูกที่ดูแลผู้ใหญ่ในบ้าน</div>
+      <div class="pct">20%<small>ของโพสต์</small></div>
+    </div>
+    <div class="sec">
+      <h4>เหตุผลที่เลือก</h4>
+      <div class="lab2"><b>โยงกับ Lab 2 ช่องรอง · ชุดของขวัญให้พ่อแม่</b><br>Lab 2 จัดเป็นช่องรอง มีหลักฐานจากรีวิว แต่ยังไม่ได้ค้นว่าคู่แข่งทำชุดของขวัญมากน้อยแค่ไหน</div>
+      <ul class="ev">
+        <li><span class="tag t-fact">ข้อมูล</span> มีกระทู้ที่ลูกถามหาแคลเซียมให้คุณแม่อายุ 52 ปี <span class="s"><a href="#s4">S4</a></span></li>
+        <li><span class="tag t-fact">ข้อมูล</span> รีวิว "ซื้อเป็นของขวัญปีใหม่ให้ผู้ใหญ่ กล่องสวย" 31 รายการ · "ส่งไว แพ็กดีมาก ซื้อให้คุณแม่ทานต่อเนื่อง" 26 รายการ <span class="s">reviews_2025.csv</span></li>
+        <li><span class="tag t-ours">ข้อสรุปของเรา</span> คนซื้อกับคนทานอาจเป็นคนละคน content จึงต้องพูดกับลูกด้วย แต่หลักฐานอ่อนกว่า 2 pillar แรก จึงให้ 20% และเน้นช่วงเทศกาล</li>
+      </ul>
+    </div>
+    <div class="sec">
+      <h4>ตัวอย่างหัวข้อ See · Think · Do · Care</h4>
+      <div class="funnel">
+        <div class="st"><div class="lb">See<small>รู้จัก</small></div><div class="tx">คลิปเล่าเรื่อง "โทรหาแม่วันนี้ ถามเรื่องการกินดื่มของท่านบ้างหรือยัง"<em>เล่าจากชีวิตประจำวัน ไม่ทำให้กลัวเรื่องอายุ</em></div></div>
+        <div class="st"><div class="lb">Think<small>พิจารณา</small></div><div class="tx">เช็กลิสต์ "ก่อนซื้อแคลเซียมให้ผู้ใหญ่ ถามท่าน 3 ข้อนี้ก่อน" (ทานยาอะไรอยู่ กลืนเม็ดสะดวกไหม ชอบแบบไหน)<em><span class="tag t-rx">ส่งต่อเภสัชกร</span> ถ้าท่านทานยาประจำ ให้ปรึกษาเภสัชกรก่อน</em></div></div>
+        <div class="st"><div class="lb">Do<small>ตัดสินใจ</small></div><div class="tx">ชุดของขวัญแคลเซียมสูตรใหม่ ใส่การ์ดข้อความถึงคุณพ่อคุณแม่ สั่งผ่าน LINE OA ส่งตรงถึงบ้านท่าน<em>ใส่ข้อความ "ผลิตภัณฑ์เสริมอาหาร ไม่มีผลในการป้องกันหรือรักษาโรค" · ราคาและโปรรอข้อมูลใน data/</em></div></div>
+        <div class="st"><div class="lb">Care<small>ดูแลหลังซื้อ</small></div><div class="tx">LINE OA แจ้งลูกเมื่อใกล้หมดกระปุก "ถึงเวลาเติมให้คุณแม่แล้วนะคะ" พร้อมช่องทางให้ผู้ใหญ่ทักเภสัชกรเองได้<em>CTA เดียวต่อข้อความ</em></div></div>
+      </div>
+    </div>
+    <div class="sec risk"><b>ต้องปิดก่อนเปิดตัว:</b> รีวิว "สั่งน้ำมันปลา ได้คอลลาเจนมา ต้องส่งคืน" 11 รายการ และ "กล่องบุบมาถึง" 4 รายการ ของขวัญที่ส่งผิดหรือกล่องเสียหายจะเสียความรู้สึกมากกว่าการซื้อทานเอง</div>
+    <div class="sec"><h4>แหล่งอ้างอิง</h4><p class="s" style="white-space:normal"><a href="#s4">S4</a> · <a href="#s10">S10</a> · Lab 2 ช่องรอง · reviews_2025.csv</p></div>
+  </article>
+
+</div>
+
+<h2>แหล่งข้อมูล
+  <small>ค้นและเปิดดูวันที่ 27 พ.ย. 2569 (2026-11-27) ทุกรายการ · "ผลการค้นหา" = เห็นแค่ชื่อและสรุปในผลค้นหา ไม่ได้เปิดหน้าเต็ม</small>
+</h2>
+<div class="card">
+<ol class="src">
+  <li id="s1"><a href="https://pharmacy.mahidol.ac.th/dic/qa_full.php?id=10601" target="_blank" rel="noopener">คลังข้อมูลยา คณะเภสัชศาสตร์ ม.มหิดล: "Calcium citrate กินก่อนอาหาร หลังอาหาร หรือก่อนนอน..."</a><br><span class="d">เปิดอ่านแล้ว · ไม่แสดงวันที่โพสต์ · ค้น 27/11/2569</span></li>
+  <li id="s2"><a href="https://www.pptvhd36.com/health/care/2614" target="_blank" rel="noopener">PPTV HD36: ไขความลับ "แคลเซียม" (อ้าง รพ.กรุงเทพ และกรมการแพทย์)</a><br><span class="d">เปิดอ่านแล้ว · เผยแพร่ 5 ม.ค. 2566 · ค้น 27/11/2569 · ในบทความมีตัวเลขปริมาณแนะนำ 2 ชุดที่ไม่ตรงกัน เราใช้ชุดที่อ้างกรมอนามัย</span></li>
+  <li id="s3"><a href="https://www.bangkokbiznews.com/health/public-health/1236309" target="_blank" rel="noopener">กรุงเทพธุรกิจ: กรมอนามัยชวนดื่มนม (อนามัยโพล 2569: ดื่มนมจืดตามเกณฑ์ 19.6%)</a><br><span class="d">เปิดอ่านแล้ว · คาดว่าเผยแพร่ราว พ.ค. 2569 · ค้น 27/11/2569</span></li>
+  <li id="s4"><a href="https://pantip.com/topic/31825382" target="_blank" rel="noopener">Pantip: อยากได้คำแนะนำสำหรับแคลเซียมเม็ดสำหรับผู้สูงอายุค่ะ (คุณแม่อายุ 52)</a><br><span class="d">เปิดอ่านแล้ว · ไม่แสดงวันที่ · ค้น 27/11/2569</span></li>
+  <li id="s5"><a href="https://pantip.com/topic/41319633" target="_blank" rel="noopener">Pantip: ช่วยแนะนำนมแคลเซียมสูงสำหรับคนวัย40+หน่อยคะ</a><br><span class="d">เปิดอ่านแล้ว · ไม่แสดงวันที่ · ค้น 27/11/2569</span></li>
+  <li id="s6"><a href="https://pantip.com/topic/35767802" target="_blank" rel="noopener">Pantip: ขอคำแนะนำ แคลเซียม ที่ทานแล้วไม่ท้องผูก</a><br><span class="d">เปิดอ่านแล้ว · ไม่แสดงวันที่ · ค้น 27/11/2569</span></li>
+  <li id="s7"><a href="https://pantip.com/topic/34508160" target="_blank" rel="noopener">Pantip: กินแคลเซียมพร้อมวิตามินcได้มั้ยคะ?</a><br><span class="d">ผลการค้นหา · ค้น 27/11/2569</span></li>
+  <li id="s8"><a href="https://pantip.com/topic/33817854" target="_blank" rel="noopener">Pantip: ยารักษาโรค กินพร้อมกับอาหารเสริมได้ไหมค่ะ</a><br><span class="d">ผลการค้นหา · ค้น 27/11/2569</span></li>
+  <li id="s9"><a href="https://pantip.com/topic/34215004" target="_blank" rel="noopener">Pantip: "แคลเซียม" ต้องทานคู่กับวิตามินอื่นๆ ถึงจะดูดซึมดีจริงเหรอคะ?</a><br><span class="d">ผลการค้นหา · ค้น 27/11/2569</span></li>
+  <li id="s10"><a href="https://pantip.com/topic/36915885" target="_blank" rel="noopener">Pantip: Calcium กินยี่ห้อไหนดีคะ</a><br><span class="d">ผลการค้นหา · ค้น 27/11/2569</span></li>
+  <li id="s11"><a href="https://en.fda.moph.go.th/news/thai-fda-integrates-oversight-to-crack-down-on-exaggerated-advertising-of-dietary-supplements" target="_blank" rel="noopener">Thai FDA (อย.): Thai FDA Integrates Oversight to Crack Down on Exaggerated Advertising of Dietary Supplements</a><br><span class="d">เปิดอ่านแล้ว · เผยแพร่ 6 มี.ค. 2569 · ค้น 27/11/2569</span></li>
+  <li id="s12"><a href="https://www.bangkokbiznews.com/news/911855" target="_blank" rel="noopener">กรุงเทพธุรกิจ: อย. เตือนอย่าหลงเชื่ออาหารเสริมอ้างรักษาโรค แนะตรวจเลข อย. ผ่าน ORYOR / สายด่วน 1556</a><br><span class="d">เปิดอ่านแล้ว · เนื้อหาอาจเป็นข่าวเก่า (อ้างถึงปี 2563) · ค้น 27/11/2569</span></li>
+  <li id="s13"><a href="https://www.mayoclinic.org/diseases-conditions/hypothyroidism/expert-answers/hypothyroidism/faq-20058536" target="_blank" rel="noopener">Mayo Clinic: Can calcium supplements interfere with hypothyroidism treatment?</a><br><span class="d">ผลการค้นหา (เว็บไซต์ปฏิเสธการเปิดอัตโนมัติ) · ค้น 27/11/2569 · ใช้เพื่อยืนยันว่าเรื่องยาต้องส่งต่อเภสัชกรเท่านั้น</span></li>
+  <li><b>ไฟล์ภายใน:</b> output/lab2-comparison.html (ช่องที่เอาชนะได้ 3 ช่อง) · data/reviews_2025.csv (380 รีวิว นับจำนวนตามข้อความรีวิว) <span class="d">· อ่าน 27/11/2569</span></li>
+</ol>
+</div>
+
+<footer>Lab 3 · VitaDemo เป็นแบรนด์สมมุติ ข้อมูลใน data/ เป็นข้อมูลจำลอง · หัวข้อ content ทั้งหมดไม่อ้างว่ารักษา ป้องกัน หรือบรรเทาโรค · ยังไม่มีสูตร ขนาด หรือราคาของแคลเซียมสูตรใหม่ใน products.csv</footer>
+</div>
+<!--hub-resize--><script>(function(){if(window.parent===window)return;
+document.documentElement.style.overflow='hidden';var last=0;
+function send(){var b=document.body,cs=getComputedStyle(b);
+var h=Math.ceil(b.offsetHeight+parseFloat(cs.marginTop)+parseFloat(cs.marginBottom));
+if(Math.abs(h-last)>2){last=h;window.parent.postMessage({hubH:h},'*');}}
+if(window.ResizeObserver)new ResizeObserver(send).observe(document.body);
+addEventListener('load',send);setInterval(send,800);send();})();</script>
+</body>
+</html>

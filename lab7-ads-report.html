@@ -1,0 +1,318 @@
+<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lab 7 · Meta Ads</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{--bg:#07070a;--red:#e50914;--card:rgba(255,255,255,.035);--line:rgba(255,255,255,.08);--tx:#f2f2f4;--mute:#9a9aa6;--grey:#3a3a44}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--tx);font-family:"IBM Plex Sans Thai",system-ui,sans-serif;font-size:16px;line-height:1.65}
+body{background:radial-gradient(1200px 500px at 85% -10%,rgba(229,9,20,.16),transparent 60%),var(--bg)}
+.wrap{max-width:1240px;margin:0 auto;padding:36px 16px 80px}
+h1{font-size:clamp(26px,4vw,40px);margin:4px 0 6px;font-weight:700;letter-spacing:-.01em}h1 span{color:var(--red)}
+h2{font-size:22px;margin:0 0 4px;font-weight:600}h3{font-size:17px;margin:0 0 8px;font-weight:600}
+.eyebrow{color:var(--red);font-weight:600;font-size:13px;letter-spacing:.12em;text-transform:uppercase}
+.lead{color:var(--mute);max-width:820px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;margin-top:18px;backdrop-filter:blur(12px)}
+.grid{display:grid;gap:14px}.k4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}.g2{grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr))}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px 20px}
+.kpi .l{color:var(--mute);font-size:14px}.kpi .v{font-size:30px;font-weight:700;margin-top:2px}.kpi .s{color:var(--mute);font-size:13px}
+.kpi.hot{border-color:rgba(229,9,20,.45);box-shadow:0 0 0 1px rgba(229,9,20,.15) inset}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:10px}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:14px}
+th,td{padding:10px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--mute);font-weight:500;font-size:13px;white-space:nowrap;position:sticky;top:0}
+td.n,th.n{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+tr.tot td{border-top:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.03)}
+.sub{color:var(--mute);font-size:12px;font-weight:400}.muted{color:#6c6c78}
+.badge{display:inline-block;padding:3px 12px;border-radius:999px;font-size:13px;font-weight:600;white-space:nowrap}
+.b-up{background:var(--red);color:#fff}.b-down{background:var(--grey);color:#e6e6ea}.b-stop{border:1.5px solid var(--red);color:#ff5a61}
+.b-hold{border:1.5px dashed #6c6c78;color:#c8c8d0}
+.tag{display:inline-block;font-size:11px;padding:1px 8px;border-radius:999px;background:rgba(255,255,255,.08);color:#cfcfd6;margin-left:4px}
+.tag-red{background:rgba(229,9,20,.18);color:#ff7a80}
+.obj{font-size:12px;padding:2px 9px;border-radius:999px;border:1px solid var(--line)}.obj-Sales{color:#fff}.obj-Leads,.obj-Awareness{color:#ffb4b8;border-color:rgba(229,9,20,.35)}
+.neg{color:#ff6b72}.pos{color:#9be3b0}
+.recs{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));margin-top:12px}
+.rec{border:1px solid var(--line);border-radius:16px;padding:14px 16px;background:rgba(255,255,255,.02)}
+.rec-h{display:flex;gap:12px;align-items:flex-start}.rec p{margin:8px 0 0;color:#d6d6dc;font-size:14.5px}
+.formula{border-left:3px solid var(--red)}.formula code,.mono{font-family:ui-monospace,Consolas,monospace;font-size:14px;background:rgba(255,255,255,.06);padding:1px 6px;border-radius:6px}
+.formula li{margin:6px 0}
+.chart{position:relative;height:320px}
+ul.find li{margin:8px 0}
+.note{color:var(--mute);font-size:13px;margin-top:10px}
+.legend-note{font-size:13px;color:var(--mute)}
+</style></head><body><div class="wrap">
+<div class="eyebrow">VitaDemo · Lab 7 · ข้อมูลจำลอง</div>
+<h1>รายงานโฆษณา Meta <span>ก.ย.–พ.ย. 2568</span></h1>
+<p class="lead">อ่านจาก <span class="mono">data/meta_ads_export_2025-09_to_11.csv</span> · 774 แถวรายวัน · 6 แคมเปญ · 9 โฆษณา · 01/09/2025–30/11/2025 · ทุกตัวเลขคำนวณจากผลรวมดิบ ไม่ได้เฉลี่ยอัตราส่วนรายวัน</p>
+
+<div class="grid k4" style="margin-top:22px">
+<div class="kpi"><div class="l">งบรวม</div><div class="v">606,395 ฿</div><div class="s">Sales 456,399 ฿ · อื่นๆ 149,996 ฿</div></div>
+<div class="kpi"><div class="l">มูลค่าการซื้อรวม</div><div class="v">2,563,472 ฿</div><div class="s">2,132 ออร์เดอร์</div></div>
+<div class="kpi hot"><div class="l">ROAS เฉพาะแคมเปญ Sales</div><div class="v">5.60</div><div class="s">ทั้งบัญชี 4.23 (รวม Awareness/Leads ที่ไม่ได้มุ่งยอดขาย)</div></div>
+<div class="kpi"><div class="l">CPM พ.ย. เทียบ ก.ย.–ต.ค.</div><div class="v">+14.1%</div><div class="s">76.10 → 86.85 ฿ ต่อ 1,000 อิมเพรสชัน</div></div>
+</div>
+
+<div class="card formula"><h2>วิธีคิด</h2>
+<ul>
+<li><b>CTR</b> = <code>ผลรวม การคลิกลิงก์ ÷ ผลรวม อิมเพรสชัน × 100</code></li>
+<li><b>CPA</b> = <code>ผลรวม งบ ÷ ผลรวม การซื้อ</code> · แคมเปญ Leads ใช้ <b>ต้นทุนต่อลีด</b> = <code>งบ ÷ ผลลัพธ์ (ลีดฟอร์ม)</code> · Awareness ใช้ <b>ต้นทุนต่อ ThruPlay</b></li>
+<li><b>ROAS</b> = <code>ผลรวม มูลค่า Conversion การซื้อ ÷ ผลรวม งบ</code></li>
+<li><b>CPM</b> = <code>งบ ÷ อิมเพรสชัน × 1,000</code></li>
+<li><b>Frequency</b> = อิมเพรสชัน ÷ การเข้าถึง แต่ไฟล์นี้เป็นรายวัน การเข้าถึงรายวันบวกกันไม่ได้ (คนเดิมถูกนับซ้ำทุกวัน) จึงรายงานเป็น <b>ความถี่เฉลี่ยรายวัน ถ่วงน้ำหนักด้วยอิมเพรสชัน</b> = <code>Σ(ความถี่รายวัน × อิมเพรสชัน) ÷ Σ อิมเพรสชัน</code> · ความถี่สะสม 3 เดือนจริงต้อง export แบบไม่แยกวันจาก Ads Manager</li>
+<li><b>ห้าม</b>เฉลี่ยคอลัมน์ CTR / ROAS รายวันตรงๆ เพราะวันที่ใช้งบน้อยจะมีน้ำหนักเท่าวันที่ใช้งบมาก</li>
+<li><b>จุดคุ้มทุน ROAS</b> ≈ 1 ÷ อัตรากำไรขั้นต้น จาก products.csv (กำไรขั้นต้น 68.6–73.3% ที่ราคาเต็ม) = <b>1.36–1.46</b> · ยังไม่รวมส่วนลด ค่าส่ง ค่าธรรมเนียม จุดคุ้มทุนจริงจึงสูงกว่านี้</li>
+</ul></div>
+
+<div class="card"><h2>ภาพรวมรายแคมเปญ (3 เดือน)</h2><p class="legend-note">แคมเปญ Awareness/Leads ไม่ได้วัดยอดขาย ช่อง CPA/ROAS จึงเขียนว่า "ไม่ใช้" · ความถี่ = เฉลี่ยรายวันถ่วงน้ำหนักด้วยอิมเพรสชัน</p>
+<div class="scroll"><table><thead><tr><th>แคมเปญ</th><th>เป้าหมาย</th><th class="n">งบ (฿)</th><th class="n">อิมเพรสชัน</th><th class="n">คลิกลิงก์</th><th class="n">CTR</th><th class="n">CPM (฿)</th><th class="n">การซื้อ</th><th class="n">CPA (฿)</th><th class="n">มูลค่าซื้อ (฿)</th><th class="n">ROAS</th><th class="n">ความถี่*</th><th class="n">ผลลัพธ์</th><th class="n">ต้นทุน/ผลลัพธ์</th></tr></thead>
+<tbody><tr><td><b>VD_Sales_FishOil_50plus</b><div class="sub">2 โฆษณา</div></td>
+<td><span class="obj obj-Sales">Sales</span></td>
+<td class="n">140,511</td><td class="n">1,601,069</td><td class="n">21,112</td>
+<td class="n">1.32%</td><td class="n">87.76</td><td class="n">448</td>
+<td class="n">314</td><td class="n">557,395</td>
+<td class="n"><b>3.97</b></td>
+<td class="n">1.78</td><td class="n">448</td><td class="n">313.64</td></tr><tr><td><b>VD_Sales_Collagen_Evergreen</b><div class="sub">2 โฆษณา</div></td>
+<td><span class="obj obj-Sales">Sales</span></td>
+<td class="n">140,032</td><td class="n">1,327,805</td><td class="n">21,816</td>
+<td class="n">1.64%</td><td class="n">105.46</td><td class="n">661</td>
+<td class="n">212</td><td class="n">939,138</td>
+<td class="n"><b>6.71</b></td>
+<td class="n">1.67</td><td class="n">661</td><td class="n">211.85</td></tr><tr><td><b>VD_Sales_Lutein_Launch</b><div class="sub">2 โฆษณา</div></td>
+<td><span class="obj obj-Sales">Sales</span></td>
+<td class="n">131,717</td><td class="n">1,753,014</td><td class="n">31,109</td>
+<td class="n">1.77%</td><td class="n">75.14</td><td class="n">675</td>
+<td class="n">195</td><td class="n">664,134</td>
+<td class="n"><b>5.04</b></td>
+<td class="n">1.73</td><td class="n">675</td><td class="n">195.14</td></tr><tr><td><b>VD_Awareness_MultiVit_Brand</b><div class="sub">1 โฆษณา</div></td>
+<td><span class="obj obj-Awareness">Awareness</span></td>
+<td class="n">88,311</td><td class="n">2,181,533</td><td class="n">7,884</td>
+<td class="n">0.36%</td><td class="n">40.48</td><td class="n">8</td>
+<td class="n"><span class="muted">ไม่ใช้</span></td><td class="n">5,600</td>
+<td class="n"><b><span class="muted">ไม่ใช้</span></b></td>
+<td class="n">1.57</td><td class="n">467,463</td><td class="n">0.19</td></tr><tr><td><b>VD_Leads_LINE_Consult</b><div class="sub">1 โฆษณา</div></td>
+<td><span class="obj obj-Leads">Leads</span></td>
+<td class="n">61,686</td><td class="n">528,925</td><td class="n">6,405</td>
+<td class="n">1.21%</td><td class="n">116.62</td><td class="n">0</td>
+<td class="n"><span class="muted">ไม่ใช้</span></td><td class="n">0</td>
+<td class="n"><b><span class="muted">ไม่ใช้</span></b></td>
+<td class="n">1.70</td><td class="n">579</td><td class="n">106.54</td></tr><tr><td><b>VD_Retarget_ViewContent_7d</b><div class="sub">1 โฆษณา</div></td>
+<td><span class="obj obj-Sales">Sales</span></td>
+<td class="n">44,139</td><td class="n">261,489</td><td class="n">6,110</td>
+<td class="n">2.34%</td><td class="n">168.80</td><td class="n">340</td>
+<td class="n">130</td><td class="n">397,205</td>
+<td class="n"><b>9.00</b></td>
+<td class="n">1.96</td><td class="n">340</td><td class="n">129.82</td></tr><tr class="tot"><td><b>รวมทั้งบัญชี</b></td><td></td><td class="n">606,395</td>
+<td class="n">7,653,835</td><td class="n">94,436</td><td class="n">1.23%</td>
+<td class="n">79.23</td><td class="n">2,132</td><td class="n">–</td>
+<td class="n">2,563,472</td><td class="n"><b>4.23</b></td>
+<td class="n">1.69</td><td class="n">–</td><td class="n">–</td></tr></tbody></table></div></div>
+
+<div class="card"><h2>รายโฆษณา (9 ตัว) และคำแนะนำ</h2><p class="legend-note">เรียงจากควรเพิ่มงบ → หยุด · แท็ก <span class="tag tag-red">ล้า</span> = ความถี่ 4 สัปดาห์หลังสูงขึ้น &gt;15% และ CTR ลด &gt;15% เทียบ 4 สัปดาห์แรก</p>
+<div class="scroll"><table><thead><tr><th>โฆษณา</th><th>เป้าหมาย</th><th class="n">งบ (฿)</th><th class="n">สัดส่วน</th><th class="n">อิมเพรสชัน</th><th class="n">คลิก</th><th class="n">CTR</th><th class="n">CPM</th><th class="n">ซื้อ</th><th class="n">CPA (฿)</th><th class="n">มูลค่าซื้อ (฿)</th><th class="n">ROAS</th><th class="n">ความถี่*</th><th class="n">ผลลัพธ์</th><th class="n">ต้นทุน/ผลลัพธ์</th><th>คำแนะนำ</th></tr></thead>
+<tbody><tr>
+<td><b>VDO_เภสัชกรแนะนำ_30s</b><div class="sub">Sales_FishOil_50plus · ชายหญิง 50+ สุขภาพ</div></td>
+<td><span class="obj obj-Sales">Sales</span></td>
+<td class="n">69,691</td><td class="n">11.5%</td>
+<td class="n">757,262</td><td class="n">14,140</td><td class="n">1.87%</td>
+<td class="n">92.03</td>
+<td class="n">375</td><td class="n">186</td>
+<td class="n">480,779</td><td class="n"><b>6.90</b></td>
+<td class="n">1.43</td>
+<td class="n">375<div class="sub">การซื้อบนเว็บไซต์</div></td><td class="n">185.84</td>
+<td><span class="badge b-up">เพิ่มงบ</span></td></tr><tr>
+<td><b>VDO_รีวิวลูกค้าจริง_15s</b><div class="sub">Sales_Collagen_Evergreen · หญิง 40-60 สนใจความงาม</div></td>
+<td><span class="obj obj-Sales">Sales</span></td>
+<td class="n">78,429</td><td class="n">12.9%</td>
+<td class="n">776,895</td><td class="n">14,584</td><td class="n">1.88%</td>
+<td class="n">100.95</td>
+<td class="n">460</td><td class="n">170</td>
+<td class="n">614,530</td><td class="n"><b>7.84</b></td>
+<td class="n">1.57</td>
+<td class="n">460<div class="sub">การซื้อบนเว็บไซต์</div></td><td class="n">170.50</td>
+<td><span class="badge b-up">เพิ่มงบ</span></td></tr><tr>
+<td><b>DPA_สินค้าที่ดูล่าสุด</b> <span class="tag tag-red">ล้า</span><div class="sub">Retarget_ViewContent_7d · Retarget ดูสินค้า 7 วัน</div></td>
+<td><span class="obj obj-Sales">Sales</span></td>
+<td class="n">44,139</td><td class="n">7.3%</td>
+<td class="n">261,489</td><td class="n">6,110</td><td class="n">2.34%</td>
+<td class="n">168.80</td>
+<td class="n">340</td><td class="n">130</td>
+<td class="n">397,205</td><td class="n"><b>9.00</b></td>
+<td class="n">1.96</td>
+<td class="n">340<div class="sub">การซื้อบนเว็บไซต์</div></td><td class="n">129.82</td>
+<td><span class="badge b-up">เพิ่มงบ</span></td></tr><tr>
+<td><b>VDO_ทำงานหน้าจอทั้งวัน_15s</b> <span class="tag tag-red">ล้า</span><div class="sub">Sales_Lutein_Launch · Advantage+ Audience</div></td>
+<td><span class="obj obj-Sales">Sales</span></td>
+<td class="n">104,892</td><td class="n">17.3%</td>
+<td class="n">1,378,061</td><td class="n">28,756</td><td class="n">2.09%</td>
+<td class="n">76.12</td>
+<td class="n">667</td><td class="n">157</td>
+<td class="n">656,611</td><td class="n"><b>6.26</b></td>
+<td class="n">1.70</td>
+<td class="n">667<div class="sub">การซื้อบนเว็บไซต์</div></td><td class="n">157.26</td>
+<td><span class="badge b-up">เพิ่มงบ</span></td></tr><tr>
+<td><b>Carousel_โปรซื้อ2แถม1</b> <span class="tag tag-red">ล้า</span><div class="sub">Sales_Collagen_Evergreen · หญิง 40-60 สนใจความงาม</div></td>
+<td><span class="obj obj-Sales">Sales</span></td>
+<td class="n">61,603</td><td class="n">10.2%</td>
+<td class="n">550,910</td><td class="n">7,232</td><td class="n">1.31%</td>
+<td class="n">111.82</td>
+<td class="n">201</td><td class="n">306</td>
+<td class="n">324,608</td><td class="n"><b>5.27</b></td>
+<td class="n">1.82</td>
+<td class="n">201<div class="sub">การซื้อบนเว็บไซต์</div></td><td class="n">306.48</td>
+<td><span class="badge b-down">ลดงบ</span></td></tr><tr>
+<td><b>Static_ครอบครัว_แพ็กคู่</b> <span class="tag tag-red">ล้า</span><div class="sub">Sales_FishOil_50plus · ชายหญิง 50+ สุขภาพ</div></td>
+<td><span class="obj obj-Sales">Sales</span></td>
+<td class="n">70,820</td><td class="n">11.7%</td>
+<td class="n">843,807</td><td class="n">6,972</td><td class="n">0.83%</td>
+<td class="n">83.93</td>
+<td class="n">73</td><td class="n">970</td>
+<td class="n">76,616</td><td class="n"><b>1.08</b></td>
+<td class="n">2.09</td>
+<td class="n">73<div class="sub">การซื้อบนเว็บไซต์</div></td><td class="n">970.14</td>
+<td><span class="badge b-stop">หยุด</span></td></tr><tr>
+<td><b>Static_ป้ายราคาใหญ่</b> <span class="tag">หยุดส่ง 16/10</span> <span class="tag tag-red">ล้า</span><div class="sub">Sales_Lutein_Launch · Advantage+ Audience</div></td>
+<td><span class="obj obj-Sales">Sales</span></td>
+<td class="n">26,824</td><td class="n">4.4%</td>
+<td class="n">374,953</td><td class="n">2,353</td><td class="n">0.63%</td>
+<td class="n">71.54</td>
+<td class="n">8</td><td class="n">3,353</td>
+<td class="n">7,523</td><td class="n"><b>0.28</b></td>
+<td class="n">1.86</td>
+<td class="n">8<div class="sub">การซื้อบนเว็บไซต์</div></td><td class="n">3,353.06</td>
+<td><span class="badge b-stop">หยุด</span></td></tr><tr>
+<td><b>Lead_ปรึกษาเภสัชกรฟรี</b> <span class="tag tag-red">ล้า</span><div class="sub">Leads_LINE_Consult · Lookalike 3% ลูกค้าเดิม</div></td>
+<td><span class="obj obj-Leads">Leads</span></td>
+<td class="n">61,686</td><td class="n">10.2%</td>
+<td class="n">528,925</td><td class="n">6,405</td><td class="n">1.21%</td>
+<td class="n">116.62</td>
+<td class="n">0</td><td class="n"><span class="muted">ไม่ใช้</span></td>
+<td class="n">0</td><td class="n"><b><span class="muted">ไม่ใช้</span></b></td>
+<td class="n">1.70</td>
+<td class="n">579<div class="sub">ลีด (ฟอร์ม)</div></td><td class="n">106.54</td>
+<td><span class="badge b-down">ลดงบ</span></td></tr><tr>
+<td><b>VDO_วันธรรมดาของคุณยาย_6s</b><div class="sub">Awareness_MultiVit_Brand · ชายหญิง 45-65 ทั่วประเทศ</div></td>
+<td><span class="obj obj-Awareness">Awareness</span></td>
+<td class="n">88,311</td><td class="n">14.6%</td>
+<td class="n">2,181,533</td><td class="n">7,884</td><td class="n">0.36%</td>
+<td class="n">40.48</td>
+<td class="n">8</td><td class="n"><span class="muted">ไม่ใช้</span></td>
+<td class="n">5,600</td><td class="n"><b><span class="muted">ไม่ใช้</span></b></td>
+<td class="n">1.57</td>
+<td class="n">467,463<div class="sub">ThruPlay</div></td><td class="n">0.19</td>
+<td><span class="badge b-hold">คงงบ</span></td></tr></tbody></table></div>
+<div class="recs"><div class="rec"><div class="rec-h"><span class="badge b-up">เพิ่มงบ</span><div><b>VDO_เภสัชกรแนะนำ_30s</b><div class="sub">Sales_FishOil_50plus</div></div></div><p>ROAS 6.90 · CPA 186 ฿ · ล้าน้อยที่สุดในกลุ่ม Sales: ความถี่ 4 สัปดาห์หลังแค่ 1.52 และ CTR ทรงตัว (1.97 → 1.82%) ยังมีที่ว่างให้ขยาย ย้ายงบจาก Static_ครอบครัว_แพ็กคู่ ในชุดโฆษณาเดียวกันมาที่ตัวนี้</p></div><div class="rec"><div class="rec-h"><span class="badge b-up">เพิ่มงบ</span><div><b>VDO_รีวิวลูกค้าจริง_15s</b><div class="sub">Sales_Collagen_Evergreen</div></div></div><p>ROAS 7.84 สูงอันดับ 2 · CPA 170 ฿ · CTR ลดช้า (2.03 → 1.73%) ความถี่ 1.37 → 1.78 ยังไม่ล้า ย้ายงบจาก Carousel ในชุดเดียวกันมาเพิ่ม ทีละ 20%</p></div><div class="rec"><div class="rec-h"><span class="badge b-up">เพิ่มงบ</span><div><b>DPA_สินค้าที่ดูล่าสุด</b><div class="sub">Retarget_ViewContent_7d</div></div></div><p>ROAS รวม 9.00 สูงสุด · CPA 130 ฿ ต่ำสุด แต่ระวัง: ความถี่ 1.50 → 2.43 (เพิ่มเร็ว) CTR 2.96 → 1.72% และ ROAS 13.10 → 5.42 กลุ่ม retarget 7 วันเริ่มอิ่ม เพิ่มงบได้เล็กน้อย (≤15%) พร้อมขยายหน้าต่างเป็น 14–30 วัน ถ้าความถี่เกิน 3 ให้หยุดเพิ่ม</p></div><div class="rec"><div class="rec-h"><span class="badge b-up">เพิ่มงบ</span><div><b>VDO_ทำงานหน้าจอทั้งวัน_15s</b><div class="sub">Sales_Lutein_Launch</div></div></div><p>ปริมาณขายมากสุด 667 ออร์เดอร์ · ROAS 6.26 · CPA 157 ฿ · รับงบที่เหลือจาก Static_ป้ายราคาใหญ่ (ปิดไปแล้ว) แต่ CTR เริ่มลด (2.32 → 1.85%) ความถี่ 1.42 → 1.99 ควรเตรียมวิดีโอตัวใหม่ไว้สลับ</p></div><div class="rec"><div class="rec-h"><span class="badge b-down">ลดงบ</span><div><b>Carousel_โปรซื้อ2แถม1</b><div class="sub">Sales_Collagen_Evergreen</div></div></div><p>ยังกำไร (ROAS 5.27 > จุดคุ้มทุน 1.36–1.46) แต่ต่ำกว่า VDO_รีวิวลูกค้าจริง ในชุดเดียวกัน (7.84) และ CPA แพงกว่า (306 vs 170 ฿) · เริ่มล้า: ความถี่ 1.45 → 2.22 CTR 1.46 → 1.15%</p></div><div class="rec"><div class="rec-h"><span class="badge b-stop">หยุด</span><div><b>Static_ครอบครัว_แพ็กคู่</b><div class="sub">Sales_FishOil_50plus</div></div></div><p>ROAS รวม 1.08 ต่ำกว่าจุดคุ้มทุน 1.36–1.46 · 4 สัปดาห์หลังเหลือ 0.62 · CPA 970 ฿ (แพงกว่า VDO_เภสัชกร ในชุดเดียวกัน 5.2 เท่า) · ครีเอทีฟล้าชัด: ความถี่ 1.54 → 2.67 CTR 1.05 → 0.60%</p></div><div class="rec"><div class="rec-h"><span class="badge b-stop">หยุด</span><div><b>Static_ป้ายราคาใหญ่</b><div class="sub">Sales_Lutein_Launch</div></div></div><p>ถูกปิดไปแล้วหลัง 16/10/2025 (46 วัน) ยืนยันว่าไม่ควรเปิดกลับ: ROAS 0.28 (ใช้ 26,824 ฿ ได้ยอด 7,523 ฿) · CPA 3,353 ฿ · CTR 0.63% ต่ำสุดในกลุ่ม Sales</p></div><div class="rec"><div class="rec-h"><span class="badge b-down">ลดงบ</span><div><b>Lead_ปรึกษาเภสัชกรฟรี</b><div class="sub">Leads_LINE_Consult</div></div></div><p>ห้ามดู ROAS (เป็น 0 เพราะเป้าหมายคือลีด) · ได้ 579 ลีด ต้นทุน 106.54 ฿/ลีด แต่แพงขึ้น 100.62 → 152.22 ฿ จาก CTR ที่ลด (1.35 → 1.05%) และ CPM พ.ย. · ไฟล์นี้ไม่มีข้อมูลว่าลีดซื้อจริงกี่ราย ลดงบลงจนกว่าจะวัดได้ว่าลีดปิดการขาย ≥ 13% (จุดคุ้มทุนคร่าวๆ)</p></div><div class="rec"><div class="rec-h"><span class="badge b-hold">คงงบ</span><div><b>VDO_วันธรรมดาของคุณยาย_6s</b><div class="sub">Awareness_MultiVit_Brand</div></div></div><p>ห้ามดู ROAS · CPM 40.48 ฿ ถูกที่สุด · ThruPlay 467,463 ครั้ง = 21.4% ของอิมเพรสชัน ต้นทุน 0.19 ฿/ThruPlay · ความถี่เฉลี่ย 1.57 ยังไม่ล้น · CPM พ.ย. แพงขึ้น (39.98 → 44.02 ฿) จึงไม่เพิ่มช่วงนี้</p></div></div>
+<p class="note">ลำดับย้ายงบที่แนะนำ: ปิด Static_ครอบครัว_แพ็กคู่ (778 ฿/วัน) → ย้ายไป VDO_เภสัชกรแนะนำ_30s ในชุดโฆษณาเดียวกัน · ลด Carousel → เพิ่ม VDO_รีวิวลูกค้าจริง · ปรับครั้งละไม่เกิน 20% แล้วดูผล 3–4 วันก่อนปรับต่อ · "คงงบ" ใช้กับแคมเปญที่ไม่มีตัวเลขพอจะสรุปว่าควรเพิ่มหรือลด</p></div>
+
+<div class="card"><h2>แนวโน้มรายสัปดาห์ (ISO week)</h2>
+<p class="legend-note">W36 = (01/09–07/09) ถึง W48 = (24/11–30/11) (ครบ 13 สัปดาห์พอดี) · คลิกชื่อในคำอธิบายกราฟเพื่อซ่อน/แสดงเส้น</p>
+<div class="grid g2" style="margin-top:12px">
+<div><h3>CTR รายสัปดาห์ (%)</h3><div class="chart"><canvas id="cCtr"></canvas></div></div>
+<div><h3>ความถี่เฉลี่ยรายวัน (รายสัปดาห์)</h3><div class="chart"><canvas id="cFreq"></canvas></div></div>
+<div><h3>ROAS รายสัปดาห์ (เฉพาะ Sales)</h3><div class="chart"><canvas id="cRoas"></canvas></div></div>
+<div><h3>CPM ทั้งบัญชีรายเดือน (฿)</h3><div class="chart"><canvas id="cCpm"></canvas></div></div>
+</div>
+<h3 style="margin-top:22px">4 สัปดาห์แรก เทียบ 4 สัปดาห์สุดท้ายที่มีการส่ง</h3>
+<div class="scroll"><table><thead><tr><th>โฆษณา</th><th class="n">ความถี่</th><th class="n">CTR %</th><th class="n">ROAS</th><th class="n">CPM (฿)</th></tr></thead><tbody><tr><td><b>VDO_เภสัชกรแนะนำ_30s</b><div class="sub">W36–39 เทียบ W45–48</div></td>
+<td class="n">1.34 → <b>1.52</b></td>
+<td class="n">1.97 → <b>1.82</b> <span class="neg">(-8%)</span></td>
+<td class="n">8.22 → <b>4.75</b></td>
+<td class="n">91.08 → <b>101.62</b></td></tr><tr><td><b>VDO_รีวิวลูกค้าจริง_15s</b><div class="sub">W36–39 เทียบ W45–48</div></td>
+<td class="n">1.37 → <b>1.78</b></td>
+<td class="n">2.03 → <b>1.73</b> <span class="neg">(-14%)</span></td>
+<td class="n">8.46 → <b>7.06</b></td>
+<td class="n">97.21 → <b>111.67</b></td></tr><tr><td><b>DPA_สินค้าที่ดูล่าสุด</b> <span class="tag tag-red">ล้า</span><div class="sub">W36–39 เทียบ W45–48</div></td>
+<td class="n">1.50 → <b>2.43</b></td>
+<td class="n">2.96 → <b>1.72</b> <span class="neg">(-42%)</span></td>
+<td class="n">13.10 → <b>5.42</b></td>
+<td class="n">159.24 → <b>185.07</b></td></tr><tr><td><b>VDO_ทำงานหน้าจอทั้งวัน_15s</b> <span class="tag tag-red">ล้า</span><div class="sub">W36–39 เทียบ W45–48</div></td>
+<td class="n">1.42 → <b>1.99</b></td>
+<td class="n">2.32 → <b>1.85</b> <span class="neg">(-20%)</span></td>
+<td class="n">7.50 → <b>5.51</b></td>
+<td class="n">71.48 → <b>81.56</b></td></tr><tr><td><b>Carousel_โปรซื้อ2แถม1</b> <span class="tag tag-red">ล้า</span><div class="sub">W36–39 เทียบ W45–48</div></td>
+<td class="n">1.45 → <b>2.22</b></td>
+<td class="n">1.46 → <b>1.15</b> <span class="neg">(-21%)</span></td>
+<td class="n">5.88 → <b>5.11</b></td>
+<td class="n">104.54 → <b>123.70</b></td></tr><tr><td><b>Static_ครอบครัว_แพ็กคู่</b> <span class="tag tag-red">ล้า</span><div class="sub">W36–39 เทียบ W45–48</div></td>
+<td class="n">1.54 → <b>2.67</b></td>
+<td class="n">1.05 → <b>0.60</b> <span class="neg">(-43%)</span></td>
+<td class="n">1.34 → <b>0.62</b></td>
+<td class="n">81.52 → <b>92.37</b></td></tr><tr><td><b>Static_ป้ายราคาใหญ่</b> <span class="tag tag-red">ล้า</span><div class="sub">W36–39 เทียบ W39–42</div></td>
+<td class="n">1.63 → <b>2.11</b></td>
+<td class="n">0.69 → <b>0.55</b> <span class="neg">(-21%)</span></td>
+<td class="n">0.31 → <b>0.24</b></td>
+<td class="n">71.25 → <b>71.06</b></td></tr><tr><td><b>Lead_ปรึกษาเภสัชกรฟรี</b> <span class="tag tag-red">ล้า</span><div class="sub">W36–39 เทียบ W45–48</div></td>
+<td class="n">1.42 → <b>1.99</b></td>
+<td class="n">1.35 → <b>1.05</b> <span class="neg">(-23%)</span></td>
+<td class="n"><span class="muted">ไม่ใช้</span></td>
+<td class="n">114.21 → <b>128.57</b></td></tr><tr><td><b>VDO_วันธรรมดาของคุณยาย_6s</b><div class="sub">W36–39 เทียบ W45–48</div></td>
+<td class="n">1.40 → <b>1.74</b></td>
+<td class="n">0.39 → <b>0.34</b> <span class="neg">(-12%)</span></td>
+<td class="n"><span class="muted">ไม่ใช้</span></td>
+<td class="n">37.87 → <b>43.96</b></td></tr></tbody></table></div>
+<ul class="find">
+<li><b>ครีเอทีฟล้า (ความถี่ขึ้น CTR ลง):</b> Static_ครอบครัว_แพ็กคู่ ชัดสุด ความถี่ 1.54 → 2.67 CTR 1.05 → 0.60% ROAS 1.34 → 0.62 · DPA_สินค้าที่ดูล่าสุด ก็ล้าแรง ความถี่ 1.50 → 2.43 CTR 2.96 → 1.72% ROAS 13.10 → 5.42 (กลุ่ม retarget เล็ก เห็นซ้ำเร็ว) · Carousel_โปรซื้อ2แถม1 ความถี่ 1.45 → 2.22 CTR 1.46 → 1.15%</li>
+<li><b>ทนที่สุด:</b> VDO_เภสัชกรแนะนำ_30s ความถี่ 1.34 → 1.52 CTR 1.97 → 1.82% และ VDO_รีวิวลูกค้าจริง_15s CTR 2.03 → 1.73%</li>
+<li><b>ถูกหยุดกลางทาง:</b> Static_ป้ายราคาใหญ่ ส่งถึง 16/10/2025 แล้วไม่มีแถวอีก (46 จาก 91 วัน) · หมายเหตุ คอลัมน์ "สถานะการส่ง" ในไฟล์เป็น "ใช้งานอยู่" ทุกแถว เพราะ export รายวันแสดงสถานะของวันที่มีการส่ง ต้องดูจากวันสุดท้ายที่มีข้อมูลแทน</li>
+<li><b>CPM แพงขึ้นในเดือน พ.ย. ตามฤดูกาล:</b> ก.ย. 75.49 · ต.ค. 76.71 · พ.ย. 86.85 ฿ (+14.1% เทียบ ก.ย.–ต.ค.) ทุกโฆษณาแพงขึ้น เช่น DPA 164.17 → 185.14 ฿ · ตัวเลข พ.ย. ที่แย่ลงส่วนหนึ่งมาจากค่าโฆษณาแพง ไม่ใช่ครีเอทีฟอย่างเดียว</li>
+<li><b>วันเลขเบิ้ล:</b> 10.10 และ 11.11 งบรายวันถูกดันขึ้นเกือบ 2 เท่า สัปดาห์ W41 และ W46 จึงมีงบสูงกว่าปกติ</li>
+</ul></div>
+
+<div class="card"><h2>แคมเปญที่ไม่ได้มุ่งยอดขาย ควรอ่านด้วยตัวเลขไหน</h2>
+<div class="grid g2" style="margin-top:10px">
+<div class="rec"><h3>VD_Awareness_MultiVit_Brand <span class="obj obj-Awareness">Awareness</span></h3>
+<p>ROAS 0.06 ไม่ได้แปลว่าแย่ เพราะแคมเปญนี้ซื้อการมองเห็น ไม่ได้ซื้อการคลิก ให้ดู:</p>
+<ul class="find">
+<li><b>CPM</b> 40.48 ฿ (ถูกที่สุดในบัญชี เฉลี่ยบัญชี 79.23 ฿)</li>
+<li><b>ThruPlay</b> 467,463 ครั้ง · <b>อัตรา ThruPlay</b> = ThruPlay ÷ อิมเพรสชัน = 21.4% · <b>ต้นทุนต่อ ThruPlay</b> 0.189 ฿</li>
+<li><b>Reach / Frequency</b> ความถี่เฉลี่ยรายวัน 1.57 (ช่วง 1.40 → 1.74) · การเข้าถึงรายวันรวม 1,402,338 (นับซ้ำ ไม่ใช่คนไม่ซ้ำ)</li>
+<li>สิ่งที่ไฟล์<b>ไม่มี</b>: reach ไม่ซ้ำ 3 เดือน, Brand lift / ad recall, การค้นหาชื่อแบรนด์, ยอดขายที่ตามมาในช่องทางอื่น (ควรขอเพิ่ม)</li>
+</ul></div>
+<div class="rec"><h3>VD_Leads_LINE_Consult <span class="obj obj-Leads">Leads</span></h3>
+<p>ROAS เป็น 0 เพราะการซื้อเกิดหลังลีด นอก Meta ให้ดู:</p>
+<ul class="find">
+<li><b>ต้นทุนต่อลีด (CPL)</b> = งบ ÷ ลีด = 61,685.60 ÷ 579 = <b>106.54 ฿</b> · 4 สัปดาห์แรก → หลัง 100.62 → 152.22 ฿</li>
+<li><b>อัตราลีดต่อคลิก</b> 9.0% · CTR 1.21% · CPM 116.62 ฿</li>
+<li><b>คุณภาพลีด</b>: % ที่ติดต่อได้ / % ที่แอด LINE / % ที่ซื้อจริงภายใน 30 วัน → ต้นทุนต่อลูกค้าจริง · ไฟล์นี้<b>ไม่มี</b>ข้อมูลส่วนนี้ (และ leads_raw.csv ไม่มีแหล่ง "Lead form" ให้จับคู่)</li>
+<li>คิดย้อนกลับ: ถ้าค่าโฆษณาต่อออร์เดอร์ต้องไม่เกินกำไรขั้นต้น กำไรขั้นต้นต่อออร์เดอร์ ≈ ยอดเฉลี่ย 1,204 ฿ ÷ 1.46 = 827 ฿ → ลีดต้องปิดการขายได้ ≥ 106.54 ÷ 827 = <b>13%</b> จึงคุ้ม (ก่อนหักส่วนลด/ค่าส่ง)</li>
+<li>ถ้ามีคนถามเรื่องการทานคู่กับยาหรือโรคประจำตัว ให้ส่งต่อเภสัชกร</li>
+</ul></div></div>
+<div class="chart" style="height:260px;margin-top:14px"><canvas id="cNon"></canvas></div></div>
+
+<div class="card formula"><h2>ตัวอย่างคิดมือ: VD_Sales_Collagen_Evergreen</h2>
+<p class="legend-note">ผลรวม 91 วัน ของ 2 โฆษณาในแคมเปญ (เอาไปกดเครื่องคิดเลขตามได้)</p>
+<div class="scroll"><table><thead><tr><th>โฆษณา</th><th class="n">งบ (฿)</th><th class="n">อิมเพรสชัน</th><th class="n">คลิกลิงก์</th><th class="n">การซื้อ</th><th class="n">มูลค่าซื้อ (฿)</th><th class="n">Σ ความถี่×อิมเพรสชัน</th></tr></thead><tbody><tr><td>Carousel_โปรซื้อ2แถม1</td><td class='n'>61,602.73</td><td class='n'>550,910</td><td class='n'>7,232</td><td class='n'>201</td><td class='n'>324,608</td><td class='n'>1,004,422.63</td></tr><tr><td>VDO_รีวิวลูกค้าจริง_15s</td><td class='n'>78,429.08</td><td class='n'>776,895</td><td class='n'>14,584</td><td class='n'>460</td><td class='n'>614,530</td><td class='n'>1,218,987.51</td></tr><tr class='tot'><td><b>รวมแคมเปญ</b></td><td class='n'><b>140,031.81</b></td><td class='n'><b>1,327,805</b></td><td class='n'><b>21,816</b></td><td class='n'><b>661</b></td><td class='n'><b>939,138</b></td><td class='n'><b>2,223,410.14</b></td></tr></tbody></table></div>
+<ul>
+<li>CTR = 21,816 ÷ 1,327,805 × 100 = <b>1.64%</b></li>
+<li>CPA = 140,031.81 ÷ 661 = <b>211.85 ฿</b></li>
+<li>ROAS = 939,138 ÷ 140,031.81 = <b>6.71</b></li>
+<li>CPM = 140,031.81 ÷ 1,327,805 × 1,000 = <b>105.46 ฿</b></li>
+<li>ความถี่เฉลี่ยรายวัน = 2,223,410.14 ÷ 1,327,805 = <b>1.67</b></li>
+</ul></div>
+
+<p class="note">ข้อมูลจำลองเพื่อการอบรม VitaDemo · สร้างโดย lab7_ads.py · งบรวมตรวจแล้ว 606,395.17 ฿ · มูลค่าซื้อรวม 2,563,472 ฿</p>
+</div>
+<script>
+const D={"labels": ["W36", "W37", "W38", "W39", "W40", "W41", "W42", "W43", "W44", "W45", "W46", "W47", "W48"], "long": ["W36 (01/09–07/09)", "W37 (08/09–14/09)", "W38 (15/09–21/09)", "W39 (22/09–28/09)", "W40 (29/09–05/10)", "W41 (06/10–12/10)", "W42 (13/10–19/10)", "W43 (20/10–26/10)", "W44 (27/10–02/11)", "W45 (03/11–09/11)", "W46 (10/11–16/11)", "W47 (17/11–23/11)", "W48 (24/11–30/11)"], "ctr": {"VDO_เภสัชกรแนะนำ_30s": [1.951, 2.065, 1.856, 2.002, 1.896, 1.732, 1.872, 1.847, 1.813, 1.766, 1.926, 1.705, 1.852], "VDO_รีวิวลูกค้าจริง_15s": [2.128, 1.987, 1.959, 2.028, 1.836, 1.952, 1.871, 1.892, 1.759, 1.698, 1.755, 1.697, 1.778], "DPA_สินค้าที่ดูล่าสุด": [3.107, 3.246, 2.715, 2.754, 2.563, 2.374, 2.355, 2.003, 2.04, 1.844, 1.621, 1.835, 1.6], "VDO_ทำงานหน้าจอทั้งวัน_15s": [2.438, 2.357, 2.243, 2.245, 2.152, 2.08, 2.238, 2.0, 1.885, 1.873, 1.88, 1.885, 1.764], "Carousel_โปรซื้อ2แถม1": [1.429, 1.504, 1.501, 1.417, 1.435, 1.327, 1.272, 1.257, 1.219, 1.272, 1.166, 1.108, 1.058], "Static_ครอบครัว_แพ็กคู่": [1.108, 1.106, 1.079, 0.879, 0.912, 0.837, 0.827, 0.732, 0.762, 0.675, 0.572, 0.644, 0.502], "Static_ป้ายราคาใหญ่": [0.744, 0.721, 0.729, 0.572, 0.54, 0.513, 0.572, null, null, null, null, null, null], "Lead_ปรึกษาเภสัชกรฟรี": [1.319, 1.485, 1.283, 1.327, 1.322, 1.164, 1.197, 1.201, 1.211, 0.985, 1.185, 0.972, 1.029], "VDO_วันธรรมดาของคุณยาย_6s": [0.366, 0.408, 0.372, 0.402, 0.36, 0.377, 0.369, 0.301, 0.362, 0.335, 0.329, 0.363, 0.343]}, "freq": {"VDO_เภสัชกรแนะนำ_30s": [1.328, 1.32, 1.348, 1.369, 1.385, 1.411, 1.448, 1.453, 1.473, 1.488, 1.49, 1.565, 1.559], "VDO_รีวิวลูกค้าจริง_15s": [1.327, 1.355, 1.37, 1.435, 1.483, 1.518, 1.57, 1.658, 1.659, 1.701, 1.787, 1.762, 1.852], "DPA_สินค้าที่ดูล่าสุด": [1.338, 1.449, 1.542, 1.669, 1.787, 1.839, 1.976, 2.114, 2.229, 2.245, 2.364, 2.466, 2.644], "VDO_ทำงานหน้าจอทั้งวัน_15s": [1.328, 1.389, 1.452, 1.502, 1.617, 1.67, 1.7, 1.793, 1.798, 1.912, 1.95, 2.023, 2.09], "Carousel_โปรซื้อ2แถม1": [1.331, 1.397, 1.533, 1.532, 1.706, 1.73, 1.836, 1.938, 2.05, 2.104, 2.142, 2.282, 2.354], "Static_ครอบครัว_แพ็กคู่": [1.382, 1.452, 1.627, 1.744, 1.881, 1.985, 2.068, 2.265, 2.331, 2.462, 2.616, 2.742, 2.855], "Static_ป้ายราคาใหญ่": [1.382, 1.532, 1.718, 1.879, 2.071, 2.239, 2.357, null, null, null, null, null, null], "Lead_ปรึกษาเภสัชกรฟรี": [1.329, 1.379, 1.451, 1.512, 1.59, 1.631, 1.702, 1.756, 1.858, 1.874, 1.982, 2.037, 2.089], "VDO_วันธรรมดาของคุณยาย_6s": [1.318, 1.426, 1.428, 1.436, 1.488, 1.5, 1.62, 1.625, 1.687, 1.708, 1.729, 1.75, 1.785]}, "roas": {"VDO_เภสัชกรแนะนำ_30s": [8.001, 8.726, 8.127, 8.032, 10.289, 7.474, 6.548, 7.808, 5.929, 3.395, 5.591, 3.676, 6.288], "VDO_รีวิวลูกค้าจริง_15s": [10.321, 7.823, 8.194, 7.582, 8.716, 8.219, 9.56, 8.402, 4.951, 7.747, 8.256, 4.473, 7.614], "DPA_สินค้าที่ดูล่าสุด": [12.674, 15.891, 9.836, 13.825, 9.634, 8.061, 8.065, 7.827, 9.842, 6.637, 4.498, 5.15, 5.421], "VDO_ทำงานหน้าจอทั้งวัน_15s": [7.442, 7.158, 8.127, 7.287, 6.42, 6.099, 6.788, 4.62, 5.58, 6.617, 5.242, 4.998, 5.253], "Carousel_โปรซื้อ2แถม1": [6.22, 8.807, 4.871, 3.701, 5.721, 3.907, 4.607, 7.089, 3.364, 5.112, 5.681, 4.424, 5.109], "Static_ครอบครัว_แพ็กคู่": [1.621, 1.134, 1.443, 1.166, 1.037, 1.894, 1.347, 0.598, 1.284, 0.743, 0.647, 0.484, 0.593], "Static_ป้ายราคาใหญ่": [0.0, 0.315, 0.706, 0.245, 0.215, 0.189, 0.37, null, null, null, null, null, null]}, "cpm_month": [75.49, 76.71, 86.85], "cpl": [96.13, 104.18, 107.23, 95.78, 98.96, 81.17, 81.49, 102.29, 87.23, 138.55, 137.06, 190.95, 155.95], "tp": [21.71, 21.27, 21.21, 21.17, 21.59, 21.93, 21.77, 21.54, 19.65, 22.68, 21.4, 22.31, 20.45], "cptp": [0.19, 0.175, 0.168, 0.179, 0.179, 0.188, 0.178, 0.184, 0.213, 0.199, 0.204, 0.196, 0.213]};
+const COL={"VDO_เภสัชกรแนะนำ_30s":"#e50914","VDO_รีวิวลูกค้าจริง_15s":"#ff7a80","DPA_สินค้าที่ดูล่าสุด":"#ffd166","VDO_ทำงานหน้าจอทั้งวัน_15s":"#f4f4f6","Carousel_โปรซื้อ2แถม1":"#9a9aa6","Static_ครอบครัว_แพ็กคู่":"#c77dff","Static_ป้ายราคาใหญ่":"#5c5c66","Lead_ปรึกษาเภสัชกรฟรี":"#4cc9f0","VDO_วันธรรมดาของคุณยาย_6s":"#80ed99"};
+if(window.Chart){
+Chart.defaults.color="#9a9aa6";Chart.defaults.font.family='"IBM Plex Sans Thai",sans-serif';Chart.defaults.borderColor="rgba(255,255,255,.06)";
+const opt=(y)=>({responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},
+ plugins:{legend:{position:"bottom",labels:{boxWidth:10,font:{size:11}}},tooltip:{callbacks:{title:(i)=>D.long[i[0].dataIndex]}}},
+ scales:{y:{title:{display:true,text:y}}}});
+const lines=(id,obj,y)=>new Chart(document.getElementById(id),{type:"line",data:{labels:D.labels,datasets:Object.entries(obj).map(([k,v])=>({label:k,data:v,borderColor:COL[k],backgroundColor:COL[k],borderWidth:2,pointRadius:2,tension:.25,spanGaps:false}))},options:opt(y)});
+lines("cCtr",D.ctr,"CTR %");lines("cFreq",D.freq,"ความถี่");lines("cRoas",D.roas,"ROAS");
+new Chart(document.getElementById("cCpm"),{type:"bar",data:{labels:["ก.ย.","ต.ค.","พ.ย."],datasets:[{label:"CPM (฿)",data:D.cpm_month,backgroundColor:["#3a3a44","#3a3a44","#e50914"],borderRadius:8}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}});
+new Chart(document.getElementById("cNon"),{type:"line",data:{labels:D.labels,datasets:[
+ {label:"Leads: ต้นทุนต่อลีด (฿)",data:D.cpl,borderColor:"#4cc9f0",backgroundColor:"#4cc9f0",yAxisID:"y",tension:.25},
+ {label:"Awareness: อัตรา ThruPlay (%)",data:D.tp,borderColor:"#80ed99",backgroundColor:"#80ed99",yAxisID:"y1",tension:.25}]},
+ options:{responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},plugins:{legend:{position:"bottom"},tooltip:{callbacks:{title:(i)=>D.long[i[0].dataIndex]}}},
+ scales:{y:{position:"left",title:{display:true,text:"฿ ต่อลีด"}},y1:{position:"right",grid:{drawOnChartArea:false},title:{display:true,text:"% ThruPlay"}}}}});
+}
+</script><!--hub-resize--><script>(function(){if(window.parent===window)return;
+document.documentElement.style.overflow='hidden';var last=0;
+function send(){var b=document.body,cs=getComputedStyle(b);
+var h=Math.ceil(b.offsetHeight+parseFloat(cs.marginTop)+parseFloat(cs.marginBottom));
+if(Math.abs(h-last)>2){last=h;window.parent.postMessage({hubH:h},'*');}}
+if(window.ResizeObserver)new ResizeObserver(send).observe(document.body);
+addEventListener('load',send);setInterval(send,800);send();})();</script>
+</body></html>

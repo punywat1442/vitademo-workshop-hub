@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calcium Competitor Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07070a; --ink:#f4f4f6; --mut:#9a9aa5; --dim:#62626c;
+  --glass:rgba(255,255,255,.035); --edge:rgba(255,255,255,.08);
+  --red:#e50914; --red-2:#ff3b45; --red-glow:rgba(229,9,20,.30);
+  --r:20px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 "IBM Plex Sans Thai",sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;z-index:-1;background:
+  radial-gradient(40vw 40vw at 0% 0%,rgba(138,7,16,.35),transparent 70%),
+  radial-gradient(35vw 35vw at 100% 20%,rgba(229,9,20,.18),transparent 70%)}
+a{color:#ff6b73}
+.wrap{max-width:1240px;margin:0 auto;padding:40px 16px 64px}
+header .eyebrow{color:var(--red-2);font-weight:600;letter-spacing:.08em;font-size:13px;text-transform:uppercase}
+h1{font-size:clamp(26px,4vw,38px);line-height:1.25;margin:6px 0 10px;font-weight:700}
+h2{font-size:22px;margin:44px 0 14px;font-weight:600}
+h2 small{display:block;font-size:14px;color:var(--mut);font-weight:400;margin-top:2px}
+.meta{color:var(--mut);font-size:14px}
+.card{background:var(--glass);border:1px solid var(--edge);border-radius:var(--r);padding:22px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media (max-width:860px){.grid3{grid-template-columns:1fr}}
+.concl .n{font-size:13px;font-weight:700;color:var(--red-2);letter-spacing:.06em}
+.concl h3{margin:4px 0 8px;font-size:18px;line-height:1.4}
+.concl p{margin:0;color:#d2d2d8;font-size:14.5px}
+.legend{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin:0 0 14px;color:var(--mut);font-size:13.5px}
+.badge{display:inline-block;font-size:12.5px;font-weight:600;padding:2px 10px;border-radius:999px;white-space:nowrap;line-height:1.6}
+.b-good{background:var(--red);color:#fff;box-shadow:0 0 14px var(--red-glow)}
+.b-ok{background:rgba(255,255,255,.14);color:#e6e6ea}
+.b-none{border:1px solid rgba(255,255,255,.45);color:#f0f0f3;background:transparent}
+.b-wait{border:1px dashed rgba(255,255,255,.3);color:var(--mut)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:var(--r);border:1px solid var(--edge);background:var(--glass)}
+table{border-collapse:separate;border-spacing:0;min-width:1180px;width:100%;font-size:14px}
+th,td{padding:14px 14px;vertical-align:top;text-align:left;border-bottom:1px solid var(--edge)}
+thead th{position:sticky;top:0;background:#111116;font-weight:600;font-size:14.5px}
+thead th .sub{display:block;font-weight:400;font-size:12.5px;color:var(--mut)}
+tbody th{width:150px;font-weight:600;background:rgba(255,255,255,.02)}
+td.vd{background:rgba(229,9,20,.06)}
+th.vd{background:#1a0b0d;color:#fff}
+td.gap{background:rgba(255,255,255,.025);color:#dcdce2}
+tr:last-child th,tr:last-child td{border-bottom:0}
+td p{margin:6px 0 0}
+.src{display:inline-block;font-size:11.5px;color:var(--mut);text-decoration:none;border:1px solid var(--edge);border-radius:6px;padding:0 6px;margin:4px 4px 0 0;white-space:nowrap}
+.src:hover{color:#fff;border-color:var(--red)}
+.nf{color:var(--mut);font-style:italic}
+.flag{display:block;margin-top:6px;font-size:12.5px;color:#ffb3b7;border-left:2px solid var(--red);padding-left:8px}
+.win{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media (max-width:960px){.win{grid-template-columns:1fr}}
+.win .card{border-color:rgba(229,9,20,.35)}
+.win h3{margin:6px 0 8px;font-size:18px}
+.win .why{margin:0 0 10px;color:#d6d6dc;font-size:14.5px}
+.win ul{margin:0;padding-left:18px;color:#cfcfd6;font-size:14px}
+.win li{margin:4px 0}
+.note{font-size:13.5px;color:var(--mut)}
+.srclist{columns:2;column-gap:28px;font-size:13px;color:var(--mut);padding-left:20px}
+@media (max-width:760px){.srclist{columns:1}}
+.srclist li{break-inside:avoid;margin:0 0 6px}
+.srclist a{word-break:break-all}
+.hint{font-size:12.5px;color:var(--dim);margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Lab 2 · Competitor Analysis</div>
+  <h1>แคลเซียมสำหรับคนวัย 40+ ในไทย: Blackmores · MEGA We care · VISTRA เทียบกับ VitaDemo</h1>
+  <div class="meta">วันที่ค้นข้อมูลทั้งหมด: 27 พ.ย. 2569 (2026-11-27) · VitaDemo กำลังจะเปิดตัวแคลเซียมสูตรใหม่ (ยังไม่มีสินค้าในระบบ) · ข้อมูล VitaDemo มาจาก CLAUDE.md และ data/ เท่านั้น</div>
+</header>
+
+<h2>ข้อสรุป 3 ข้อ</h2>
+<section class="grid3">
+  <div class="card concl">
+    <div class="n">01</div>
+    <h3>คู่แข่งแข็งมากเรื่องสินค้า ราคา และช่องทาง ไม่ควรสู้ด้วยราคา</h3>
+    <p>ทั้ง 3 แบรนด์มีแคลเซียม + วิตามินดี3 หลายขนาด ราคาต่อกระปุกราว 200–430 บาท และวางขายทั้งออนไลน์และร้านขายยา VISTRA มีร้านทางการครบทั้ง Shopee, Lazada, TikTok Shop และ LINE Shopping ส่วน VitaDemo ยังไม่มีร้านค้าออฟไลน์เลยในข้อมูลของเรา</p>
+  </div>
+  <div class="card concl">
+    <div class="n">02</div>
+    <h3>แคมเปญล่าสุดของคู่แข่งทั้ง 3 รายมุ่งไปที่คนรุ่นใหม่</h3>
+    <p>MEGA We care ใช้ LingOrm เป็นแบรนด์แอมบาสเดอร์ (พ.ค. 2569) VISTRA จัดอีเวนต์กับวง T-POP PERSES ที่วัยรุ่น Gen Z ชอบ (ต.ค. 2568) และ Blackmores เปิดตัว Fizzers สำหรับวัยหนุ่มสาว (ก.ย. 2569) แต่ลูกค้าหลักของ VitaDemo อายุ 40 ขึ้นไป กลุ่มใหญ่สุดคือ 55–64 ปี การสื่อสารกับคนวัยนี้โดยตรงจึงยังมีคนทำน้อย</p>
+  </div>
+  <div class="card concl">
+    <div class="n">03</div>
+    <h3>ยังไม่พบคู่แข่งรายไหนให้เภสัชกรเป็นผู้นำเสนอ จุดนี้ VitaDemo มีอยู่แล้ว</h3>
+    <p>เราไม่พบไลฟ์ของเภสัชกร หรือบริการปรึกษาเภสัชกรหลังซื้อ จากแหล่งที่ค้นของทั้ง 3 แบรนด์ ส่วน VitaDemo มีรีวิวชมเภสัชกรในไลฟ์ 27 รายการ แต่ต้องปิดจุดเสี่ยงก่อน: มีรีวิว 9 รายการเล่าว่า "คนขายบอกว่ารักษาเบาหวานได้" และอีก 11 รายการบอกว่าได้รับสินค้าผิด</p>
+  </div>
+</section>
+
+<h2>ตารางเทียบ 6 ด้าน<small>แต่ละช่องมีระดับคะแนน หลักฐานที่พบ และลิงก์ที่มา (Sx = ลำดับในรายการแหล่งข้อมูลด้านล่าง) · เลื่อนตารางซ้าย-ขวาได้บนมือถือ</small></h2>
+<div class="legend">
+  <span><span class="badge b-good">ทำได้ดี</span> ทำได้ชัดและมีหลักฐาน</span>
+  <span><span class="badge b-ok">พอใช้</span> ทำอยู่แต่ไม่โดดเด่น หรือมีหลักฐานไม่ครบ</span>
+  <span><span class="badge b-none">ยังไม่มีใครทำ</span> ไม่พบว่าแบรนด์นั้นทำ</span>
+  <span><span class="badge b-wait">ยังไม่เปิดตัว</span> เฉพาะ VitaDemo</span>
+</div>
+
+<div class="scroll">
+<table>
+<thead>
+<tr>
+  <th>ด้าน</th>
+  <th>Blackmores<span class="sub">Bio Calcium+D3</span></th>
+  <th>MEGA We care<span class="sub">Calcium-D</span></th>
+  <th>VISTRA<span class="sub">Bon-Activ Calcium L-Threonate / Calplex</span></th>
+  <th class="vd">VitaDemo<span class="sub" style="color:#ffb3b7">แคลเซียมสูตรใหม่ (ยังไม่เปิดตัว)</span></th>
+  <th>ช่องว่างในตลาด</th>
+</tr>
+</thead>
+<tbody>
+
+<!-- 1 สินค้าและราคา -->
+<tr>
+  <th>1. สินค้าและราคา</th>
+  <td><span class="badge b-good">ทำได้ดี</span>
+    <p>แคลเซียม 500 มก. + D3 200 IU ต่อเม็ด มีขนาด 60 และ 120 เม็ด ทานวันละ 1 เม็ด</p>
+    <a class="src" href="https://www.blackmores.co.th/en/products/supplement/2122-blackmores-bio-calciumd3" target="_blank" rel="noopener">S1 · 27/11/69</a>
+    <p>ราคา 60 เม็ด: 334฿ ที่ Central Online · 319.90฿ (ปกติ 386฿) ที่ Lazada โดยร้านตัวแทน · 403฿ (ลดเหลือ 390.91฿) ที่ HomePro</p>
+    <a class="src" href="https://www.central.co.th/th/blackmores" target="_blank" rel="noopener">S2 · 27/11/69</a><a class="src" href="https://www.lazada.co.th/products/blackmores-bio-calcium-d3-60-i350708854.html" target="_blank" rel="noopener">S3 · 27/11/69</a><a class="src" href="https://www.homepro.co.th/p/888134800009" target="_blank" rel="noopener">S4 · 27/11/69</a>
+  </td>
+  <td><span class="badge b-good">ทำได้ดี</span>
+    <p>แคลเซียม 600 มก. + D3 200 IU ต่อแคปซูล มีขนาด 30/60/90 แคปซูล มีเลข อย. 11-1-32732-1-0794 แสดงบนเว็บไซต์</p>
+    <a class="src" href="https://www.megawecare.co.th/product/calcium-d/" target="_blank" rel="noopener">S11 · 27/11/69</a>
+    <p>ราคา 90 แคปซูล: 429฿ ที่ Watsons (ราคาโปรสมาชิก) คิดเป็นราว 4.77฿ ต่อแคปซูล</p>
+    <a class="src" href="https://www.watsons.co.th/en/mega-we-care-calcium-d-90-capsules/p/BP_157873" target="_blank" rel="noopener">S13 · 27/11/69</a>
+    <span class="flag">ราคานี้ได้จากผลการค้นหา เพราะหน้า Watsons ไม่ให้ระบบเปิดตรวจโดยตรง ควรเปิดหน้าเว็บยืนยันอีกครั้ง</span>
+  </td>
+  <td><span class="badge b-good">ทำได้ดี</span>
+    <p>มี 2 แนว: Bon-Activ Calcium L-Threonate 750 มก. Plus (ทานวันละ 2 แคปซูล ได้แคลเซียม 96.9 มก. ผสม K2, แมกนีเซียม) ราคา 427.50฿ (ปกติ 570฿) ต่อ 30 เม็ดบน Lazada</p>
+    <a class="src" href="https://www.vistra.co.th/products/calcium-l-threonate-750" target="_blank" rel="noopener">S17 · 27/11/69</a><a class="src" href="https://www.lazada.co.th/products/i4837265339.html" target="_blank" rel="noopener">S18 · 27/11/69</a>
+    <p>Calplex Calcium 600 มก. 30 เม็ด: 200฿ ที่ Watsons</p>
+    <a class="src" href="https://www.watsons.co.th/en/vistra-vistra-calplex-calcium-600-mg.-menaquinone-plus-30-tabs/p/BP_292066" target="_blank" rel="noopener">S23 · 27/11/69</a>
+    <span class="flag">ราคา Calplex ได้จากผลการค้นหา (หน้า Watsons ไม่ให้ระบบเปิดตรวจ)</span>
+  </td>
+  <td class="vd"><span class="badge b-wait">ยังไม่เปิดตัว</span>
+    <p>ยังไม่มีสินค้าแคลเซียมใน products.csv จึงยังไม่มีสูตร ขนาด หรือราคา ตอนนี้ VitaDemo มีสินค้า 4 ตัว ราคา 450–890฿</p>
+    <a class="src" href="../data/products.csv">data/products.csv · 27/11/69</a>
+    <p class="nf">ราคาและสูตรแคลเซียม: ไม่พบข้อมูล</p>
+  </td>
+  <td class="gap">ราคาต่อกระปุกของคู่แข่งอยู่ราว 200–430฿ คู่แข่งแข่งกันทั้งเรื่องปริมาณแคลเซียมต่อเม็ดและสารเสริมอย่าง K2 กับ L-Threonate ด้านนี้ไม่มีช่องว่างชัดเจน</td>
+</tr>
+
+<!-- 2 ช่องทางขาย -->
+<tr>
+  <th>2. ช่องทางขาย</th>
+  <td><span class="badge b-good">ทำได้ดี</span>
+    <p>Lazada มีหน้า "Blackmores ประเทศไทย ร้านค้าออนไลน์อย่างเป็นทางการ" · Central Online (Official Store) · HomePro · ร้านขายยา เช่น LAB Pharmacy</p>
+    <a class="src" href="https://www.lazada.co.th/shop/blackmores/?path=index.htm" target="_blank" rel="noopener">S9 · 27/11/69</a><a class="src" href="https://www.central.co.th/th/blackmores" target="_blank" rel="noopener">S2 · 27/11/69</a><a class="src" href="https://www.blackmores.co.th/en/find-store/" target="_blank" rel="noopener">S5 · 27/11/69</a>
+    <p class="nf">Shopee Mall / TikTok Shop / LINE Shopping ทางการ: ไม่พบข้อมูล</p>
+  </td>
+  <td><span class="badge b-ok">พอใช้</span>
+    <p>พบขายที่ Watsons และร้านตัวแทนบน Lazada เว็บไซต์ของแบรนด์ไม่มีลิงก์ไปร้านค้า มีเพียงบัญชี TikTok, Facebook, Instagram และ YouTube</p>
+    <a class="src" href="https://www.watsons.co.th/en/mega-we-care-calcium-d-90-capsules/p/BP_157873" target="_blank" rel="noopener">S13 · 27/11/69</a><a class="src" href="https://www.lazada.co.th/products/mega-we-care-calcium-3-i665662297.html" target="_blank" rel="noopener">S15 · 27/11/69</a><a class="src" href="https://www.megawecare.co.th" target="_blank" rel="noopener">S12 · 27/11/69</a>
+    <p class="nf">ร้านทางการบน Shopee / Lazada / LINE: ไม่พบข้อมูล</p>
+  </td>
+  <td><span class="badge b-good">ทำได้ดี</span>
+    <p>ร้านทางการครบทั้ง Shopee, LazMall, TikTok Shop และ LINE Shopping @vistra ขายออฟไลน์ที่ Watsons, Boots, Xta Plus ใน 7-Eleven, โลตัส, Fascino, เซฟดรัก และร้านอื่นๆ (บริหารโดย ซันโทรี่ เวลเนส)</p>
+    <a class="src" href="https://www.vistra.co.th/where-to-buy" target="_blank" rel="noopener">S19 · 27/11/69</a><a class="src" href="https://www.vistra.co.th" target="_blank" rel="noopener">S20 · 27/11/69</a>
+  </td>
+  <td class="vd"><span class="badge b-good">ทำได้ดี</span>
+    <p>ขาย 5 ช่องทาง: LINE OA, Shopee, Lazada, TikTok Shop, Facebook ในไฟล์ระบุว่า LINE OA กำไรดีที่สุดและแทบไม่มียกเลิก</p>
+    <a class="src" href="../CLAUDE.md">CLAUDE.md · 27/11/69</a><a class="src" href="../data/README.md">data/README.md · 27/11/69</a>
+    <p class="nf">ร้านขายยา/ร้านค้าออฟไลน์: ไม่พบข้อมูล (ใน leads มีร้านขายยาจาก Google Maps ที่อาจเป็นช่องทางขายส่งได้)</p>
+  </td>
+  <td class="gap">คู่แข่งมีร้านขายยาและห้างรองรับ แต่ยังไม่พบคู่แข่งรายไหนใช้ LINE OA เป็นช่องทางดูแลลูกค้าประจำแบบที่ VitaDemo ทำ</td>
+</tr>
+
+<!-- 3 ข้อความหลัก -->
+<tr>
+  <th>3. ข้อความหลักของแบรนด์</th>
+  <td><span class="badge b-ok">พอใช้</span>
+    <p>สินค้า: "Calcium contributes to the synthesis of bones and teeth" พร้อมคำเตือน "No effect for prevention or treatment of diseases."</p>
+    <a class="src" href="https://www.blackmores.co.th/en/products/supplement/2122-blackmores-bio-calciumd3" target="_blank" rel="noopener">S1 · 27/11/69</a>
+    <p>แบรนด์: "แบลคมอร์สเป็นผู้นำในกลุ่มผลิตภัณฑ์เพื่อสุขภาพ" (แคมเปญล่าสุด Fizzers มุ่งวัยหนุ่มสาว)</p>
+    <a class="src" href="https://www.thaipost.net/economy-news/1062142/" target="_blank" rel="noopener">S8 · 27/11/69</a>
+  </td>
+  <td><span class="badge b-good">ทำได้ดี</span>
+    <p>"Stay Healthy &amp; Happy as Long as You Live" · แคมเปญ "CARE-MITMENT: แคร์กัน เพื่อวันพรุ่งนี้" · สินค้าใช้คำว่า "บำรุงกระดูก" และบนเว็บมีคำเตือน "ไม่มีผลในการป้องกัน หรือรักษาโรค"</p>
+    <a class="src" href="https://www.brandbuffet.in.th/2026/05/mega-we-care-care-mitment-x-lingorm/" target="_blank" rel="noopener">S14 · 27/11/69</a><a class="src" href="https://www.megawecare.co.th/product/calcium-d/" target="_blank" rel="noopener">S11 · 27/11/69</a>
+    <span class="flag">ข้อความเสี่ยง: ร้านตัวแทนบน Lazada เขียนจุดเด่นว่าช่วยป้องกันกระดูกพรุน ซึ่งเป็นการอ้างป้องกันโรค ข้อความนี้ไม่ได้มาจากเว็บไซต์ของแบรนด์</span>
+    <a class="src" href="https://www.lazada.co.th/products/mega-we-care-calcium-3-i665662297.html" target="_blank" rel="noopener">S15 · 27/11/69</a>
+  </td>
+  <td><span class="badge b-ok">พอใช้</span>
+    <p>"Feel Brilliant, Live Bright" · "เติม VISTRA ได้ทุกเจน" · สินค้า: "มีแคลเซียม มีส่วนช่วยในกระบวนการสร้างกระดูกและฟันที่แข็งแรง" พร้อมคำเตือนว่าไม่มีผลป้องกันหรือรักษาโรค</p>
+    <a class="src" href="https://www.vistra.co.th" target="_blank" rel="noopener">S20 · 27/11/69</a><a class="src" href="https://www.mitihoon.com/2025/10/01/582864/" target="_blank" rel="noopener">S22 · 27/11/69</a><a class="src" href="https://www.vistra.co.th/products/calcium-l-threonate-750" target="_blank" rel="noopener">S17 · 27/11/69</a>
+  </td>
+  <td class="vd"><span class="badge b-ok">พอใช้</span>
+    <p>สิ่งที่ลูกค้าชมบ่อยในรีวิว: "มีเลข อย. ชัดเจน สบายใจ" (32 รีวิว) · "แคปซูลไม่ใหญ่ ผู้สูงอายุกลืนง่าย" (27 รีวิว) · "เภสัชกรในไลฟ์อธิบายเข้าใจง่าย" (27 รีวิว) แต่ยังไม่มีข้อความหลักสำหรับแคลเซียม</p>
+    <a class="src" href="../data/reviews_2025.csv">data/reviews_2025.csv · 27/11/69</a>
+    <span class="flag">ความเสี่ยง: มี 9 รีวิวเล่าว่า "คนขายบอกว่ารักษาเบาหวานได้ จริงไหม" ต้องคุมคำพูดของตัวแทนก่อนเปิดตัวแคลเซียม</span>
+  </td>
+  <td class="gap">ทุกแบรนด์พูดถึงกระดูก แข็งแรง และทุกเจนคล้ายกัน ยังไม่พบแบรนด์ที่เขียนถึงคนวัย 40+ โดยตรงพร้อมเรื่องความน่าเชื่อถือ (อย. ชัด, มีเภสัชกรให้ข้อมูล)</td>
+</tr>
+
+<!-- 4 content และ creator -->
+<tr>
+  <th>4. Content และ Creator</th>
+  <td><span class="badge b-good">ทำได้ดี</span>
+    <p>มี LINE 2 บัญชีสำหรับเคล็ดลับสุขภาพ: @Livemoreclub และ "Healthy aging tips @50morefitandfun" รวมถึง Facebook และ YouTube · มีแผนใช้ Influencer marketing และมี Jimmy, Ci, Nam เป็นแขกในงานเปิดตัว Fizzers</p>
+    <a class="src" href="https://www.blackmores.co.th/en/products/supplement/2097-blackmores-calcium" target="_blank" rel="noopener">S7 · 27/11/69</a><a class="src" href="https://www.thaipost.net/economy-news/1062142/" target="_blank" rel="noopener">S8 · 27/11/69</a>
+    <p class="nf">ไลฟ์โดยเภสัชกร: ไม่พบข้อมูล</p>
+  </td>
+  <td><span class="badge b-good">ทำได้ดี</span>
+    <p>LingOrm (หลิง-ออม) เป็นแบรนด์แอมบาสเดอร์คู่แรก เปิดตัวที่เซ็นทรัลเวิลด์ 7 พ.ค. 2569 · มีบัญชี TikTok @megawecare และ IG @megawecarethailand · Watsons แจกการ์ด LingOrm เมื่อซื้อครบ 799฿</p>
+    <a class="src" href="https://www.brandbuffet.in.th/2026/05/mega-we-care-care-mitment-x-lingorm/" target="_blank" rel="noopener">S14 · 27/11/69</a><a class="src" href="https://www.watsons.co.th/en/mega-we-care-calcium-d-90-capsules/p/BP_157873" target="_blank" rel="noopener">S13 · 27/11/69</a>
+    <p class="nf">ไลฟ์โดยเภสัชกร: ไม่พบข้อมูล</p>
+  </td>
+  <td><span class="badge b-good">ทำได้ดี</span>
+    <p>มีบทความความรู้เรื่องแคลเซียมบนเว็บไซต์ (เช่น "แคลเซียม แอล-ทรีโอเนตคืออะไร" 11 พ.ย. 2569) เขียนโดย "ทีมบรรณาธิการ VISTRA" ไม่ระบุชื่อผู้เชี่ยวชาญ · จัดอีเวนต์ VISTRAVERSE ร่วมกับวง T-POP PERSES</p>
+    <a class="src" href="https://www.vistra.co.th/articles/what-is-calcium-l-threonate" target="_blank" rel="noopener">S25 · 27/11/69</a><a class="src" href="https://www.mitihoon.com/2025/10/01/582864/" target="_blank" rel="noopener">S22 · 27/11/69</a>
+  </td>
+  <td class="vd"><span class="badge b-good">ทำได้ดี</span>
+    <p>มีเภสัชกรไลฟ์ (27 รีวิวชมว่า "อธิบายเข้าใจง่าย") · โฆษณาที่ดีที่สุดคือวิดีโอรีวิวลูกค้าและ DPA retarget</p>
+    <a class="src" href="../data/reviews_2025.csv">data/reviews_2025.csv · 27/11/69</a><a class="src" href="../data/README.md">data/README.md · 27/11/69</a>
+  </td>
+  <td class="gap"><span class="badge b-none">ยังไม่มีใครทำ</span><p>ไม่พบคู่แข่งรายไหนทำ content แคลเซียมที่มีเภสัชกรเป็นผู้นำเสนอ ส่วนครีเอเตอร์ของคู่แข่งเน้นแฟนคลับวัยรุ่น</p></td>
+</tr>
+
+<!-- 5 รีวิว -->
+<tr>
+  <th>5. รีวิวและเสียงลูกค้า</th>
+  <td><span class="badge b-good">ทำได้ดี</span>
+    <p>Lazada (ร้านตัวแทน Bestpricevitamin): คะแนน 5 จาก 5,089 รีวิว · บทความรีวิวบรรยายว่า "ขนาดกำลังดี กลืนง่าย"</p>
+    <a class="src" href="https://www.lazada.co.th/products/blackmores-bio-calcium-d3-60-i350708854.html" target="_blank" rel="noopener">S3 · 27/11/69</a><a class="src" href="https://www.top10.in.th/%E0%B8%AA%E0%B8%B8%E0%B8%82%E0%B8%A0%E0%B8%B2%E0%B8%9E/%E0%B8%AD%E0%B8%B2%E0%B8%AB%E0%B8%B2%E0%B8%A3%E0%B9%80%E0%B8%AA%E0%B8%A3%E0%B8%B4%E0%B8%A1%E0%B9%81%E0%B8%84%E0%B8%A5%E0%B9%80%E0%B8%8B%E0%B8%B5%E0%B8%A2%E0%B8%A1/" target="_blank" rel="noopener">S10 · 27/11/69</a>
+    <p class="nf">ข้อความรีวิวจริงของลูกค้า: ไม่พบข้อมูล (ระบบดึงข้อความรีวิวไม่ได้)</p>
+  </td>
+  <td><span class="badge b-ok">พอใช้</span>
+    <p>บทความรีวิวบรรยายว่า "เม็ดยาไม่ใหญ่ กินง่าย" และมีผู้รีวิวบอกว่า "ยังไม่เห็นผลแน่ชัด" (บทความอัปเดต ก.พ. 2567)</p>
+    <a class="src" href="https://productnation.co/th/28716/%E0%B9%81%E0%B8%84%E0%B8%A5%E0%B9%80%E0%B8%8B%E0%B8%B5%E0%B8%A2%E0%B8%A1-%E0%B8%A2%E0%B8%B5%E0%B9%88%E0%B8%AB%E0%B9%89%E0%B8%AD%E0%B9%84%E0%B8%AB%E0%B8%99%E0%B8%94%E0%B8%B5/" target="_blank" rel="noopener">S16 · 27/11/69</a>
+    <p class="nf">คะแนนและจำนวนรีวิวบนแพลตฟอร์ม: ไม่พบข้อมูล</p>
+  </td>
+  <td><span class="badge b-good">ทำได้ดี</span>
+    <p>L-Threonate บน Lazada: คะแนน 5 จาก 1,155 รีวิว · บทความรีวิวเตือนว่า Calplex เม็ดใหญ่และเป็นสีม่วง บางคนอาจกลืนยาก</p>
+    <a class="src" href="https://www.lazada.co.th/products/i4837265339.html" target="_blank" rel="noopener">S18 · 27/11/69</a><a class="src" href="https://productnation.co/th/28716/%E0%B9%81%E0%B8%84%E0%B8%A5%E0%B9%80%E0%B8%8B%E0%B8%B5%E0%B8%A2%E0%B8%A1-%E0%B8%A2%E0%B8%B5%E0%B9%88%E0%B8%AB%E0%B9%89%E0%B8%AD%E0%B9%84%E0%B8%AB%E0%B8%99%E0%B8%94%E0%B8%B5/" target="_blank" rel="noopener">S16 · 27/11/69</a>
+  </td>
+  <td class="vd"><span class="badge b-ok">พอใช้</span>
+    <p>มี 380 รีวิว คะแนนเฉลี่ย 4.04 ได้ 5 ดาว 212 รีวิว (56%) และ 1–2 ดาว 59 รีวิว (16%) · คำชมที่พบบ่อย: เลข อย. ชัด 32, กล่องสวยซื้อเป็นของขวัญ 31 · คำติที่พบบ่อย: ส่งสินค้าผิด 11, แคปซูลกลิ่นคาว 10, แอดมินตอบช้า 9, TikTok ยกเลิกเอง 9</p>
+    <a class="src" href="../data/reviews_2025.csv">data/reviews_2025.csv · 27/11/69</a>
+  </td>
+  <td class="gap">คู่แข่งมีจำนวนรีวิวบนแพลตฟอร์มเป็นหลักพัน ส่วนเรื่องกลืนง่ายยังไม่มีแบรนด์ไหนเป็นเจ้าของ เพราะมีทั้งที่ถูกชมว่ากลืนง่ายและที่ถูกติว่าเม็ดใหญ่</td>
+</tr>
+
+<!-- 6 บริการหลังการขาย -->
+<tr>
+  <th>6. บริการหลังการขาย</th>
+  <td><span class="badge b-ok">พอใช้</span>
+    <p>มีโทร 0 2203 7900 และอีเมล customercareline@ · มีระบบสมาชิกรับสิทธิพิเศษและโปรโมชัน · ร้านตัวแทนบน Lazada: เปลี่ยนใจคืนได้ฟรีใน 7 วัน</p>
+    <a class="src" href="https://www.blackmores.co.th/en/contact-us/" target="_blank" rel="noopener">S6 · 27/11/69</a><a class="src" href="https://www.lazada.co.th/products/blackmores-bio-calcium-d3-60-i350708854.html" target="_blank" rel="noopener">S3 · 27/11/69</a>
+    <p class="nf">เวลาทำการและบริการปรึกษาเภสัชกร: ไม่พบข้อมูล</p>
+  </td>
+  <td><span class="badge b-ok">พอใช้</span>
+    <p>มีโทร 02-769-5444 จันทร์–ศุกร์ 9:00–17:00 และหน้าติดต่อเรา</p>
+    <a class="src" href="https://www.megawecare.co.th" target="_blank" rel="noopener">S12 · 27/11/69</a>
+    <p class="nf">LINE สำหรับลูกค้า / นโยบายคืนสินค้า / ปรึกษาเภสัชกร: ไม่พบข้อมูล</p>
+  </td>
+  <td><span class="badge b-good">ทำได้ดี</span>
+    <p>มี LINE @vistra (บอกว่าตอบเร็วที่สุด) โทร 02-791-3933 และหน้า FAQ ถ้ามีอาการไม่พึงประสงค์ให้แจ้งชื่อสินค้าและเลขล็อต · บน Lazada คืนสินค้าฟรีใน 30 วัน</p>
+    <a class="src" href="https://www.vistra.co.th/faq" target="_blank" rel="noopener">S21 · 27/11/69</a><a class="src" href="https://www.lazada.co.th/products/i4837265339.html" target="_blank" rel="noopener">S18 · 27/11/69</a>
+    <p class="nf">บริการปรึกษาเภสัชกรโดยตรง: ไม่พบข้อมูล (FAQ แนะนำให้ไปถามแพทย์หรือเภสัชกรเอง)</p>
+  </td>
+  <td class="vd"><span class="badge b-good">ทำได้ดี</span>
+    <p>รีวิวชม: "แอดมินตอบไว ให้คำแนะนำดี" 27 · "ส่งไว แพ็กดีมาก" 26 · กล่องของขวัญ 31 · รีวิวติ: แอดมินตอบช้า 9, ส่งช้า 8, กล่องบุบ 4</p>
+    <a class="src" href="../data/reviews_2025.csv">data/reviews_2025.csv · 27/11/69</a>
+  </td>
+  <td class="gap"><span class="badge b-none">ยังไม่มีใครทำ</span><p>ไม่พบคู่แข่งรายไหนมีบริการติดตามหลังซื้อโดยเภสัชกร ทุกรายมีแค่ช่องทางติดต่อทั่วไป</p></td>
+</tr>
+
+</tbody>
+</table>
+</div>
+<p class="hint">หมายเหตุ: ราคาเปลี่ยนตามโปรโมชันและร้านค้า ตัวเลขทั้งหมดเป็นราคาที่หน้าเว็บแสดงในวันที่ค้น · ราคาต่อเม็ดคำนวณจากราคาที่อ้างอิง · ไม่เลือก Caltrate เพราะไม่พบช่องทางจำหน่ายทางการในไทย พบเพียงร้านนำเข้าข้ามประเทศ</p>
+
+<h2>ช่องที่ VitaDemo เอาชนะได้<small>จุดที่ VitaDemo มีอยู่แล้ว และยังไม่พบว่าคู่แข่งทำ</small></h2>
+<section class="win">
+  <div class="card">
+    <span class="badge b-good">ช่องที่ 1 · Content + บริการหลังการขาย</span>
+    <h3>ให้เภสัชกรเป็นผู้นำเสนอแคลเซียม ทั้งในไลฟ์และใน LINE OA</h3>
+    <p class="why">เหตุผล: ไม่พบคู่แข่งทั้ง 3 รายทำไลฟ์โดยเภสัชกร หรือมีบริการปรึกษาหลังซื้อ (S7, S12, S21) ส่วน VitaDemo ทำอยู่แล้วและลูกค้าชมใน 27 รีวิว</p>
+    <ul>
+      <li>ไลฟ์หัวข้อ "เลือกแคลเซียมอย่างไร อ่านฉลากอย่างไร" อธิบายส่วนประกอบและวิธีทาน ไม่อ้างผลต่อโรค</li>
+      <li>ใน LINE OA ถ้าลูกค้าถามเรื่องทานคู่กับยาหรือโรคประจำตัว ให้ติดป้าย "ส่งต่อเภสัชกร" ทุกครั้ง แอดมินไม่ตอบเอง</li>
+      <li>ใช้จุดแข็งของ LINE OA ที่กำไรดีที่สุดและแทบไม่มียกเลิก มาทำข้อความเตือนให้ทานต่อเนื่อง</li>
+    </ul>
+  </div>
+  <div class="card">
+    <span class="badge b-good">ช่องที่ 2 · ข้อความหลักของแบรนด์</span>
+    <h3>สื่อสารกับคนวัย 40+ โดยตรง ด้วยความน่าเชื่อถือที่ตรวจสอบได้</h3>
+    <p class="why">เหตุผล: แคมเปญล่าสุดของคู่แข่งทั้ง 3 รายมุ่งคนรุ่นใหม่ (S8, S14, S22) ส่วนลูกค้า VitaDemo อายุ 40+ และกลุ่มใหญ่สุดคือ 55–64 ปี เรื่องที่ลูกค้าชมบ่อยที่สุดคือ "มีเลข อย. ชัดเจน สบายใจ" (32 รีวิว)</p>
+    <ul>
+      <li>แนวข้อความ: เลข อย. ชัด อ่านฉลากง่าย ตัวหนังสือใหญ่ มีเภสัชกรให้ข้อมูล โดยไม่อ้างว่ารักษาหรือป้องกันโรค</li>
+      <li>ถ้าแคปซูลของสูตรใหม่เล็กจริง ค่อยใช้เรื่อง "กลืนง่าย" (27 รีวิวชมแคปซูลเดิม) แต่ห้ามใช้ก่อนยืนยันขนาดเม็ดจริง</li>
+      <li>ต้องอบรมตัวแทนก่อน เพราะมี 9 รีวิวที่ตัวแทนอ้างว่ารักษาเบาหวานได้</li>
+    </ul>
+  </div>
+  <div class="card">
+    <span class="badge b-ok">ช่องเสริม · บริการหลังการขาย</span>
+    <h3>แคลเซียมแพ็กของขวัญสำหรับพ่อแม่</h3>
+    <p class="why">เหตุผล: มี 31 รีวิวที่เขียนว่า "ซื้อเป็นของขวัญปีใหม่ให้ผู้ใหญ่ กล่องสวย" และในไฟล์ระบุว่ายอดขายขึ้นช่วงวันแม่และช่วงซื้อของขวัญปีใหม่ เรายังไม่พบคู่แข่งรายไหนวางแคลเซียมเป็นของขวัญ (ผลการค้นหาคู่แข่ง: ไม่พบข้อมูล)</p>
+    <ul>
+      <li>เปิดตัวพร้อมกล่องของขวัญช่วงปีใหม่หรือวันแม่</li>
+      <li>ก่อนทำต้องแก้ปัญหาส่งสินค้าผิด (11 รีวิว) และกล่องบุบ (4 รีวิว)</li>
+    </ul>
+  </div>
+</section>
+<p class="note" style="margin-top:14px">ส่วนที่ยังไม่ควรสู้: ราคาและจำนวนช่องทาง เพราะคู่แข่งมีราคาต่อเม็ดต่ำ (ราว 4.77–6.67฿) และวางขายในร้านขายยากับร้านสะดวกซื้อทั่วประเทศ</p>
+
+<h2>แหล่งข้อมูล<small>ค้นทุกแหล่งเมื่อ 27 พ.ย. 2569 (2026-11-27)</small></h2>
+<div class="card">
+<ol class="srclist">
+  <li>S1 Blackmores TH: Bio Calcium+D3 · <a href="https://www.blackmores.co.th/en/products/supplement/2122-blackmores-bio-calciumd3" target="_blank" rel="noopener">blackmores.co.th/…/2122-blackmores-bio-calciumd3</a> · ค้น 27/11/69</li>
+  <li>S2 Central Online: BLACKMORES Official Store · <a href="https://www.central.co.th/th/blackmores" target="_blank" rel="noopener">central.co.th/th/blackmores</a> · ค้น 27/11/69</li>
+  <li>S3 Lazada: Blackmores Bio Calcium + D3 60 เม็ด · <a href="https://www.lazada.co.th/products/blackmores-bio-calcium-d3-60-i350708854.html" target="_blank" rel="noopener">lazada.co.th/…i350708854</a> · ค้น 27/11/69</li>
+  <li>S4 HomePro: แบลคมอร์ส ไบโอ แคลเซียม+ดี3 60 เม็ด · <a href="https://www.homepro.co.th/p/888134800009" target="_blank" rel="noopener">homepro.co.th/p/888134800009</a> · ค้น 27/11/69</li>
+  <li>S5 Blackmores TH: Find Store · <a href="https://www.blackmores.co.th/en/find-store/" target="_blank" rel="noopener">blackmores.co.th/en/find-store</a> · ค้น 27/11/69</li>
+  <li>S6 Blackmores TH: Contact us · <a href="https://www.blackmores.co.th/en/contact-us/" target="_blank" rel="noopener">blackmores.co.th/en/contact-us</a> · ค้น 27/11/69</li>
+  <li>S7 Blackmores TH: Calcium (หน้าที่มีลิงก์ LINE @50morefitandfun) · <a href="https://www.blackmores.co.th/en/products/supplement/2097-blackmores-calcium" target="_blank" rel="noopener">blackmores.co.th/…/2097-blackmores-calcium</a> · ค้น 27/11/69</li>
+  <li>S8 ไทยโพสต์: แบลคมอร์สเปิดตัว Blackmores Fizzers (2 ก.ย. 2569) · <a href="https://www.thaipost.net/economy-news/1062142/" target="_blank" rel="noopener">thaipost.net/economy-news/1062142</a> · ค้น 27/11/69</li>
+  <li>S9 Lazada: Blackmores ร้านค้าออนไลน์อย่างเป็นทางการ · <a href="https://www.lazada.co.th/shop/blackmores/?path=index.htm" target="_blank" rel="noopener">lazada.co.th/shop/blackmores</a> · ค้น 27/11/69</li>
+  <li>S10 top10.in.th: อาหารเสริมแคลเซียม 2026 (09/02/26) · <a href="https://www.top10.in.th/%E0%B8%AA%E0%B8%B8%E0%B8%82%E0%B8%A0%E0%B8%B2%E0%B8%9E/%E0%B8%AD%E0%B8%B2%E0%B8%AB%E0%B8%B2%E0%B8%A3%E0%B9%80%E0%B8%AA%E0%B8%A3%E0%B8%B4%E0%B8%A1%E0%B9%81%E0%B8%84%E0%B8%A5%E0%B9%80%E0%B8%8B%E0%B8%B5%E0%B8%A2%E0%B8%A1/" target="_blank" rel="noopener">top10.in.th/สุขภาพ/อาหารเสริมแคลเซียม</a> · ค้น 27/11/69</li>
+  <li>S11 MEGA We care: แคลเซียม-ดี · <a href="https://www.megawecare.co.th/product/calcium-d/" target="_blank" rel="noopener">megawecare.co.th/product/calcium-d</a> · ค้น 27/11/69</li>
+  <li>S12 MEGA We care: หน้าหลัก / ติดต่อ · <a href="https://www.megawecare.co.th" target="_blank" rel="noopener">megawecare.co.th</a> · ค้น 27/11/69</li>
+  <li>S13 Watsons TH: Mega We Care Calcium-D 90 Capsules (ได้ข้อมูลจากผลค้นหา หน้าเว็บไม่ให้ระบบเปิดตรวจ) · <a href="https://www.watsons.co.th/en/mega-we-care-calcium-d-90-capsules/p/BP_157873" target="_blank" rel="noopener">watsons.co.th/…/BP_157873</a> · ค้น 27/11/69</li>
+  <li>S14 Brand Buffet: MEGA We care CARE-MITMENT x LINGORM (11 พ.ค. 2569) · <a href="https://www.brandbuffet.in.th/2026/05/mega-we-care-care-mitment-x-lingorm/" target="_blank" rel="noopener">brandbuffet.in.th/2026/05/…</a> · ค้น 27/11/69</li>
+  <li>S15 Lazada: Mega We Care Calcium 3 ขนาด (ร้านตัวแทน) · <a href="https://www.lazada.co.th/products/mega-we-care-calcium-3-i665662297.html" target="_blank" rel="noopener">lazada.co.th/…i665662297</a> · ค้น 27/11/69</li>
+  <li>S16 ProductNation: แคลเซียม ยี่ห้อไหนดี (อัปเดต 21 ก.พ. 2567) · <a href="https://productnation.co/th/28716/%E0%B9%81%E0%B8%84%E0%B8%A5%E0%B9%80%E0%B8%8B%E0%B8%B5%E0%B8%A2%E0%B8%A1-%E0%B8%A2%E0%B8%B5%E0%B9%88%E0%B8%AB%E0%B9%89%E0%B8%AD%E0%B9%84%E0%B8%AB%E0%B8%99%E0%B8%94%E0%B8%B5/" target="_blank" rel="noopener">productnation.co/th/28716</a> · ค้น 27/11/69</li>
+  <li>S17 VISTRA: Bon-Activ Bio Calcium L-Threonate 750 มก. Plus · <a href="https://www.vistra.co.th/products/calcium-l-threonate-750" target="_blank" rel="noopener">vistra.co.th/products/calcium-l-threonate-750</a> · ค้น 27/11/69</li>
+  <li>S18 Lazada: VISTRA Bon-Activ Calcium L-Threonate 30 เม็ด · <a href="https://www.lazada.co.th/products/i4837265339.html" target="_blank" rel="noopener">lazada.co.th/products/i4837265339</a> · ค้น 27/11/69</li>
+  <li>S19 VISTRA: Where to buy · <a href="https://www.vistra.co.th/where-to-buy" target="_blank" rel="noopener">vistra.co.th/where-to-buy</a> · ค้น 27/11/69</li>
+  <li>S20 VISTRA: หน้าหลัก · <a href="https://www.vistra.co.th" target="_blank" rel="noopener">vistra.co.th</a> · ค้น 27/11/69</li>
+  <li>S21 VISTRA: FAQ · <a href="https://www.vistra.co.th/faq" target="_blank" rel="noopener">vistra.co.th/faq</a> · ค้น 27/11/69</li>
+  <li>S22 มิติหุ้น: VISTRAVERSE Glow All Gen (1 ต.ค. 2568) · <a href="https://www.mitihoon.com/2025/10/01/582864/" target="_blank" rel="noopener">mitihoon.com/2025/10/01/582864</a> · ค้น 27/11/69</li>
+  <li>S23 Watsons TH: Vistra Calplex Calcium 600 mg 30 Tabs (ได้ข้อมูลจากผลค้นหา หน้าเว็บไม่ให้ระบบเปิดตรวจ) · <a href="https://www.watsons.co.th/en/vistra-vistra-calplex-calcium-600-mg.-menaquinone-plus-30-tabs/p/BP_292066" target="_blank" rel="noopener">watsons.co.th/…/BP_292066</a> · ค้น 27/11/69</li>
+  <li>S24 mybest: 10 แคลเซียม ยี่ห้อไหนดี ปี 2026 (ใช้ตรวจราคาอ้างอิง Blackmores 313฿ / Calplex 195฿) · <a href="https://th.my-best.com/32182" target="_blank" rel="noopener">th.my-best.com/32182</a> · ค้น 27/11/69</li>
+  <li>S25 VISTRA: แคลเซียม แอล-ทรีโอเนตคืออะไร (11 พ.ย. 2569) · <a href="https://www.vistra.co.th/articles/what-is-calcium-l-threonate" target="_blank" rel="noopener">vistra.co.th/articles/what-is-calcium-l-threonate</a> · ค้น 27/11/69</li>
+  <li>ข้อมูลภายใน VitaDemo (ข้อมูลจำลอง): <a href="../CLAUDE.md">CLAUDE.md</a>, <a href="../data/products.csv">data/products.csv</a>, <a href="../data/reviews_2025.csv">data/reviews_2025.csv</a> (380 รีวิว), <a href="../data/README.md">data/README.md</a> · อ่าน 27/11/69</li>
+</ol>
+</div>
+
+</div>
+<!--hub-resize--><script>(function(){if(window.parent===window)return;
+document.documentElement.style.overflow='hidden';var last=0;
+function send(){var b=document.body,cs=getComputedStyle(b);
+var h=Math.ceil(b.offsetHeight+parseFloat(cs.marginTop)+parseFloat(cs.marginBottom));
+if(Math.abs(h-last)>2){last=h;window.parent.postMessage({hubH:h},'*');}}
+if(window.ResizeObserver)new ResizeObserver(send).observe(document.body);
+addEventListener('load',send);setInterval(send,800);send();})();</script>
+</body>
+</html>
